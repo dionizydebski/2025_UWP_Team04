@@ -1,18 +1,46 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Wave;
 
 public class EnemyMovment : MyMonoBehaviour
 {
-    // Start is called before the first frame update
+    [Header("References")] 
+    [SerializeField] private Rigidbody rb;
+    
+    [Header("Attributes")] 
+    [SerializeField] private float moveSpeed = 2f;
+
+    private Transform _target;
+    private int _pathIndex = 0;
+    
     void Start()
     {
-        
+        _target = WaveMenager.waveMenager.path[_pathIndex];
+    }
+    
+    private void Update()
+    {
+        if (Vector3.Distance(_target.position, Transform.position) <= 0.1f)
+        {
+            _pathIndex++;
+            if (_pathIndex == WaveMenager.waveMenager.path.Length)
+            {
+                WaveMenager.onEnemyDestroy.Invoke();
+                Destroy(GameObject);
+                return;
+            }
+            else
+            {
+                _target = WaveMenager.waveMenager.path[_pathIndex];
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        
+        Vector3 direction = (_target.position - Transform.position).normalized;
+        rb.velocity = direction * moveSpeed;
     }
 }
