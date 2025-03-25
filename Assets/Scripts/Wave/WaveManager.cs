@@ -6,9 +6,9 @@ using UnityEngine.Serialization;
 
 namespace Wave
 {
-    public class WaveMenager : MyMonoBehaviour
+    public class WaveManager : Singleton<WaveManager>
     {
-        public static WaveMenager waveMenager;
+        public static WaveManager waveManager;
         
         public Transform startPoint;
         public Transform[] path;
@@ -33,7 +33,7 @@ namespace Wave
 
         private void Awake()
         {
-            waveMenager = this;
+            waveManager = this;
             onEnemyDestroy.AddListener(EnemyDestroyed);
         }
 

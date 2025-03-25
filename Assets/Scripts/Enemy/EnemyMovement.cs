@@ -17,7 +17,7 @@ public class EnemyMovment : MyMonoBehaviour
     
     void Start()
     {
-        _target = WaveMenager.waveMenager.path[_pathIndex];
+        _target = WaveManager.waveManager.path[_pathIndex];
     }
     
     private void Update()
@@ -25,15 +25,15 @@ public class EnemyMovment : MyMonoBehaviour
         if (Vector3.Distance(_target.position, Transform.position) <= 0.1f)
         {
             _pathIndex++;
-            if (_pathIndex == WaveMenager.waveMenager.path.Length)
+            if (_pathIndex == WaveManager.waveManager.path.Length)
             {
-                WaveMenager.onEnemyDestroy.Invoke();
+                WaveManager.onEnemyDestroy.Invoke();
                 Destroy(GameObject);
                 return;
             }
             else
             {
-                _target = WaveMenager.waveMenager.path[_pathIndex];
+                _target = WaveManager.waveManager.path[_pathIndex];
             }
         }
     }
