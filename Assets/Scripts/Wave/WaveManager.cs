@@ -10,6 +10,9 @@ namespace Wave
     {
         public static WaveManager waveManager;
         
+        [Header("UI")]
+        [SerializeField] private WaveUI waveUI;
+        
         public Transform startPoint;
         public Transform[] path;
         
@@ -70,8 +73,14 @@ namespace Wave
         private IEnumerator StartWave()
         {
             yield return new WaitForSeconds(timeBetweenWaves);
+
             _isSpawing = true;
             _enemiesLeftToSpawn = EnemiesPerWave();
+    
+            if (waveUI != null)
+            {
+                waveUI.UpdateWaveText(_currentWave);
+            }
         }
 
         private void EndWave()
@@ -85,7 +94,14 @@ namespace Wave
         private void SpawnEnemy()
         {
             GameObject prefabToSpawn = enemyPrefabs[0];
-            Instantiate(prefabToSpawn, startPoint.position, Quaternion.identity);
+            GameObject enemyInstance = Instantiate(prefabToSpawn, startPoint.position, Quaternion.identity);
+
+            // health UI
+            Canvas enemyCanvas = enemyInstance.GetComponentInChildren<Canvas>();
+            if (enemyCanvas != null)
+            {
+                enemyCanvas.worldCamera = Camera.main;
+            }
         }
         private int EnemiesPerWave()
         {
