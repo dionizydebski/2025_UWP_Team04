@@ -14,6 +14,9 @@ namespace Tower
         [SerializeField] private int shootingTowerCost;
         [SerializeField] private int slowingTowerCost;
         [SerializeField] private TowerMenuController towerMenuController;
+        
+        [Header("References")]
+        [SerializeField] private List<BaseTower> towersToSpawn;
 
         private void Awake()
         {
@@ -28,9 +31,9 @@ namespace Tower
             towerMenuController.UpdateSlowingTowerCost(slowingTowerCost);
         }
 
-        public void PlaceTower(BaseTower tower)
+        public void PlaceTower(GameObject tower, Vector3 position)
         {
-            
+            Instantiate(tower, position, Quaternion.identity);
         }
 
         public void SellTower(BaseTower tower)
@@ -38,7 +41,7 @@ namespace Tower
             
         }
 
-        public bool CanPlaceTower(Vector3 position)
+        private bool CanPlaceTower(Vector3 position)
         {
             return true;
         }

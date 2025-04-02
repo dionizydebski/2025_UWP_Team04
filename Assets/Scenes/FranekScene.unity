@@ -180,11 +180,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
+  near clip plane: 0.1
+  far clip plane: 5000
+  field of view: 40
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -208,13 +208,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 17497495}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7311949, y: -0, z: -0, w: 0.6821686}
-  m_LocalPosition: {x: -0.29, y: 16.05, z: -1.84}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.96, y: 9.3, z: 1.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 93.97299, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &17497499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -999,6 +999,9 @@ MonoBehaviour:
   shootingTowerCost: 200
   slowingTowerCost: 300
   towerMenuController: {fileID: 1099178791}
+  towersToSpawn:
+  - {fileID: 4807931422156338939, guid: 31ee14ef669fed441acbed3d424ba5b5, type: 3}
+  - {fileID: -5542986708250841316, guid: 4168bb46fbd0de24b8710f82d28b4097, type: 3}
 --- !u!4 &721234896
 Transform:
   m_ObjectHideFlags: 0
@@ -1097,7 +1100,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 927344631}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1099178791}
+        m_TargetAssemblyTypeName: UI.TowerMenuController, Assembly-CSharp
+        m_MethodName: SelectTowerToPlace
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 5266836475074861929, guid: 4168bb46fbd0de24b8710f82d28b4097,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &927344631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1338,13 +1354,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 721234895}
-        m_TargetAssemblyTypeName: Tower.TowerManager, Assembly-CSharp
-        m_MethodName: PlaceTower
+      - m_Target: {fileID: 1099178791}
+        m_TargetAssemblyTypeName: UI.TowerMenuController, Assembly-CSharp
+        m_MethodName: SelectTowerToPlace
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: Tower.BaseTower, Assembly-CSharp
+          m_ObjectArgument: {fileID: 5266836475074861929, guid: 31ee14ef669fed441acbed3d424ba5b5,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1506,6 +1523,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingTowerCostText: {fileID: 1101801000}
   slowingTowerCostText: {fileID: 304553759}
+  towerManager: {fileID: 721234895}
+  radiusIndicator: {fileID: 5021503519785287084, guid: c7155eddcaa628041946d2d963f35e08,
+    type: 3}
+  outerCircleColor: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 0.43137255}
+  innerCircleColor: {r: 0, g: 0, b: 0, a: 0.69411767}
 --- !u!1 &1101800998
 GameObject:
   m_ObjectHideFlags: 0
@@ -2675,7 +2697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4626f7474ad86e4b93a86c967eb3732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveUI: {fileID: 0}
+  waveUI: {fileID: 1121758285}
   startPoint: {fileID: 1580770977}
   path:
   - {fileID: 1580770977}
@@ -2872,15 +2894,84 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1364073790}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &758965408968130604
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2192955333914990848, guid: a34ed7bf20bde324fbd8fa47e69af4df,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.2117
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192955333914990848, guid: a34ed7bf20bde324fbd8fa47e69af4df,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192955333914990848, guid: a34ed7bf20bde324fbd8fa47e69af4df,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.6323
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192955333914990848, guid: a34ed7bf20bde324fbd8fa47e69af4df,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192955333914990848, guid: a34ed7bf20bde324fbd8fa47e69af4df,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192955333914990848, guid: a34ed7bf20bde324fbd8fa47e69af4df,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192955333914990848, guid: a34ed7bf20bde324fbd8fa47e69af4df,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192955333914990848, guid: a34ed7bf20bde324fbd8fa47e69af4df,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192955333914990848, guid: a34ed7bf20bde324fbd8fa47e69af4df,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192955333914990848, guid: a34ed7bf20bde324fbd8fa47e69af4df,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253898462209976544, guid: a34ed7bf20bde324fbd8fa47e69af4df,
+        type: 3}
+      propertyPath: m_Name
+      value: Plane
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a34ed7bf20bde324fbd8fa47e69af4df, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1869515079}
   - {fileID: 17497498}
+  - {fileID: 1869515079}
   - {fileID: 929377876}
   - {fileID: 1364073790}
   - {fileID: 1507988709}
   - {fileID: 1121758284}
   - {fileID: 1758203608}
   - {fileID: 721234896}
+  - {fileID: 758965408968130604}

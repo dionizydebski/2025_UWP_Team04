@@ -34,5 +34,10 @@ namespace Tower
         {
             
         }
+
+        public int GetRange()
+        {
+            return range;
+        }
     }
 }
