@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using Singleton;
+using UI;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;

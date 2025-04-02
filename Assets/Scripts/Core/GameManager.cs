@@ -1,4 +1,6 @@
-﻿namespace Core
+﻿using Singleton;
+
+namespace Core
 {
     public class GameManager : Singleton<GameManager>
     {

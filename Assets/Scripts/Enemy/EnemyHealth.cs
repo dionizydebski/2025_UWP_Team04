@@ -1,34 +1,37 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyHealth : MonoBehaviour
+namespace Enemy
 {
-    [SerializeField] private int maxHealth = 100;
-    private int currentHealth;
-    
-    [SerializeField] private Slider healthSlider;
-
-    private void Start()
+    public class EnemyHealth : MonoBehaviour
     {
-        currentHealth = maxHealth;
-        healthSlider.maxValue = maxHealth;
-        healthSlider.value = maxHealth;
-    }
+        [SerializeField] private int maxHealth = 100;
+        private int _currentHealth;
 
-    public void TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        healthSlider.value = currentHealth;
+        [SerializeField] private Slider healthSlider;
 
-        if (currentHealth <= 0)
+        private void Start()
         {
-            Die();
+            _currentHealth = maxHealth;
+            healthSlider.maxValue = maxHealth;
+            healthSlider.value = maxHealth;
         }
-    }
 
-    private void Die()
-    {
-        Wave.WaveManager.onEnemyDestroy.Invoke();
-        Destroy(gameObject);
+        public void TakeDamage(int damage)
+        {
+            _currentHealth -= damage;
+            healthSlider.value = _currentHealth;
+
+            if (_currentHealth <= 0)
+            {
+                Die();
+            }
+        }
+
+        private void Die()
+        {
+            Wave.WaveManager.onEnemyDestroy.Invoke();
+            Destroy(gameObject);
+        }
     }
 }

@@ -1,3 +1,5 @@
+using Singleton;
+using Tower;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +9,8 @@ namespace Core
     {
         public Text healthText;
         public Text coinsText;
+        
+        [SerializeField] private TowerManager towerManager;
     
         [Header("Stats")] 
         public static int Health;

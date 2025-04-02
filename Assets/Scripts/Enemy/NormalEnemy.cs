@@ -4,14 +4,8 @@ using UnityEngine;
 
 namespace Enemy
 {
-    public abstract class BaseEnemy : MyMonoBehaviour
+    public class NormalEnemy : BaseEnemy
     {
-        private int damage;
-
-        private int health;
-
-        private int speed;
-
         // Start is called before the first frame update
         void Start()
         {

@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class WaveUI : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private Text waveText; 
-
-    private void Start()
+    public class WaveUI : MonoBehaviour
     {
-        UpdateWaveText(1);
-    }
+        [SerializeField] private Text waveText; 
 
-    public void UpdateWaveText(int waveNumber)
-    {
-        waveText.text = "Wave: " + waveNumber;
+        private void Start()
+        {
+            UpdateWaveText(1);
+        }
+
+        public void UpdateWaveText(int waveNumber)
+        {
+            waveText.text = "Wave: " + waveNumber;
+        }
     }
 }
