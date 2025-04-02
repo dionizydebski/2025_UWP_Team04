@@ -2,6 +2,6 @@
 {
     public class SlowingTower : BaseTower
     {
-        public static int cost = 300;
+        public static int cost;
     }
 }

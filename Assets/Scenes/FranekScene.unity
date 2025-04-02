@@ -996,8 +996,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1fdfe37e3f4c9398bec6e274a67e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingTowerCost: {fileID: 1101801000}
-  slowingTowerCost: {fileID: 304553759}
+  shootingTowerCostText: {fileID: 0}
+  slowingTowerCostText: {fileID: 0}
+  shootingTowerCost: 200
+  slowingTowerCost: 300
 --- !u!4 &721234896
 Transform:
   m_ObjectHideFlags: 0
