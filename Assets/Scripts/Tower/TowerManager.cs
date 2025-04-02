@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Singleton;
 using TMPro;
+using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -10,10 +11,9 @@ namespace Tower
     {
         private List<BaseTower> towers = new List<BaseTower>();
         
-        [SerializeField] private TMP_Text shootingTowerCostText; 
-        [SerializeField] private TMP_Text slowingTowerCostText;
         [SerializeField] private int shootingTowerCost;
         [SerializeField] private int slowingTowerCost;
+        [SerializeField] private TowerMenuController towerMenuController;
 
         private void Awake()
         {
@@ -24,21 +24,21 @@ namespace Tower
         {
             ShootingTower.cost = shootingTowerCost;
             SlowingTower.cost = slowingTowerCost;
-            shootingTowerCostText.text = ShootingTower.cost.ToString() + "$";
-            slowingTowerCostText.text = SlowingTower.cost.ToString() + "$";
+            towerMenuController.UpdateShootingTowerCost(shootingTowerCost);
+            towerMenuController.UpdateSlowingTowerCost(slowingTowerCost);
         }
 
-        public void placeTower(BaseTower tower, Vector3 position)
+        public void PlaceTower(BaseTower tower)
         {
             
         }
 
-        public void sellTower(BaseTower tower)
+        public void SellTower(BaseTower tower)
         {
             
         }
 
-        public bool canPlaceTower(Vector3 position)
+        public bool CanPlaceTower(Vector3 position)
         {
             return true;
         }
