@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Enemy;
 using Projectile;
+using TMPro;
 using UnityEngine;
 
 namespace Tower
 {
-    public class BaseTower : MonoBehaviour
+    public abstract class BaseTower : MonoBehaviour
     {
         private List<BaseEnemy> _enemies;
 
@@ -15,13 +16,12 @@ namespace Tower
         [SerializeField] private int range;
         [SerializeField] private float attackSpeed;
         [SerializeField] private int damage;
-        [SerializeField] private int cost;
         [SerializeField] private float sellModifier;
-
+        
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
-
+            
         }
 
         // Update is called once per frame
@@ -30,7 +30,7 @@ namespace Tower
 
         }
 
-        void attack(BaseEnemy enemy)
+        public void Attack(BaseEnemy enemy)
         {
             
         }

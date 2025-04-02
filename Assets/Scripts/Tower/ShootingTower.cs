@@ -5,6 +5,7 @@ namespace Tower
 {
     public class ShootingTower : BaseTower
     {
-        private List<BaseTower> towers = new List<BaseTower>();
+        public static int cost = 200;
+        private List<BaseTower> _towers = new List<BaseTower>();
     }
 }
