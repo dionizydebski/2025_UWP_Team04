@@ -1,6 +1,5 @@
 ﻿namespace Core
 {
-
     public class PlayerStatsPresenter
     {
         private LevelManager model;

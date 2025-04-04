@@ -1,56 +1,57 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MyMonoBehaviour : MonoBehaviour
+namespace Core
 {
-    private GameObject _gameObject;
-    private Transform _transform;
-
-    public GameObject GameObject
+    public class MyMonoBehaviour : MonoBehaviour
     {
-        get
+        private GameObject _gameObject;
+        private Transform _transform;
+
+        public GameObject GameObject
         {
-            if (_gameObject != null)
+            get
             {
+                if (_gameObject != null)
+                {
+                    return _gameObject;
+                }
+
+                if (base.gameObject != null)
+                {
+                    _gameObject = base.gameObject;
+                }
+
                 return _gameObject;
             }
-
-            if (base.gameObject != null)
-            {
-                _gameObject = base.gameObject;
-            }
-
-            return _gameObject;
         }
-    }
 
-    public Transform Transform
-    {
-        get
+        public Transform Transform
         {
-            if (_transform == null)
+            get
             {
-                _transform = base.transform;
+                if (_transform == null)
+                {
+                    _transform = base.transform;
+                }
+
+                return _transform;
             }
 
-            return _transform;
-        }
-
-        set
-        {
-            if (value == null)
+            set
             {
-                return;
-            }
+                if (value == null)
+                {
+                    return;
+                }
 
-            _transform.position = value.position;
-            _transform.rotation = value.rotation;
-            _transform.localScale = value.localScale;
+                _transform.position = value.position;
+                _transform.rotation = value.rotation;
+                _transform.localScale = value.localScale;
+            }
         }
+
+        [Obsolete] public new Transform transform => throw new InvalidOperationException();
+        [Obsolete] public new GameObject gameObject => throw new InvalidOperationException();
     }
-
-    [Obsolete] public new Transform transform => throw new InvalidOperationException();
-    [Obsolete] public new GameObject gameObject => throw new InvalidOperationException();
 }
