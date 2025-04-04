@@ -12,8 +12,7 @@ namespace Core
         {
             var model = new LevelManager(100, 500);
             presenter = new PlayerStatsPresenter(model, view);
-
-            // Na przykład symulacja:
+            
             presenter.DamagePlayer(10);
             presenter.GiveMoney(100);
         }
