@@ -1,27 +1,32 @@
-using UnityEngine;
-using UnityEngine.UI;
+using System;
 
 namespace Core
 {
     public class LevelManager : Singleton<LevelManager>
     {
-        public Text healthText;
-        public Text coinsText;
-    
-        [Header("Stats")] 
-        public static int Health;
-        public static int Coins;
-        // Start is called before the first frame update
-        void Start()
+        public int Health { get; private set; }
+        public int Money { get; private set; }
+
+        public event Action<int> OnHealthChanged;
+        public event Action<int> OnMoneyChanged;
+
+        public LevelManager(int initialHealth, int initialMoney)
         {
+            Health = initialHealth;
+            Money = initialMoney;
+        }
         
+        public void TakeDamage(int amount)
+        {
+            Health -= amount;
+            OnHealthChanged?.Invoke(Health);
         }
 
-        // Update is called once per frame
-        void Update()
+        public void AddMoney(int amount)
         {
-            healthText.text = Health.ToString();
-            coinsText.text = Coins.ToString();
+            Money += amount;
+            OnMoneyChanged?.Invoke(Money);
         }
+
     }
 }
