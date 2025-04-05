@@ -291,6 +291,7 @@ MonoBehaviour:
   shootingTowerCost: 200
   slowingTowerCost: 300
   towerMenuController: {fileID: 1099178791}
+  towerSpawnYOffset: 1
   towersToSpawn:
   - {fileID: 4807931422156338939, guid: 31ee14ef669fed441acbed3d424ba5b5, type: 3}
   - {fileID: -5542986708250841316, guid: 4168bb46fbd0de24b8710f82d28b4097, type: 3}
@@ -972,7 +973,7 @@ PrefabInstance:
     - target: {fileID: 3253898462209976544, guid: a34ed7bf20bde324fbd8fa47e69af4df,
         type: 3}
       propertyPath: m_Name
-      value: Plane
+      value: Board
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

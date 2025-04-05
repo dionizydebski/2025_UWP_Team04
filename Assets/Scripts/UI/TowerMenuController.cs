@@ -39,11 +39,11 @@ namespace UI
 
         private void Update()
         {
-            if (_towerToPlace != null)
+            if (_towerToPlace)
             {
                
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit,
-                        Mathf.Infinity))
+                        Mathf.Infinity) && _isTowerSelected)
                 {
                     MoveCircleToMouse(hit.point);
                     if (Input.GetMouseButtonDown(0))
@@ -52,6 +52,12 @@ namespace UI
                         _isTowerSelected = false;
                     }
                 }
+            }
+
+            if (!_isTowerSelected)
+            {
+                if (_outerRadius) Destroy(_outerRadius);
+                if (_innerRadius) Destroy(_innerRadius);
             }
         }
         public void UpdateShootingTowerCost(int cost)
