@@ -291,11 +291,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingTowerCostText: {fileID: 7565797520746908295}
   slowingTowerCostText: {fileID: 4173443562332837499}
+  playerActionsController: {fileID: 0}
   towerManager: {fileID: 0}
-  radiusIndicator: {fileID: 5021503519785287084, guid: c7155eddcaa628041946d2d963f35e08,
-    type: 3}
-  outerCircleColor: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 0.43137255}
-  innerCircleColor: {r: 0, g: 0, b: 0, a: 0.69411767}
 --- !u!1 &2762814438409075632
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,6 +440,7 @@ GameObject:
   - component: {fileID: 214042033295077168}
   - component: {fileID: 9105305581508913912}
   - component: {fileID: 8390569949190819064}
+  - component: {fileID: 8952279676756135767}
   m_Layer: 5
   m_Name: GUI
   m_TagString: Untagged
@@ -548,6 +546,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveText: {fileID: 3181880719297168545}
+--- !u!114 &8952279676756135767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2853036531205091936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b92f4be0c5814f08876fb7849ffd6575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerManager: {fileID: 0}
+  radiusIndicator: {fileID: 5021503519785287084, guid: c7155eddcaa628041946d2d963f35e08,
+    type: 3}
+  outerCircleColorDefault: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 0}
+  innerCircleColorDefault: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 0}
+  outerCircleColorCantPlace: {r: 1, g: 0.4575472, b: 0.4575472, a: 0}
+  innerCircleColorCantPlace: {r: 1, g: 0, b: 0, a: 0}
+  boardMask:
+    serializedVersion: 2
+    m_Bits: 384
 --- !u!1 &3115435462380278963
 GameObject:
   m_ObjectHideFlags: 0

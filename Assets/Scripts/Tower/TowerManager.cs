@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Singleton;
 using TMPro;
 using UI;
@@ -13,7 +14,7 @@ namespace Tower
         
         [SerializeField] private int shootingTowerCost;
         [SerializeField] private int slowingTowerCost;
-        [SerializeField] private TowerMenuController towerMenuController;
+        [FormerlySerializedAs("towerMenuController")] [SerializeField] private TowerMenuView towerMenuView;
         [SerializeField] private float towerSpawnYOffset;
         [SerializeField] private LayerMask pathColliderLayer;
         
@@ -25,12 +26,25 @@ namespace Tower
             SetTowerCosts();
         }
 
+        private void Update()
+        {
+            if (!Core.LevelManager.Instance.EnoughMoney(shootingTowerCost))
+            {
+                towerMenuView.DisableShootingTowerButton();
+            }
+
+            if (!Core.LevelManager.Instance.EnoughMoney(slowingTowerCost))
+            {
+                towerMenuView.DisableSlowingTowerButton();
+            }
+        }
+
         private void SetTowerCosts()
         {
             ShootingTower.cost = shootingTowerCost;
             SlowingTower.cost = slowingTowerCost;
-            towerMenuController.UpdateShootingTowerCost(shootingTowerCost);
-            towerMenuController.UpdateSlowingTowerCost(slowingTowerCost);
+            towerMenuView.UpdateShootingTowerCost(shootingTowerCost);
+            towerMenuView.UpdateSlowingTowerCost(slowingTowerCost);
         }
 
         public void PlaceTower(GameObject tower, Vector3 position)

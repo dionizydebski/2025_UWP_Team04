@@ -52,7 +52,6 @@ namespace Tower
         public int GetCost()
         {
             return cost;
-
         }
     }
 }
