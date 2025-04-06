@@ -46,7 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingTowerCost: 200
   slowingTowerCost: 300
-  towerMenuController: {fileID: 0}
   towerSpawnYOffset: 1
   pathColliderLayer:
     serializedVersion: 2
@@ -54,3 +53,5 @@ MonoBehaviour:
   towersToSpawn:
   - {fileID: 4807931422156338939, guid: 31ee14ef669fed441acbed3d424ba5b5, type: 3}
   - {fileID: -5542986708250841316, guid: 4168bb46fbd0de24b8710f82d28b4097, type: 3}
+  towerShopView: {fileID: 0}
+  selectedTowerMenuView: {fileID: 0}
