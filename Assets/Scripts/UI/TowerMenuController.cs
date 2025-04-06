@@ -29,8 +29,13 @@ namespace UI
         
         [Header("Tower placing widgets")]
         [SerializeField] private GameObject radiusIndicator;
-        [SerializeField] private Color outerCircleColor;
-        [SerializeField] private Color innerCircleColor;
+        [SerializeField] private Color outerCircleColorDefault;
+        [SerializeField] private Color innerCircleColorDefault;
+        [SerializeField] private Color outerCircleColorCantPlace;
+        [SerializeField] private Color innerCircleColorCantPlace;
+        
+        [SerializeField] private LayerMask boardMask;
+        
         
         private void Awake()
         {
@@ -41,15 +46,24 @@ namespace UI
         {
             if (_towerToPlace)
             {
-               
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit,
-                        Mathf.Infinity) && _isTowerSelected)
+                        Mathf.Infinity, boardMask) && _isTowerSelected)
                 {
                     MoveCircleToMouse(hit.point);
-                    if (Input.GetMouseButtonDown(0))
+                    if (!towerManager.CanPlaceTower(_towerToPlace, hit.point))
                     {
-                        towerManager.PlaceTower(_towerToPlace, hit.point);
-                        _isTowerSelected = false;
+                        _innerRadius.GetComponent<Renderer>().material.color = innerCircleColorCantPlace;
+                        _outerRadius.GetComponent<Renderer>().material.color = outerCircleColorCantPlace;
+                    }
+                    else
+                    {
+                        _innerRadius.GetComponent<Renderer>().material.color = innerCircleColorDefault;
+                        _outerRadius.GetComponent<Renderer>().material.color = outerCircleColorDefault;
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            towerManager.PlaceTower(_towerToPlace, hit.point);
+                            _isTowerSelected = false;
+                        }
                     }
                 }
             }
@@ -111,8 +125,8 @@ namespace UI
            _outerRadius = Instantiate(radiusIndicator, position, Quaternion.identity);
            _innerRadius.transform.localScale = new Vector3(_towerRadius, 0, _towerRadius);
            _outerRadius.transform.localScale = new Vector3(_towerRange, 0, _towerRange);
-           _innerRadius.GetComponent<Renderer>().material.color = innerCircleColor;
-           _outerRadius.GetComponent<Renderer>().material.color = outerCircleColor;
+           _innerRadius.GetComponent<Renderer>().material.color = innerCircleColorDefault;
+           _outerRadius.GetComponent<Renderer>().material.color = outerCircleColorDefault;
         }
     }
 }

@@ -15,11 +15,12 @@ namespace Tower
         [SerializeField] private int slowingTowerCost;
         [SerializeField] private TowerMenuController towerMenuController;
         [SerializeField] private float towerSpawnYOffset;
+        [SerializeField] private LayerMask pathColliderLayer;
         
         [Header("References")]
         [SerializeField] private List<BaseTower> towersToSpawn;
 
-        private void Awake()
+        protected override void Awake()
         {
             SetTowerCosts();
         }
@@ -42,9 +43,16 @@ namespace Tower
             
         }
 
-        private bool CanPlaceTower(Vector3 position)
+        public bool CanPlaceTower(GameObject tower, Vector3 position)
         {
-            return true;
+            //TODO: check if player has enough resources to buy
+            if (!tower) 
+                return false;
+            
+            CapsuleCollider towerCollider = tower.GetComponentInChildren<CapsuleCollider>();
+            if (!tower.GetComponent<BaseTower>() || !towerCollider) 
+                return false;
+            return !Physics.CheckSphere(position, towerCollider.radius, pathColliderLayer);
         }
     }
 }
