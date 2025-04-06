@@ -1,31 +1,23 @@
 ﻿using System;
-using TMPro;
 using Tower;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace UI
 {
-    public class TowerMenuController : MonoBehaviour
+    public class PlayerActionsController : MonoBehaviour
     {
-        [SerializeField] private TMP_Text shootingTowerCostText; 
-        [SerializeField] private TMP_Text slowingTowerCostText;
-        
         [SerializeField] private TowerManager towerManager;
+        [SerializeField] private string indicatorName;
         
         private GameObject _towerToPlace;
         private GameObject _innerRadius;
         private GameObject _outerRadius;
         private Vector3 _mousePosition;
         private float _zAxis = 0.2f;
-        private bool _isTowerSelected = false;
+        private bool _isTowerSelected;
         private float _towerRadius;
         private int _towerRange;
-        private LineRenderer _lineRenderer;
         private Renderer _rend;
-        private int _circleSegments = 100;
         
         [Header("Tower placing widgets")]
         [SerializeField] private GameObject radiusIndicator;
@@ -35,11 +27,15 @@ namespace UI
         [SerializeField] private Color innerCircleColorCantPlace;
         
         [SerializeField] private LayerMask boardMask;
-        
-        
+        [SerializeField] private LayerMask towerMask;
+        private GameObject selectedTower;
+        private Renderer selectedTowerRenderer;
+        private GameObject rangeIndicator;
+
+
         private void Awake()
         {
-            _lineRenderer = GetComponent<LineRenderer>();
+            Cursor.visible = true;
         }
 
         private void Update()
@@ -67,6 +63,10 @@ namespace UI
                     }
                 }
             }
+            else if (Input.GetMouseButtonDown(0))
+            {
+                SelectTower();
+            }
 
             if (!_isTowerSelected)
             {
@@ -74,14 +74,59 @@ namespace UI
                 if (_innerRadius) Destroy(_innerRadius);
             }
         }
-        public void UpdateShootingTowerCost(int cost)
+
+        private void SelectTower()
         {
-            shootingTowerCostText.text = cost.ToString() + "$";
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            
+            Debug.Log("Tried Selecting");
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity,towerMask))
+            {
+                Debug.Log(hit.collider.gameObject.name);
+                GameObject hitObject = hit.collider.gameObject;
+
+                if (selectedTower != hitObject)
+                {
+                    ClearSelect();
+                    
+                    selectedTower = hitObject;
+                    selectedTowerRenderer = hitObject.GetComponent<Renderer>();
+
+                    if (selectedTowerRenderer)
+                    {
+                        //TODO: tower highlighting
+                    }
+                    
+                    rangeIndicator = selectedTower.transform.Find(indicatorName).gameObject;
+                    if (rangeIndicator)
+                    {
+                        rangeIndicator.SetActive(true);
+                    }
+                }
+            }
+            else
+            {
+                ClearSelect();
+            }
         }
 
-        public void UpdateSlowingTowerCost(int cost)
+        private void ClearSelect()
         {
-            slowingTowerCostText.text = cost.ToString() + "$";
+            if (selectedTower)
+            {
+                if (selectedTowerRenderer)
+                {
+                    //TODO:Clear highlighting
+                }
+
+                if (rangeIndicator)
+                {
+                    rangeIndicator.SetActive(false);
+                }
+            }
+            selectedTower = null;
+            selectedTowerRenderer = null;
         }
 
         public void SelectTowerToPlace(GameObject gameObjectToPlace)
