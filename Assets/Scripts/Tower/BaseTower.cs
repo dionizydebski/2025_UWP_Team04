@@ -5,6 +5,7 @@ using Enemy;
 using Projectile;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Tower
 {
@@ -17,6 +18,7 @@ namespace Tower
         [SerializeField] private float attackSpeed;
         [SerializeField] private int damage;
         [SerializeField] private float sellModifier;
+        [SerializeField] private UnityEvent select;
         
         // Start is called before the first frame update
         void Awake()
@@ -38,6 +40,11 @@ namespace Tower
         public int GetRange()
         {
             return range;
+        }
+
+        private void OnSelect()
+        {
+            select?.Invoke();
         }
     }
 }

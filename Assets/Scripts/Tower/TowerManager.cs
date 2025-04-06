@@ -54,5 +54,10 @@ namespace Tower
                 return false;
             return !Physics.CheckSphere(position, towerCollider.radius, pathColliderLayer);
         }
+
+        public void SelectTower()
+        {
+            
+        }
     }
 }
