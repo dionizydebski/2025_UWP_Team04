@@ -18,6 +18,8 @@ namespace Tower
         [SerializeField] private float attackSpeed;
         [SerializeField] private int damage;
         [SerializeField] private float sellModifier;
+        [SerializeField] private int cost;
+
         [SerializeField] private UnityEvent select;
         
         // Start is called before the first frame update
@@ -45,6 +47,12 @@ namespace Tower
         private void OnSelect()
         {
             select?.Invoke();
+        }
+        
+        public int GetCost()
+        {
+            return cost;
+
         }
     }
 }
