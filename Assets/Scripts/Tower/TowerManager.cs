@@ -1,25 +1,76 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Singleton;
-using TMPro;
 using UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Tower
 {
     public class TowerManager : Singleton<TowerManager>
     {
-        private List<BaseTower> towers = new List<BaseTower>();
-        
         [SerializeField] private int shootingTowerCost;
         [SerializeField] private int slowingTowerCost;
-        [FormerlySerializedAs("towerMenuController")] [SerializeField] private TowerMenuView towerMenuView;
         [SerializeField] private float towerSpawnYOffset;
         [SerializeField] private LayerMask pathColliderLayer;
-        
-        [Header("References")]
-        [SerializeField] private List<BaseTower> towersToSpawn;
+
+        [Header("References")] [SerializeField]
+        private List<BaseTower> towersToSpawn;
+
+        [Header("Views")] [SerializeField] private TowerShopView towerShopView;
+        [SerializeField] private SelectedTowerMenuView selectedTowerMenuView;
+
+        private GameObject selectedTower;
+        private BaseTower selectedTowerComponent;
+
+        public void PlaceTower(GameObject tower, Vector3 position)
+        {
+            Core.LevelManager.Instance.SpendMoney(tower.GetComponent<BaseTower>().GetCost());
+            Instantiate(tower, position + new Vector3(0, towerSpawnYOffset, 0), Quaternion.identity);
+        }
+
+        public void SellTower()
+        {
+            if (!selectedTower) return;
+
+            if (selectedTowerComponent == null) return;
+
+            Core.LevelManager.Instance.AddMoney((int)(selectedTowerComponent.GetCost() *
+                                                      selectedTowerComponent.GetSellModifier()));
+
+            DestroySelectedTower();
+        }
+
+        public bool CanPlaceTower(GameObject tower, Vector3 position)
+        {
+            if (!tower)
+                return false;
+
+            BaseTower towerComponent = tower.GetComponent<BaseTower>();
+            CapsuleCollider towerCollider = tower.GetComponentInChildren<CapsuleCollider>();
+
+            if (!towerComponent || !towerCollider)
+                return false;
+
+            if (Physics.CheckSphere(position, towerCollider.radius, pathColliderLayer))
+                return false;
+
+            int cost = towerComponent.GetCost();
+            return Core.LevelManager.Instance.EnoughMoney(cost);
+        }
+
+        public void SelectTower(GameObject selectedTower)
+        {
+            this.selectedTower = selectedTower;
+            selectedTowerComponent = selectedTower.GetComponent<BaseTower>();
+            selectedTowerMenuView.SetViewActive(true);
+            selectedTowerMenuView.SetTowerName(selectedTowerComponent.GetTowerName());
+        }
+
+        public void UnselectTower()
+        {
+            this.selectedTower = null;
+            selectedTowerMenuView.SetViewActive(false);
+        }
+
 
         protected override void Awake()
         {
@@ -30,12 +81,12 @@ namespace Tower
         {
             if (!Core.LevelManager.Instance.EnoughMoney(shootingTowerCost))
             {
-                towerMenuView.DisableShootingTowerButton();
+                towerShopView.DisableShootingTowerButton();
             }
 
             if (!Core.LevelManager.Instance.EnoughMoney(slowingTowerCost))
             {
-                towerMenuView.DisableSlowingTowerButton();
+                towerShopView.DisableSlowingTowerButton();
             }
         }
 
@@ -43,42 +94,15 @@ namespace Tower
         {
             ShootingTower.cost = shootingTowerCost;
             SlowingTower.cost = slowingTowerCost;
-            towerMenuView.UpdateShootingTowerCost(shootingTowerCost);
-            towerMenuView.UpdateSlowingTowerCost(slowingTowerCost);
+            towerShopView.UpdateShootingTowerCost(shootingTowerCost);
+            towerShopView.UpdateSlowingTowerCost(slowingTowerCost);
         }
 
-        public void PlaceTower(GameObject tower, Vector3 position)
+        private void DestroySelectedTower()
         {
-            Core.LevelManager.Instance.SpendMoney(tower.GetComponent<BaseTower>().GetCost());
-            Instantiate(tower, position + new Vector3(0,towerSpawnYOffset, 0), Quaternion.identity);
-        }
-
-        public void SellTower(BaseTower tower)
-        {
-            Core.LevelManager.Instance.AddMoney((int)(tower.GetCost() * 0.7));
-        }
-
-        public bool CanPlaceTower(GameObject tower, Vector3 position)
-        {
-            if (!tower) 
-                return false;
-            
-            BaseTower towerComponent = tower.GetComponent<BaseTower>();
-            CapsuleCollider towerCollider = tower.GetComponentInChildren<CapsuleCollider>();
-            
-            if (!towerComponent || !towerCollider) 
-                return false;
-            
-            if (Physics.CheckSphere(position, towerCollider.radius, pathColliderLayer))
-                return false;
-            
-            int cost = towerComponent.GetCost();
-            return Core.LevelManager.Instance.EnoughMoney(cost);
-        }
-
-        public void SelectTower()
-        {
-            
+            selectedTowerMenuView.SetViewActive(false);
+            Destroy(selectedTower);
+            selectedTower = null;
         }
     }
 }

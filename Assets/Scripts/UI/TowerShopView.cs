@@ -1,14 +1,11 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using Tower;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI
 {
-    public class TowerMenuView : MonoBehaviour
+    public class TowerShopView : MonoBehaviour
     {
         [SerializeField] private TMP_Text shootingTowerCostText; 
         [SerializeField] private TMP_Text slowingTowerCostText;
@@ -17,7 +14,6 @@ namespace UI
         
         [SerializeField] private PlayerActionsController playerActionsController;
         [SerializeField] private TowerManager towerManager;
-        private GameObject _towerToPlace;
         
         public void UpdateShootingTowerCost(int cost)
         {
@@ -31,7 +27,6 @@ namespace UI
 
         public void SelectTowerToPlace(GameObject gameObjectToPlace)
         {
-            this._towerToPlace = gameObjectToPlace;
             playerActionsController.SelectTowerToPlace(gameObjectToPlace);
         }
 
