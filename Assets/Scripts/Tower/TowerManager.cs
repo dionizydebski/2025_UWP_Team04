@@ -35,24 +35,31 @@ namespace Tower
 
         public void PlaceTower(GameObject tower, Vector3 position)
         {
+            Core.LevelManager.Instance.SpendMoney(tower.GetComponent<BaseTower>().GetCost());
             Instantiate(tower, position + new Vector3(0,towerSpawnYOffset, 0), Quaternion.identity);
         }
 
         public void SellTower(BaseTower tower)
         {
-            
+            Core.LevelManager.Instance.AddMoney((int)(tower.GetCost() * 0.7));
         }
 
         public bool CanPlaceTower(GameObject tower, Vector3 position)
         {
-            //TODO: check if player has enough resources to buy
             if (!tower) 
                 return false;
             
+            BaseTower towerComponent = tower.GetComponent<BaseTower>();
             CapsuleCollider towerCollider = tower.GetComponentInChildren<CapsuleCollider>();
-            if (!tower.GetComponent<BaseTower>() || !towerCollider) 
+            
+            if (!towerComponent || !towerCollider) 
                 return false;
-            return !Physics.CheckSphere(position, towerCollider.radius, pathColliderLayer);
+            
+            if (Physics.CheckSphere(position, towerCollider.radius, pathColliderLayer))
+                return false;
+            
+            int cost = towerComponent.GetCost();
+            return Core.LevelManager.Instance.EnoughMoney(cost);
         }
     }
 }

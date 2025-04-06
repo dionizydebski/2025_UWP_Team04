@@ -17,6 +17,7 @@ namespace Tower
         [SerializeField] private float attackSpeed;
         [SerializeField] private int damage;
         [SerializeField] private float sellModifier;
+        [SerializeField] private int cost;
         
         // Start is called before the first frame update
         void Awake()
@@ -38,6 +39,10 @@ namespace Tower
         public int GetRange()
         {
             return range;
+        }
+        public int GetCost()
+        {
+            return cost;
         }
     }
 }

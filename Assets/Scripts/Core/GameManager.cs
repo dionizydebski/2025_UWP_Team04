@@ -11,11 +11,8 @@ namespace Core
 
         void Start()
         {
-            var model = new LevelManager(100, 500);
-            presenter = new PlayerStatsPresenter(model, view);
+            presenter = new PlayerStatsPresenter(LevelManager.Instance, view);
             
-            presenter.DamagePlayer(10);
-            presenter.GiveMoney(100);
         }
         protected override void Awake()
         {

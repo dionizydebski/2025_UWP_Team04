@@ -30,6 +30,7 @@ namespace Enemy
 
         private void Die()
         {
+            Core.LevelManager.Instance.AddMoney(GetComponent<BaseEnemy>().GetReward());
             Wave.WaveManager.onEnemyDestroy.Invoke();
             Destroy(gameObject);
         }

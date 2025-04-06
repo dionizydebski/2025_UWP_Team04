@@ -7,11 +7,13 @@ namespace Enemy
 {
     public abstract class BaseEnemy : MyMonoBehaviour
     {
-        private int damage;
+        private int _damage;
 
-        private int health;
+        private int _health;
 
-        private int speed;
+        private int _speed;
+
+        private int _reward;
 
         // Start is called before the first frame update
         void Start()
@@ -23,6 +25,11 @@ namespace Enemy
         void Update()
         {
 
+        }
+
+        public int GetReward()
+        {
+            return _reward;
         }
     }
 }
