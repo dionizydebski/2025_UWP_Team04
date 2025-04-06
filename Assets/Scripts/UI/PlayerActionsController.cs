@@ -30,7 +30,7 @@ namespace UI
         [SerializeField] private LayerMask towerMask;
         private GameObject selectedTower;
         private Renderer selectedTowerRenderer;
-        private GameObject rangeIndicator;
+        private Transform rangeIndicator;
 
 
         private void Awake()
@@ -59,12 +59,14 @@ namespace UI
                         {
                             towerManager.PlaceTower(_towerToPlace, hit.point);
                             _isTowerSelected = false;
+                            _towerToPlace = null;
                         }
                     }
                 }
             }
             else if (Input.GetMouseButtonDown(0))
             {
+                Debug.Log("Tried to select a tower.");
                 SelectTower();
             }
 
@@ -80,11 +82,11 @@ namespace UI
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             
-            Debug.Log("Tried Selecting");
             if (Physics.Raycast(ray, out hit, Mathf.Infinity,towerMask))
             {
-                Debug.Log(hit.collider.gameObject.name);
-                GameObject hitObject = hit.collider.gameObject;
+                GameObject hitObject = hit.collider.gameObject.transform.root.gameObject;
+                
+                Debug.Log(hitObject.name);
 
                 if (selectedTower != hitObject)
                 {
@@ -98,10 +100,13 @@ namespace UI
                         //TODO: tower highlighting
                     }
                     
-                    rangeIndicator = selectedTower.transform.Find(indicatorName).gameObject;
+                    rangeIndicator = selectedTower.transform.Find(indicatorName);
                     if (rangeIndicator)
                     {
-                        rangeIndicator.SetActive(true);
+                        Debug.Log("Range indicator found");
+                        BaseTower tower = selectedTower.GetComponent<BaseTower>();
+                        rangeIndicator.localScale = new Vector3(tower.GetRange(), 0.01f, tower.GetRange());
+                        rangeIndicator.gameObject.SetActive(true);
                     }
                 }
             }
@@ -122,7 +127,7 @@ namespace UI
 
                 if (rangeIndicator)
                 {
-                    rangeIndicator.SetActive(false);
+                    rangeIndicator.gameObject.SetActive(false);
                 }
             }
             selectedTower = null;
