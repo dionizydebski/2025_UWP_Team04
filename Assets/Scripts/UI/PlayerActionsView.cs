@@ -1,6 +1,6 @@
-﻿using System;
-using Tower;
+﻿using Tower;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UI
 {
@@ -20,7 +20,7 @@ namespace UI
         [Header("Tower range indicator")] 
         [SerializeField] private string indicatorName;
         
-        [SerializeField] private PlayerActionsController _playerActionsController;
+        [FormerlySerializedAs("_playerActionsController")] [SerializeField] private PlayerActionsController playerActionsController;
         
         private Renderer selectedTowerRenderer;
         private Renderer _innerRadiusRenderer;
@@ -28,7 +28,7 @@ namespace UI
         
         private Transform rangeIndicator;
 
-        public void CreateRadiusAndRangeWidget(Vector3 position, float _towerRadius, float _towerRange)
+        public void CreateRadiusAndRangeWidget(Vector3 position, float towerRadius, float towerRange)
         {
             Debug.Log(position);
             if (_innerRadius != null) Destroy(_innerRadius);
@@ -36,8 +36,8 @@ namespace UI
 
             _innerRadius = Instantiate(radiusIndicator, position, Quaternion.identity);
             _outerRadius = Instantiate(radiusIndicator, position, Quaternion.identity);
-            _innerRadius.transform.localScale = new Vector3(_towerRadius, 0, _towerRadius);
-            _outerRadius.transform.localScale = new Vector3(_towerRange, 0, _towerRange);
+            _innerRadius.transform.localScale = new Vector3(towerRadius, 0, towerRadius);
+            _outerRadius.transform.localScale = new Vector3(towerRange, 0, towerRange);
             _innerRadius.SetActive(false);
             _outerRadius.SetActive(false);
             _innerRadiusRenderer = _innerRadius.GetComponent<Renderer>();

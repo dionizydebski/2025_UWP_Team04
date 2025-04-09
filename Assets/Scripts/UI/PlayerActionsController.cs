@@ -1,7 +1,6 @@
 ﻿using Tower;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 namespace UI
 {
@@ -56,6 +55,13 @@ namespace UI
                             _isTowerSelected = false;
                             _towerToPlace = null;
                         }
+                    }
+
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        playerActionsView.HideRadiusAndRangeWidget();
+                        _isTowerSelected = false;
+                        _towerToPlace = null;
                     }
                 }
             }
