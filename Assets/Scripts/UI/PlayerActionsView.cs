@@ -20,7 +20,8 @@ namespace UI
         [Header("Tower range indicator")] 
         [SerializeField] private string indicatorName;
         
-        [FormerlySerializedAs("_playerActionsController")] [SerializeField] private PlayerActionsController playerActionsController;
+        [Header("References")]
+        [SerializeField] private PlayerActionsController playerActionsController;
         
         private Renderer selectedTowerRenderer;
         private Renderer _innerRadiusRenderer;
