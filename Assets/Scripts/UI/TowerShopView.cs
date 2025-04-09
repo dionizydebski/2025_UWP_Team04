@@ -30,14 +30,14 @@ namespace UI
             playerActionsController.SelectTowerToPlace(gameObjectToPlace);
         }
 
-        public void DisableShootingTowerButton()
+        public void ShootingTowerButtonInteractable(bool interactable)
         {
-            shootingTowerButton.interactable = false;
+            shootingTowerButton.interactable = interactable;
         }
 
-        public void DisableSlowingTowerButton()
+        public void SlowingTowerButtonInteractable(bool interactable)
         {
-            slowingTowerButton.interactable = false;
+            slowingTowerButton.interactable = interactable;
         }
     }
 }

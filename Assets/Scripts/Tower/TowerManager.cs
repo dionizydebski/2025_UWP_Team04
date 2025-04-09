@@ -81,12 +81,22 @@ namespace Tower
         {
             if (!Core.LevelManager.Instance.EnoughMoney(shootingTowerCost))
             {
-                towerShopView.DisableShootingTowerButton();
+                towerShopView.ShootingTowerButtonInteractable(false);
             }
 
             if (!Core.LevelManager.Instance.EnoughMoney(slowingTowerCost))
             {
-                towerShopView.DisableSlowingTowerButton();
+                towerShopView.SlowingTowerButtonInteractable(false);
+            }
+
+            if (Core.LevelManager.Instance.EnoughMoney(shootingTowerCost))
+            {
+                towerShopView.ShootingTowerButtonInteractable(true);
+            }
+
+            if (Core.LevelManager.Instance.EnoughMoney(slowingTowerCost))
+            {
+                towerShopView.SlowingTowerButtonInteractable(true);
             }
         }
 
