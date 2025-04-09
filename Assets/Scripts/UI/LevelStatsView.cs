@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
 {
     public class LevelStatsView : MonoBehaviour
     {
-        [SerializeField] private Text healthText;
-        [SerializeField] private Text moneyText;
+        [SerializeField] private TMP_Text healthText;
+        [SerializeField] private TMP_Text moneyText;
 
         public void SetHealth(int health)
         {

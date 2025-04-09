@@ -1,13 +1,14 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
 {
     public class WaveUI : MonoBehaviour
     {
-        [SerializeField] private Text waveText; 
+        [SerializeField] private TMP_Text waveText; 
 
-        private void Start()
+        private void Awake()
         {
             UpdateWaveText(1);
         }
