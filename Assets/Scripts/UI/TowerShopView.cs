@@ -1,5 +1,4 @@
 ﻿using TMPro;
-using Tower;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +12,6 @@ namespace UI
         [SerializeField] private Button slowingTowerButton;
         
         [SerializeField] private PlayerActionsController playerActionsController;
-        [SerializeField] private TowerManager towerManager;
         
         public void UpdateShootingTowerCost(int cost)
         {

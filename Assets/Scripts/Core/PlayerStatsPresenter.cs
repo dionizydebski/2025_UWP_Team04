@@ -1,4 +1,6 @@
-﻿namespace Core
+﻿using UI;
+
+namespace Core
 {
     public class PlayerStatsPresenter
     {

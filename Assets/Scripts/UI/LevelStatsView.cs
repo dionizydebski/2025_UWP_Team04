@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
-namespace Core
+namespace UI
 {
     public class LevelStatsView : MonoBehaviour
     {

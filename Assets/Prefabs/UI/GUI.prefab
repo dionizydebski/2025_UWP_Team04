@@ -428,7 +428,6 @@ MonoBehaviour:
   shootingTowerButton: {fileID: 4470276654621538772}
   slowingTowerButton: {fileID: 8061142556825359081}
   playerActionsController: {fileID: 8952279676756135767}
-  towerManager: {fileID: 0}
 --- !u!1 &2689699907997915440
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,6 +709,7 @@ GameObject:
   - component: {fileID: 9105305581508913912}
   - component: {fileID: 8390569949190819064}
   - component: {fileID: 8952279676756135767}
+  - component: {fileID: 2113838235154728178}
   m_Layer: 5
   m_Name: GUI
   m_TagString: Untagged
@@ -827,13 +827,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b92f4be0c5814f08876fb7849ffd6575, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  indicatorName: RangeIndicator
-  radiusIndicator: {fileID: 5021503519785287084, guid: c7155eddcaa628041946d2d963f35e08,
-    type: 3}
-  outerCircleColorDefault: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 0.57254905}
-  innerCircleColorDefault: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 0.57254905}
-  outerCircleColorCantPlace: {r: 1, g: 0.4575472, b: 0.4575472, a: 0}
-  innerCircleColorCantPlace: {r: 1, g: 0, b: 0, a: 0}
   boardMask:
     serializedVersion: 2
     m_Bits: 512
@@ -843,6 +836,27 @@ MonoBehaviour:
   uiMask:
     serializedVersion: 2
     m_Bits: 32
+  _playerActionsView: {fileID: 2113838235154728178}
+--- !u!114 &2113838235154728178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2853036531205091936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0946cf3ffcf4d2da25730d2448e0d77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radiusIndicator: {fileID: 5021503519785287084, guid: c7155eddcaa628041946d2d963f35e08,
+    type: 3}
+  outerCircleColorDefault: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 0.5882353}
+  innerCircleColorDefault: {r: 0.21293165, g: 0.25982442, b: 0.2735849, a: 0.5882353}
+  outerCircleColorCantPlace: {r: 1, g: 0.514151, b: 0.514151, a: 0.5882353}
+  innerCircleColorCantPlace: {r: 1, g: 0, b: 0, a: 0.5882353}
+  indicatorName: RangeIndicator
+  _playerActionsController: {fileID: 8952279676756135767}
 --- !u!1 &3115435462380278963
 GameObject:
   m_ObjectHideFlags: 0

@@ -274,6 +274,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 758965408968130605}
   cameraDistance: 13
+--- !u!1 &80230287 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2853036531205091936, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+    type: 3}
+  m_PrefabInstance: {fileID: 5657945508169440381}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &126745267 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1465388475649441335, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
@@ -467,12 +473,44 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 5657945508169440381}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 80230287}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 196add780a4445c1be4df658394b8cd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1121758287 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8952279676756135767, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+    type: 3}
+  m_PrefabInstance: {fileID: 5657945508169440381}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80230287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b92f4be0c5814f08876fb7849ffd6575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1121758291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80230287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0946cf3ffcf4d2da25730d2448e0d77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radiusIndicator: {fileID: 5021503519785287084, guid: c7155eddcaa628041946d2d963f35e08,
+    type: 3}
+  outerCircleColorDefault: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 0.5882353}
+  innerCircleColorDefault: {r: 0.21293165, g: 0.25982442, b: 0.2735849, a: 0.5882353}
+  outerCircleColorCantPlace: {r: 1, g: 0.514151, b: 0.514151, a: 0.5882353}
+  innerCircleColorCantPlace: {r: 1, g: 0, b: 0, a: 0.5882353}
+  indicatorName: RangeIndicator
+  _playerActionsController: {fileID: 1121758287}
 --- !u!4 &1161523149 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8911612860291280793, guid: 5f6aaded42335ab4f9d042f95baf87cb,
@@ -1110,7 +1148,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2853036531205091936, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1121758291}
   m_SourcePrefab: {fileID: 100100000, guid: 948f5fd55bda8ba4da9b0d661edb4b08, type: 3}
 --- !u!1001 &7441404949841115452
 PrefabInstance:

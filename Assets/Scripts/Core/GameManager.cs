@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Singleton;
+using UI;
 
 namespace Core
 {

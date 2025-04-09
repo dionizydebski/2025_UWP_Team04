@@ -1,17 +1,15 @@
 ﻿using Tower;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace UI
 {
     public class PlayerActionsController : MonoBehaviour
     {
-        [SerializeField] private string indicatorName;
-
         private TowerManager towerManager;
         private GameObject _towerToPlace;
-        private GameObject _innerRadius;
-        private GameObject _outerRadius;
+
         private Vector3 _mousePosition;
         private float _zAxis = 0.2f;
         private bool _isTowerSelected;
@@ -19,27 +17,19 @@ namespace UI
         private int _towerRange;
         private Renderer _rend;
 
-        [Header("Tower placing widgets")] [SerializeField]
-        private GameObject radiusIndicator;
-
-        [SerializeField] private Color outerCircleColorDefault;
-        [SerializeField] private Color innerCircleColorDefault;
-        [SerializeField] private Color outerCircleColorCantPlace;
-        [SerializeField] private Color innerCircleColorCantPlace;
-
         [SerializeField] private LayerMask boardMask;
         [SerializeField] private LayerMask towerMask;
         [SerializeField] private LayerMask uiMask;
 
         private GameObject selectedTower;
-        private Renderer selectedTowerRenderer;
-        private Transform rangeIndicator;
-
+ 
+        [SerializeField] private PlayerActionsView playerActionsView;
 
         private void Awake()
         {
             Cursor.visible = true;
             towerManager = TowerManager.Instance;
+            playerActionsView.CreateRadiusAndRangeWidget(GetMouseWorldPosition(), 1, 1);
         }
 
         private void Update()
@@ -49,16 +39,16 @@ namespace UI
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit,
                         Mathf.Infinity, boardMask) && _isTowerSelected)
                 {
-                    MoveCircleToMouse(hit.point);
+                    playerActionsView.ShowRadiusAndRangeWidget();
+                    playerActionsView.MoveCircleToMouse(hit.point);
                     if (!towerManager.CanPlaceTower(_towerToPlace, hit.point))
                     {
-                        _innerRadius.GetComponent<Renderer>().material.color = innerCircleColorCantPlace;
-                        _outerRadius.GetComponent<Renderer>().material.color = outerCircleColorCantPlace;
+                        Debug.Log("Can't place tower");
+                        playerActionsView.SetRadiusWidgetUnableToPlaceColor();
                     }
                     else
                     {
-                        _innerRadius.GetComponent<Renderer>().material.color = innerCircleColorDefault;
-                        _outerRadius.GetComponent<Renderer>().material.color = outerCircleColorDefault;
+                        playerActionsView.SetRadiusWidgetDefaultColor();
                         if (Input.GetMouseButtonDown(0))
                         {
                             if (EventSystem.current.IsPointerOverGameObject()) return;
@@ -77,8 +67,7 @@ namespace UI
 
             if (!_isTowerSelected)
             {
-                if (_outerRadius) Destroy(_outerRadius);
-                if (_innerRadius) Destroy(_innerRadius);
+                playerActionsView.HideRadiusAndRangeWidget();
             }
         }
 
@@ -96,20 +85,8 @@ namespace UI
                     ClearSelect();
 
                     selectedTower = hitObject;
-                    selectedTowerRenderer = hitObject.GetComponent<Renderer>();
 
-                    if (selectedTowerRenderer)
-                    {
-                        //TODO: tower highlighting
-                    }
-
-                    rangeIndicator = selectedTower.transform.Find(indicatorName);
-                    if (rangeIndicator)
-                    {
-                        BaseTower tower = selectedTower.GetComponent<BaseTower>();
-                        rangeIndicator.localScale = new Vector3(tower.GetRange(), 0.01f, tower.GetRange());
-                        rangeIndicator.gameObject.SetActive(true);
-                    }
+                    playerActionsView.ShowTowerRangeIndicator(selectedTower);
 
                     towerManager.SelectTower(selectedTower);
                 }
@@ -122,66 +99,38 @@ namespace UI
             }
         }
 
+        
+
         private void ClearSelect()
         {
             if (selectedTower)
             {
-                if (selectedTowerRenderer)
-                {
-                    //TODO:Clear highlighting
-                }
-
-                if (rangeIndicator)
-                {
-                    rangeIndicator.gameObject.SetActive(false);
-                }
+                playerActionsView.HideTowerRangeIndicator();
             }
-
             selectedTower = null;
-            selectedTowerRenderer = null;
         }
 
         public void SelectTowerToPlace(GameObject gameObjectToPlace)
-        {
-            this._towerToPlace = gameObjectToPlace;
+        { 
+            _towerToPlace = gameObjectToPlace;
             CapsuleCollider capsuleCollider = _towerToPlace.GetComponentInChildren<CapsuleCollider>();
 
-            if (capsuleCollider != null)
-            {
-                _towerRadius = capsuleCollider.radius;
-                _towerRange = gameObjectToPlace.GetComponent<BaseTower>().GetRange();
-
-                Vector3 mousePosition = Input.mousePosition;
-                mousePosition.z = _zAxis;
-                Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePosition);
-
-                CreateRadiusAndRangeWidget(worldPos);
-                CreateRadiusAndRangeWidget(worldPos);
-            }
-
+            if (capsuleCollider == null) return;
             _isTowerSelected = true;
+            _towerRadius = capsuleCollider.radius;
+            _towerRange = gameObjectToPlace.GetComponent<BaseTower>().GetRange();
+
+            playerActionsView.SetRadiusWidgetDefaultColor();
+            playerActionsView.SetRadiusAndRangeWidgetSize(_towerRadius, _towerRange);
+            playerActionsView.ShowRadiusAndRangeWidget();
         }
 
-        private void MoveCircleToMouse(Vector3 position)
+        private Vector3 GetMouseWorldPosition()
         {
-            if (_outerRadius != null && _innerRadius != null)
-            {
-                _outerRadius.transform.position = new Vector3(position.x, -0.49f, position.z);
-                _innerRadius.transform.position = new Vector3(position.x, -0.48f, position.z);
-            }
-        }
-
-        private void CreateRadiusAndRangeWidget(Vector3 position)
-        {
-            if (_innerRadius != null) Destroy(_innerRadius);
-            if (_outerRadius != null) Destroy(_outerRadius);
-
-            _innerRadius = Instantiate(radiusIndicator, position, Quaternion.identity);
-            _outerRadius = Instantiate(radiusIndicator, position, Quaternion.identity);
-            _innerRadius.transform.localScale = new Vector3(_towerRadius, 0, _towerRadius);
-            _outerRadius.transform.localScale = new Vector3(_towerRange, 0, _towerRange);
-            _innerRadius.GetComponent<Renderer>().material.color = innerCircleColorDefault;
-            _outerRadius.GetComponent<Renderer>().material.color = outerCircleColorDefault;
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition.z = _zAxis;
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePosition);
+            return worldPos;
         }
     }
 }
