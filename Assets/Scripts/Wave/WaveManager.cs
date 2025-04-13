@@ -10,10 +10,7 @@ namespace Wave
     public class WaveManager : Singleton<WaveManager>
     {
         public static WaveManager waveManager;
-        
-        [Header("UI")]
-        [SerializeField] private WaveUI waveUI;
-        
+
         public Transform startPoint;
         public Transform[] path;
         
@@ -28,6 +25,9 @@ namespace Wave
 
         [Header("Events")] 
         public static UnityEvent onEnemyDestroy = new UnityEvent();
+        public static event Action OnWaveEnd;
+        public static event Action OnWaveStart;
+        public static event Action<int> OnWaveChanged;
 
         private int _currentWave = 1;
         private float _timeSinceLastSpawn;
@@ -36,8 +36,7 @@ namespace Wave
         private bool _isSpawning = false;
         private bool _isPaused = false;
         private bool _pause = false;
-        public static event Action OnWaveEnd;
-        public static event Action OnWaveStart;
+        
 
         private void Awake()
         {
@@ -89,11 +88,6 @@ namespace Wave
             OnWaveStart?.Invoke();
             _isSpawning = true;
             _enemiesLeftToSpawn = EnemiesPerWave();
-    
-            if (waveUI != null)
-            {
-                waveUI.UpdateWaveText(_currentWave);
-            }
         }
 
         private void EndWave()
@@ -101,6 +95,9 @@ namespace Wave
             _isSpawning = false;
             _timeSinceLastSpawn = 0f;
             _currentWave++;
+            
+            OnWaveChanged?.Invoke(_currentWave);
+            
             OnWaveEnd?.Invoke();
             
             if (_pause)
@@ -143,5 +140,7 @@ namespace Wave
             StartCoroutine(StartWave());
             Debug.Log("Wave unpaused");
         }
+        
+        public int GetCurrentWave() => _currentWave;
     }
 }

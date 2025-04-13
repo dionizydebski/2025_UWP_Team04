@@ -8,6 +8,9 @@ namespace Core
     {
         [SerializeField] private int initialHealth = 100;
         [SerializeField] private int initialMoney = 500;
+        
+        public int GetHealth() => Health;
+        public int GetMoney() => Money;
 
         public int Health { get; private set; }
         public int Money { get; private set; }
