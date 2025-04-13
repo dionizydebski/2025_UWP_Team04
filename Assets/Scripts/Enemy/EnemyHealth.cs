@@ -8,19 +8,14 @@ namespace Enemy
         [SerializeField] private int maxHealth = 100;
         private int _currentHealth;
 
-        [SerializeField] private Slider healthSlider;
-
         private void Start()
         {
             _currentHealth = maxHealth;
-            healthSlider.maxValue = maxHealth;
-            healthSlider.value = maxHealth;
         }
 
         public void TakeDamage(int damage)
         {
             _currentHealth -= damage;
-            healthSlider.value = _currentHealth;
 
             if (_currentHealth <= 0)
             {
