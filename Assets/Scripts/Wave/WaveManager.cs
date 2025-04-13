@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Singleton;
 using UI;
+using UI.Enemy;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -28,6 +30,7 @@ namespace Wave
         public static event Action OnWaveEnd;
         public static event Action OnWaveStart;
         public static event Action<int> OnWaveChanged;
+        public static event Action OnWavePreviewChanged;
 
         private int _currentWave = 1;
         private float _timeSinceLastSpawn;
@@ -36,6 +39,8 @@ namespace Wave
         private bool _isSpawning = false;
         private bool _isPaused = false;
         private bool _pause = false;
+        
+        public int GetCurrentWave() => _currentWave;
         
 
         private void Awake()
@@ -97,8 +102,8 @@ namespace Wave
             _currentWave++;
             
             OnWaveChanged?.Invoke(_currentWave);
-            
             OnWaveEnd?.Invoke();
+            OnWavePreviewChanged?.Invoke();
             
             if (_pause)
             {
@@ -141,6 +146,23 @@ namespace Wave
             Debug.Log("Wave unpaused");
         }
         
-        public int GetCurrentWave() => _currentWave;
+        public List<EnemyWaveInfo> GetUpcomingWavePreview()
+        {
+            var list = new List<EnemyWaveInfo>();
+
+            for (int i = 0; i < enemyPrefabs.Length; i++)
+            {
+                int count = Mathf.RoundToInt(baseEnemies * Mathf.Pow(_currentWave, difficultyScalingFactor));
+                if (count <= 0) continue;
+
+                list.Add(new EnemyWaveInfo
+                {
+                    enemyName = enemyPrefabs[i].name,
+                    count = count
+                });
+            }
+
+            return list;
+        }
     }
 }
