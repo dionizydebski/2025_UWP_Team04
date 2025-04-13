@@ -1,30 +1,44 @@
-﻿using System.Collections.Generic;
-using Singleton;
+﻿using System;
+using System.Collections.Generic;
 using UI;
 using UnityEngine;
 
 namespace Tower
 {
-    public class TowerManager : Singleton<TowerManager>
+    public class TowerManager : Singleton.Singleton<TowerManager>
     {
         [SerializeField] private int shootingTowerCost;
         [SerializeField] private int slowingTowerCost;
         [SerializeField] private float towerSpawnYOffset;
         [SerializeField] private LayerMask pathColliderLayer;
 
-        [Header("References")] [SerializeField]
-        private List<BaseTower> towersToSpawn;
+        [Header("References")] 
+        [SerializeField] private List<BaseTower> towersToSpawn;
 
-        [Header("Views")] [SerializeField] private TowerShopView towerShopView;
+        [Header("Views")] 
+        [SerializeField] private TowerShopView towerShopView;
         [SerializeField] private SelectedTowerMenuView selectedTowerMenuView;
 
         private GameObject selectedTower;
         private BaseTower selectedTowerComponent;
-
+        private readonly List<GameObject> placedTowers = new List<GameObject>();
+        
+        public static event Action OnTowerPlaced;
+        public static event Action OnTowerSold;
+        public static event Action OnTowerUnselected;
+        public static event Action OnTowerSelected;
+        
+        protected override void Awake()
+        {
+            SetTowerCosts();
+        }
+        
         public void PlaceTower(GameObject tower, Vector3 position)
         {
             Core.LevelManager.Instance.SpendMoney(tower.GetComponent<BaseTower>().GetCost());
             Instantiate(tower, position + new Vector3(0, towerSpawnYOffset, 0), Quaternion.identity);
+            placedTowers.Add(tower);
+            OnTowerPlaced?.Invoke();
         }
 
         public void SellTower()
@@ -37,6 +51,7 @@ namespace Tower
                                                       selectedTowerComponent.GetSellModifier()));
 
             DestroySelectedTower();
+            OnTowerSold?.Invoke();
         }
 
         public bool CanPlaceTower(GameObject tower, Vector3 position)
@@ -63,18 +78,14 @@ namespace Tower
             selectedTowerComponent = selectedTower.GetComponent<BaseTower>();
             selectedTowerMenuView.SetViewActive(true);
             selectedTowerMenuView.SetTowerName(selectedTowerComponent.GetTowerName());
+            OnTowerSelected?.Invoke();
         }
 
         public void UnselectTower()
         {
             this.selectedTower = null;
             selectedTowerMenuView.SetViewActive(false);
-        }
-
-
-        protected override void Awake()
-        {
-            SetTowerCosts();
+            OnTowerUnselected?.Invoke();
         }
 
         private void Update()
@@ -111,8 +122,11 @@ namespace Tower
         private void DestroySelectedTower()
         {
             selectedTowerMenuView.SetViewActive(false);
+            placedTowers.Remove(selectedTower);
             Destroy(selectedTower);
             selectedTower = null;
         }
+
+
     }
 }

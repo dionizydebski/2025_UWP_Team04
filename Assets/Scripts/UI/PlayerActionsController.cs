@@ -1,4 +1,5 @@
-﻿using Tower;
+﻿using System;
+using Tower;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,6 +14,8 @@ namespace UI
         private bool _isTowerSelected;
         private float _towerRadius;
         private int _towerRange;
+
+        public static event Action OnStopTowerPlacing;
         
         [Header("LayerMasks for raycasting")]
         [SerializeField] private LayerMask boardMask;
@@ -82,6 +85,7 @@ namespace UI
                 playerActionsView.HideRadiusAndRangeWidget();
                 _isTowerSelected = false;
                 _towerToPlace = null;
+                OnStopTowerPlacing?.Invoke();
             }
         }
 

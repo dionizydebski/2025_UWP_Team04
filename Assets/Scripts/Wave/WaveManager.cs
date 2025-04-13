@@ -4,7 +4,6 @@ using Singleton;
 using UI;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace Wave
 {
@@ -34,7 +33,11 @@ namespace Wave
         private float _timeSinceLastSpawn;
         private int _enemiesAlive;
         private int _enemiesLeftToSpawn;
-        private bool _isSpawing = false;
+        private bool _isSpawning = false;
+        private bool _isPaused = false;
+        private bool _pause = false;
+        public static event Action OnWaveEnd;
+        public static event Action OnWaveStart;
 
         private void Awake()
         {
@@ -44,12 +47,19 @@ namespace Wave
 
         private void Start()
         {
+            if (_pause)
+            {
+                _isPaused = true;
+                _pause = false;
+                Debug.Log("Wave paused");
+                return;
+            }
             StartCoroutine(StartWave());
         }
 
         private void Update()
         {
-            if(!_isSpawing) return;
+            if(!_isSpawning || _isPaused) return;
 
             _timeSinceLastSpawn += Time.deltaTime;
 
@@ -75,8 +85,9 @@ namespace Wave
         private IEnumerator StartWave()
         {
             yield return new WaitForSeconds(timeBetweenWaves);
-
-            _isSpawing = true;
+            
+            OnWaveStart?.Invoke();
+            _isSpawning = true;
             _enemiesLeftToSpawn = EnemiesPerWave();
     
             if (waveUI != null)
@@ -87,12 +98,21 @@ namespace Wave
 
         private void EndWave()
         {
-            _isSpawing = false;
+            _isSpawning = false;
             _timeSinceLastSpawn = 0f;
             _currentWave++;
+            OnWaveEnd?.Invoke();
+            
+            if (_pause)
+            {
+                _isPaused = true;
+                _pause = false;
+                Debug.Log("Wave paused");
+                return;
+            }
             StartCoroutine(StartWave());
         }
-
+        
         private void SpawnEnemy()
         {
             GameObject prefabToSpawn = enemyPrefabs[0];
@@ -108,6 +128,20 @@ namespace Wave
         private int EnemiesPerWave()
         {
             return Mathf.RoundToInt(baseEnemies * Mathf.Pow(_currentWave, difficultyScalingFactor));
+        }
+
+        public void PauseWaveSpawning()
+        {
+            Debug.Log("Pause wave spawning");
+            _pause = true;
+        }
+
+        public void UnpauseWaveSpawning()
+        {
+            if (!_isPaused) return;
+            _isPaused = false;
+            StartCoroutine(StartWave());
+            Debug.Log("Wave unpaused");
         }
     }
 }
