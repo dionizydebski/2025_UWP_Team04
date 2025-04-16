@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Wave
 {
     public class WaveCounterView : MonoBehaviour, IWaveView
     {
-        [SerializeField] private Text waveText;
+        [SerializeField] private TMP_Text waveText;
 
         private WavePresenter _presenter;
 
