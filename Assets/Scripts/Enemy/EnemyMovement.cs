@@ -28,8 +28,8 @@ namespace Enemy
                 if (_pathIndex == WaveManager.waveManager.path.Length)
                 {
                     WaveManager.onEnemyDestroy.Invoke();
+                    LevelManager.Instance.TakeDamage(1);
                     Destroy(GameObject);
-                    return;
                 }
                 else
                 {
