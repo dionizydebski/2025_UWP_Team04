@@ -1,4 +1,6 @@
-﻿namespace Core
+﻿using Core;
+
+namespace UI.LevelStats
 {
     public class LevelStatsPresenter
     {

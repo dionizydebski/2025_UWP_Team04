@@ -21,6 +21,14 @@ namespace UI
         [SerializeField] private LayerMask boardMask;
         [SerializeField] private LayerMask towerMask;
         [SerializeField] private LayerMask uiMask;
+        
+        [Header("Tower Prefabs")]
+        [SerializeField] private GameObject shootingTowerPrefab;
+        [SerializeField] private GameObject slowingTowerPrefab;
+
+        [Header("Keys for placing towers")] 
+        [SerializeField] private KeyCode selectShootingTowerCode;
+        [SerializeField] private KeyCode selectSlowingTowerCode;
 
         private GameObject _selectedTower;
         private GameObject _towerToPlace;
@@ -40,6 +48,14 @@ namespace UI
             if (_towerToPlace)
             {
                 PlaceTower();
+            }
+            else if (Input.GetKeyDown(selectShootingTowerCode))
+            {
+                SelectTowerToPlace(shootingTowerPrefab);
+            }
+            else if (Input.GetKeyDown(selectSlowingTowerCode))
+            {
+                SelectTowerToPlace(slowingTowerPrefab);
             }
             else if (Input.GetMouseButtonDown(0))
             {

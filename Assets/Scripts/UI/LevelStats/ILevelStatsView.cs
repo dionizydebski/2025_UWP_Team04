@@ -1,4 +1,4 @@
-﻿namespace Core
+﻿namespace UI.LevelStats
 {
     public interface ILevelStatsView
     {

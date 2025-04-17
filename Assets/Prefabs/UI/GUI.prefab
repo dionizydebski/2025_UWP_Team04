@@ -936,6 +936,12 @@ MonoBehaviour:
   uiMask:
     serializedVersion: 2
     m_Bits: 32
+  shootingTowerPrefab: {fileID: 5266836475074861929, guid: 31ee14ef669fed441acbed3d424ba5b5,
+    type: 3}
+  slowingTowerPrefab: {fileID: 5266836475074861929, guid: 4168bb46fbd0de24b8710f82d28b4097,
+    type: 3}
+  selectShootingTowerCode: 282
+  selectSlowingTowerCode: 283
   playerActionsView: {fileID: 2113838235154728178}
 --- !u!114 &2113838235154728178
 MonoBehaviour:
