@@ -18,6 +18,7 @@ namespace Tower
         [Header("Views")] 
         [SerializeField] private TowerShopView towerShopView;
         [SerializeField] private SelectedTowerMenuView selectedTowerMenuView;
+        [SerializeField] private TowerManagementPanel towerManagementPanel;
 
         private GameObject selectedTower;
         private BaseTower selectedTowerComponent;
@@ -74,10 +75,31 @@ namespace Tower
 
         public void SelectTower(GameObject selectedTower)
         {
+            if (selectedTower == null)
+            {
+                Debug.LogError("Selected tower is null!");
+                return;
+            }
+
             this.selectedTower = selectedTower;
             selectedTowerComponent = selectedTower.GetComponent<BaseTower>();
-            selectedTowerMenuView.SetViewActive(true);
-            selectedTowerMenuView.SetTowerName(selectedTowerComponent.GetTowerName());
+
+            if (selectedTowerComponent == null)
+            {
+                Debug.LogError($"Selected GameObject '{selectedTower.name}' does not have a BaseTower component!");
+                return;
+            }
+
+            if (selectedTowerMenuView != null)
+            {
+                selectedTowerMenuView.SetViewActive(true);
+                selectedTowerMenuView.SetTowerName(selectedTowerComponent.GetTowerName());
+            }
+            else
+            {
+                Debug.LogError("selectedTowerMenuView is not assigned in the inspector!");
+            }
+
             OnTowerSelected?.Invoke();
         }
 
@@ -122,6 +144,7 @@ namespace Tower
         private void DestroySelectedTower()
         {
             selectedTowerMenuView.SetViewActive(false);
+            towerManagementPanel.ClosePanel();
             placedTowers.Remove(selectedTower);
             Destroy(selectedTower);
             selectedTower = null;
