@@ -779,6 +779,8 @@ MonoBehaviour:
   - {fileID: 1250729575}
   enemyPrefabs:
   - {fileID: 7539984152687373439, guid: 13bdf50d391b47f4e8e561e07ae062d2, type: 3}
+  - {fileID: 7539984152687373439, guid: ff852dbaabc37824e8155c31fe01bde9, type: 3}
+  - {fileID: 7539984152687373439, guid: 19f28578b05135c4d99c15392810ce01, type: 3}
   baseEnemies: 8
   enemiesPerSecond: 1.5
   timeBetweenWaves: 2
