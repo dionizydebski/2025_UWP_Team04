@@ -31,5 +31,10 @@ namespace Enemy
         {
             return _reward;
         }
+
+        public int GetSpeed()
+        {
+            return _speed;
+        }
     }
 }

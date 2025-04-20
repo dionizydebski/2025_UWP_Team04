@@ -41,5 +41,20 @@ namespace Tower
         {
             return towerName;
         }
+
+        public virtual void UpgradeDamage()
+        {
+            
+        }
+
+        public virtual void UpgradeRange()
+        {
+            
+        }
+
+        public virtual void SetTargetStrategy(int strategyIndex)
+        {
+            
+        }
     }
 }

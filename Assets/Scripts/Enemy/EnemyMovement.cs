@@ -18,6 +18,7 @@ namespace Enemy
         void Start()
         {
             _target = WaveManager.waveManager.path[_pathIndex];
+            moveSpeed = GetComponent<BaseEnemy>().GetSpeed();
         }
     
         private void Update()

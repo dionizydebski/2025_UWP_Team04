@@ -34,6 +34,7 @@ namespace UI
         
         [Header("References")]
         [SerializeField] private PlayerActionsView playerActionsView;
+        [SerializeField] private TowerManagementPanel towerManagementPanel;
 
         private void Awake()
         {
@@ -121,6 +122,21 @@ namespace UI
                     
                     playerActionsView.ShowTowerRangeIndicator(_selectedTower);
                     _towerManager.SelectTower(_selectedTower);
+                    
+                    BaseTower baseTower = _selectedTower.GetComponent<BaseTower>();
+                    if (baseTower != null)
+                    {
+                        if (baseTower is ShootingTower)
+                        {
+                            Debug.Log("Selected Shooting Tower");
+                        }
+                        else if (baseTower is SlowingTower)
+                        {
+                            Debug.Log("Selected Slowing Tower");
+                        }
+                        
+                        towerManagementPanel.OpenPanel(baseTower);
+                    }
                 }
             }
             else
@@ -136,6 +152,7 @@ namespace UI
             if (_selectedTower)
             {
                 playerActionsView.HideTowerRangeIndicator();
+                towerManagementPanel.ClosePanel();
             }
 
             _selectedTower = null;

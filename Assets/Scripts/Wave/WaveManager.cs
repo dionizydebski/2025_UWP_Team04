@@ -117,7 +117,8 @@ namespace Wave
         
         private void SpawnEnemy()
         {
-            GameObject prefabToSpawn = enemyPrefabs[0];
+            int randomIndex = UnityEngine.Random.Range(0, enemyPrefabs.Length);
+            GameObject prefabToSpawn = enemyPrefabs[randomIndex];
             GameObject enemyInstance = Instantiate(prefabToSpawn, startPoint.position, Quaternion.identity);
 
             // health UI
