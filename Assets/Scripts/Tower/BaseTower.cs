@@ -2,20 +2,16 @@ using System.Collections.Generic;
 using Enemy;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Tower
 {
     public abstract class BaseTower : MonoBehaviour
     {
         private List<BaseEnemy> _enemies;
-
+        
         [Header("Statistics")] 
-        [SerializeField] private string towerName;
-        [SerializeField] private int range;
-        [SerializeField] private float attackSpeed;
-        [SerializeField] private int damage;
-        [SerializeField] private float sellModifier;
-        [SerializeField] private int cost;
+        [SerializeField] private TowerStats towerStats;
         
         public void Attack(BaseEnemy enemy)
         {
@@ -24,22 +20,22 @@ namespace Tower
 
         public int GetRange()
         {
-            return range;
+            return towerStats.range;
         }
         
         public int GetCost()
         {
-            return cost;
+            return towerStats.cost;
         }
 
         public float GetSellModifier()
         {
-            return sellModifier;
+            return towerStats.sellModifier;
         }
 
         public string GetTowerName()
         {
-            return towerName;
+            return towerStats.towerName;
         }
 
         public virtual void UpgradeDamage()

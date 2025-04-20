@@ -13,12 +13,14 @@ namespace Enemy
 
         private Transform _target;
         private int _pathIndex = 0;
-    
+        private BaseEnemy _baseTowerComponent;
+
         void Start()
         {
             _target = WaveManager.waveManager.path[_pathIndex];
             Debug.Log(GameObject.name);
-            _moveSpeed = GetComponent<BaseEnemy>().GetSpeed();
+            _baseTowerComponent = GetComponent<BaseEnemy>();
+            _moveSpeed = _baseTowerComponent.GetSpeed();
         }
     
         private void Update()
@@ -29,7 +31,7 @@ namespace Enemy
                 if (_pathIndex == WaveManager.waveManager.path.Length)
                 {
                     WaveManager.onEnemyDestroy.Invoke();
-                    LevelManager.Instance.TakeDamage(1);
+                    LevelManager.Instance.TakeDamage(_baseTowerComponent.GetDamage());
                     Destroy(GameObject);
                 }
                 else

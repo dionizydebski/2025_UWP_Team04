@@ -2,19 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Core;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Enemy
 {
     public abstract class BaseEnemy : MyMonoBehaviour
     {
-        [Header("Stats")]
-       [SerializeField] private int damage;
-
-        [SerializeField] private int health;
-
-        [SerializeField] private int speed;
-
-        [SerializeField] private int reward;
+        [Header("Stats")] 
+        [SerializeField] private EnemyStats enemyStats;
 
         // Start is called before the first frame update
         void Start()
@@ -30,12 +25,17 @@ namespace Enemy
 
         public int GetReward()
         {
-            return reward;
+            return enemyStats.reward;
         }
 
         public int GetSpeed()
         {
-            return speed;
+            return enemyStats.moveSpeed;
+        }
+
+        public int GetDamage()
+        {
+            return enemyStats.damage;
         }
     }
 }
