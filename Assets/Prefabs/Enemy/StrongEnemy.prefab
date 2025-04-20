@@ -488,10 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840369d0d15842a997506c3eac96e187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2
-  health: 3
-  speed: 5
-  reward: 10
+  enemyStats: {fileID: 11400000, guid: 4ae15d52a0c341844a10c6893e96c6f7, type: 2}
 --- !u!1 &8795158540124690999
 GameObject:
   m_ObjectHideFlags: 0

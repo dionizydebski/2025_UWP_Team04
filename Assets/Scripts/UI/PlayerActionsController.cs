@@ -166,7 +166,7 @@ namespace UI
             if (capsuleCollider == null) return;
             _isTowerSelected = true;
             _towerRadius = capsuleCollider.radius;
-            _towerRange = gameObjectToPlace.GetComponent<BaseTower>().GetRange();
+            _towerRange = gameObjectToPlace.GetComponent<BaseTower>().GetBaseRange();
 
             playerActionsView.SetRadiusWidgetDefaultColor();
             playerActionsView.SetRadiusAndRangeWidgetSize(_towerRadius, _towerRange);

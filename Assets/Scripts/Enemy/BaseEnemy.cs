@@ -1,41 +1,55 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Core;
+using Tower;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Enemy
 {
     public abstract class BaseEnemy : MyMonoBehaviour
     {
-        [Header("Stats")]
-       [SerializeField] private int damage;
+        [FormerlySerializedAs("enemyStats")]
+        [Header("Stats")] 
+        [SerializeField] private EnemyStats baseEnemyStats;
+        private int _health;
+        private int _damage;
+        private int _moveSpeed; 
+        private int _reward;
 
-        [SerializeField] private int health;
-
-        [SerializeField] private int speed;
-
-        [SerializeField] private int reward;
-
-        // Start is called before the first frame update
-        void Start()
+        private void Awake()
         {
-
+            _health = baseEnemyStats.maxHealth;
+            _damage = baseEnemyStats.damage;
+            _moveSpeed = baseEnemyStats.moveSpeed;
+            _reward = baseEnemyStats.reward;
+            SlowingTower.Slowed += OnSlowed;
         }
 
-        // Update is called once per frame
-        void Update()
+        private void OnSlowed()
         {
+            throw new NotImplementedException();
+        }
 
+        private void OnDestroy()
+        {
+            SlowingTower.Slowed -= OnSlowed;
         }
 
         public int GetReward()
         {
-            return reward;
+            return _reward;
         }
 
         public int GetSpeed()
         {
-            return speed;
+            return _reward;
+        }
+
+        public int GetDamage()
+        {
+            return _reward;
         }
     }
 }

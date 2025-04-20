@@ -1,45 +1,61 @@
+using System;
 using System.Collections.Generic;
 using Enemy;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Tower
 {
     public abstract class BaseTower : MonoBehaviour
     {
         private List<BaseEnemy> _enemies;
-
-        [Header("Statistics")] 
-        [SerializeField] private string towerName;
-        [SerializeField] private int range;
-        [SerializeField] private float attackSpeed;
-        [SerializeField] private int damage;
-        [SerializeField] private float sellModifier;
-        [SerializeField] private int cost;
         
+        [FormerlySerializedAs("towerStats")]
+        [Header("Statistics")] 
+        [SerializeField] private TowerStats baseTowerStats;
+        
+        private int _range;
+        private float _attackSpeed;
+        private int _damage;
+        private float _sellModifier;
+        
+        private void Start()
+        {
+            _range = baseTowerStats.range;
+            _attackSpeed = baseTowerStats.attackSpeed;
+            _damage = baseTowerStats.damage;
+            _sellModifier = baseTowerStats.sellModifier;
+        }
+
         public void Attack(BaseEnemy enemy)
         {
             
         }
 
-        public int GetRange()
+        public int GetBaseRange()
         {
-            return range;
+            return baseTowerStats.range;
+        }
+
+        public int GetCurrentRange()
+        {
+            return _range;
         }
         
         public int GetCost()
         {
-            return cost;
+            return baseTowerStats.cost;
         }
 
         public float GetSellModifier()
         {
-            return sellModifier;
+            return _sellModifier;
         }
 
         public string GetTowerName()
         {
-            return towerName;
+            return baseTowerStats.towerName;
         }
 
         public virtual void UpgradeDamage()
