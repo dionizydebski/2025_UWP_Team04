@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace UI
+namespace UI.Tutorial
 {
     [System.Serializable]
     public class TutorialEntry

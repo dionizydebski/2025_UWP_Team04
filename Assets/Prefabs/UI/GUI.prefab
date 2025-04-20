@@ -1288,6 +1288,7 @@ GameObject:
   - component: {fileID: 1820832123620223176}
   - component: {fileID: 2745259432321367747}
   - component: {fileID: 3986291582145296779}
+  - component: {fileID: 7075489449387608948}
   m_Layer: 5
   m_Name: Tutorial
   m_TagString: Untagged
@@ -1408,7 +1409,7 @@ MonoBehaviour:
   tutorialEntries:
   - tutorialObject: {fileID: 6512967841009340881}
     tutorialTextSteps:
-    - Press the Button on the right to buy  a tower to place.
+    - Press the Button on the right to buy a tower to place.
     - Look at the range indicator color to determin whether location is valid. Press
       right mouse button to stop tower placing. To place tower press left mouse button
     content: {fileID: 3735470538415625120}
@@ -1418,6 +1419,18 @@ MonoBehaviour:
       on the tower.
     - After tower is selected press sell button in the right corner of the screen.
     content: {fileID: 790914312023865938}
+--- !u!114 &7075489449387608948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3701183932142520305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d48bfa4e21944f7bb4e3e80be94349a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4004875222397906809
 GameObject:
   m_ObjectHideFlags: 0
@@ -3500,7 +3513,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3986291582145296779}
-        m_TargetAssemblyTypeName: UI.TutorialPresenter, Assembly-CSharp
+        m_TargetAssemblyTypeName: UI.Tutorial.TutorialPresenter, Assembly-CSharp
         m_MethodName: OnTowerToPlaceSelected
         m_Mode: 1
         m_Arguments:

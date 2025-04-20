@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core;
 using UI;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace Tower
 {
     public class TowerManager : Singleton.Singleton<TowerManager>
     {
+        
         [SerializeField] private int shootingTowerCost;
         [SerializeField] private int slowingTowerCost;
         [SerializeField] private float towerSpawnYOffset;
@@ -23,11 +25,6 @@ namespace Tower
         private BaseTower selectedTowerComponent;
         private readonly List<GameObject> placedTowers = new List<GameObject>();
         
-        public static event Action OnTowerPlaced;
-        public static event Action OnTowerSold;
-        public static event Action OnTowerUnselected;
-        public static event Action OnTowerSelected;
-        
         protected override void Awake()
         {
             SetTowerCosts();
@@ -38,7 +35,7 @@ namespace Tower
             Core.LevelManager.Instance.SpendMoney(tower.GetComponent<BaseTower>().GetCost());
             Instantiate(tower, position + new Vector3(0, towerSpawnYOffset, 0), Quaternion.identity);
             placedTowers.Add(tower);
-            OnTowerPlaced?.Invoke();
+            TutorialEventsManager.Instance.TriggerTutorialEvent(TutorialEventsManager.PlaceTowerTutorialName, 2);
         }
 
         public void SellTower()
@@ -51,7 +48,7 @@ namespace Tower
                                                       selectedTowerComponent.GetSellModifier()));
 
             DestroySelectedTower();
-            OnTowerSold?.Invoke();
+            TutorialEventsManager.Instance.TriggerTutorialEvent(TutorialEventsManager.SellTowerTutorialName, 2);
         }
 
         public bool CanPlaceTower(GameObject tower, Vector3 position)
@@ -78,14 +75,14 @@ namespace Tower
             selectedTowerComponent = selectedTower.GetComponent<BaseTower>();
             selectedTowerMenuView.SetViewActive(true);
             selectedTowerMenuView.SetTowerName(selectedTowerComponent.GetTowerName());
-            OnTowerSelected?.Invoke();
+            TutorialEventsManager.Instance.TriggerTutorialEvent(TutorialEventsManager.SellTowerTutorialName, 1);
         }
 
         public void UnselectTower()
         {
             this.selectedTower = null;
             selectedTowerMenuView.SetViewActive(false);
-            OnTowerUnselected?.Invoke();
+            TutorialEventsManager.Instance.TriggerTutorialEvent(TutorialEventsManager.SellTowerTutorialName, 0);
         }
 
         private void Update()
