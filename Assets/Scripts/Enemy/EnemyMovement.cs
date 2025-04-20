@@ -8,8 +8,6 @@ namespace Enemy
     {
         [Header("References")] 
         [SerializeField] private Rigidbody rb;
-        
-        private float _moveSpeed = 2f;
 
         private Transform _target;
         private int _pathIndex = 0;
@@ -18,9 +16,7 @@ namespace Enemy
         void Start()
         {
             _target = WaveManager.waveManager.path[_pathIndex];
-            Debug.Log(GameObject.name);
             _baseTowerComponent = GetComponent<BaseEnemy>();
-            _moveSpeed = _baseTowerComponent.GetSpeed();
         }
     
         private void Update()
@@ -44,7 +40,7 @@ namespace Enemy
         private void FixedUpdate()
         {
             Vector3 direction = (_target.position - Transform.position).normalized;
-            rb.velocity = direction * _moveSpeed;
+            rb.velocity = direction * _baseTowerComponent.GetSpeed();
         }
     }
 }
