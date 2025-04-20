@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3441070204073830432}
   - component: {fileID: 8731310187785965886}
+  - component: {fileID: 9111433447875586189}
+  - component: {fileID: 7969184594054593846}
+  - component: {fileID: 161708749061630282}
   m_Layer: 0
   m_Name: WaveMenager
   m_TagString: Untagged
@@ -55,10 +58,55 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   enemyPrefabs:
-  - {fileID: 7539984152687373439, guid: 13bdf50d391b47f4e8e561e07ae062d2, type: 3}
-  - {fileID: 7539984152687373439, guid: ff852dbaabc37824e8155c31fe01bde9, type: 3}
-  - {fileID: 7539984152687373439, guid: 19f28578b05135c4d99c15392810ce01, type: 3}
+  - {fileID: 3237961559139863731, guid: 13bdf50d391b47f4e8e561e07ae062d2, type: 3}
+  - {fileID: 462161224132109915, guid: ff852dbaabc37824e8155c31fe01bde9, type: 3}
+  - {fileID: 1877012419011255874, guid: 19f28578b05135c4d99c15392810ce01, type: 3}
+  normalEnemyFactory: {fileID: 9111433447875586189}
+  fastEnemyFactory: {fileID: 7969184594054593846}
+  strongEnemyFactory: {fileID: 161708749061630282}
   baseEnemies: 8
   enemiesPerSecond: 1.5
   timeBetweenWaves: 2
   difficultyScalingFactor: 0.75
+--- !u!114 &9111433447875586189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5442991913606400328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6e0ddac3c9b40e1864e799b5d6935a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyPrefab: {fileID: 3237961559139863731, guid: 13bdf50d391b47f4e8e561e07ae062d2,
+    type: 3}
+--- !u!114 &7969184594054593846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5442991913606400328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b97cde76568407db434b43ba6b6ede1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyPrefab: {fileID: 462161224132109915, guid: ff852dbaabc37824e8155c31fe01bde9,
+    type: 3}
+--- !u!114 &161708749061630282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5442991913606400328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05687d86de05486aaf47ac479ec73011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyPrefab: {fileID: 1877012419011255874, guid: 19f28578b05135c4d99c15392810ce01,
+    type: 3}

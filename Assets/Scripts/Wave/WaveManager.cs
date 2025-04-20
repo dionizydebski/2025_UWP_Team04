@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enemy;
 using Singleton;
 using UI;
 using UI.Enemy;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Wave
 {
@@ -17,7 +19,12 @@ namespace Wave
         public Transform[] path;
         
         [Header("References")] 
-        [SerializeField] private GameObject[] enemyPrefabs;
+        [SerializeField] private BaseEnemy[] enemyPrefabs;
+        
+        [Header("Factories")]
+        [SerializeField] private NormalEnemyFactory normalEnemyFactory;
+        [SerializeField] private FastEnemyFactory fastEnemyFactory;
+        [SerializeField] private StrongEnemyFactory strongEnemyFactory;
 
         [Header("Attributes")] 
         [SerializeField] private int baseEnemies = 8;
@@ -118,11 +125,24 @@ namespace Wave
         private void SpawnEnemy()
         {
             int randomIndex = UnityEngine.Random.Range(0, enemyPrefabs.Length);
-            GameObject prefabToSpawn = enemyPrefabs[randomIndex];
-            GameObject enemyInstance = Instantiate(prefabToSpawn, startPoint.position, Quaternion.identity);
+            BaseEnemy prefabToSpawn = enemyPrefabs[randomIndex];
+            Debug.Log(prefabToSpawn.name);
+            BaseEnemy enemyInstance;
+            if (prefabToSpawn is NormalEnemy)
+            {
+                enemyInstance = normalEnemyFactory.CreateEnemy(startPoint);
+            }
+            else if (prefabToSpawn is FastEnemy)
+            {
+                enemyInstance = fastEnemyFactory.CreateEnemy(startPoint);
+            }
+            else
+            {
+                enemyInstance = strongEnemyFactory.CreateEnemy(startPoint);
+            }
 
             // health UI
-            Canvas enemyCanvas = enemyInstance.GetComponentInChildren<Canvas>();
+            Canvas enemyCanvas = enemyInstance.GameObject.GetComponentInChildren<Canvas>();
             if (enemyCanvas != null)
             {
                 enemyCanvas.worldCamera = Camera.main;

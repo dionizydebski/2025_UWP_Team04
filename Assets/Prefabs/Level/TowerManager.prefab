@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 965127755685222314}
   - component: {fileID: 663110052913683192}
+  - component: {fileID: 5994133755726961870}
+  - component: {fileID: 2421183771080459045}
   m_Layer: 0
   m_Name: TowerManager
   m_TagString: Untagged
@@ -55,3 +57,32 @@ MonoBehaviour:
   - {fileID: -5542986708250841316, guid: 4168bb46fbd0de24b8710f82d28b4097, type: 3}
   towerShopView: {fileID: 0}
   selectedTowerMenuView: {fileID: 0}
+  towerManagementPanel: {fileID: 0}
+--- !u!114 &5994133755726961870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599319880827713835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd66fc4bac240fb8bc1e7965a245719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _towerPrefab: {fileID: 4807931422156338939, guid: 31ee14ef669fed441acbed3d424ba5b5,
+    type: 3}
+--- !u!114 &2421183771080459045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599319880827713835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f9c5645af3f4400a75719e50c240d9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _towerPrefab: {fileID: -5542986708250841316, guid: 4168bb46fbd0de24b8710f82d28b4097,
+    type: 3}

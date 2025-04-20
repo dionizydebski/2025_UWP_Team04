@@ -14,10 +14,10 @@ TagManager:
   - Water
   - UI
   - Enemy
-  - Tower
+  - TowerPhysicalBody
   - Path
   - Board
-  - 
+  - Tower
   - 
   - 
   - 

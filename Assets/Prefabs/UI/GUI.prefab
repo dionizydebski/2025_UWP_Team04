@@ -1058,9 +1058,9 @@ MonoBehaviour:
   uiMask:
     serializedVersion: 2
     m_Bits: 32
-  shootingTowerPrefab: {fileID: 5266836475074861929, guid: 31ee14ef669fed441acbed3d424ba5b5,
+  shootingTowerPrefab: {fileID: 4807931422156338939, guid: 31ee14ef669fed441acbed3d424ba5b5,
     type: 3}
-  slowingTowerPrefab: {fileID: 5266836475074861929, guid: 4168bb46fbd0de24b8710f82d28b4097,
+  slowingTowerPrefab: {fileID: -5542986708250841316, guid: 4168bb46fbd0de24b8710f82d28b4097,
     type: 3}
   selectShootingTowerCode: 282
   selectSlowingTowerCode: 283
@@ -3739,13 +3739,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8090041847279366559}
-        m_TargetAssemblyTypeName: UI.TowerMenuView, Assembly-CSharp
+        m_TargetAssemblyTypeName: UI.TowerShopView, Assembly-CSharp
         m_MethodName: SelectTowerToPlace
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 5266836475074861929, guid: 4168bb46fbd0de24b8710f82d28b4097,
+          m_ObjectArgument: {fileID: -5542986708250841316, guid: 4168bb46fbd0de24b8710f82d28b4097,
             type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: Tower.BaseTower, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4362,13 +4362,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8090041847279366559}
-        m_TargetAssemblyTypeName: UI.TowerMenuView, Assembly-CSharp
+        m_TargetAssemblyTypeName: UI.TowerShopView, Assembly-CSharp
         m_MethodName: SelectTowerToPlace
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 5266836475074861929, guid: 31ee14ef669fed441acbed3d424ba5b5,
+          m_ObjectArgument: {fileID: 4807931422156338939, guid: 31ee14ef669fed441acbed3d424ba5b5,
             type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: Tower.BaseTower, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

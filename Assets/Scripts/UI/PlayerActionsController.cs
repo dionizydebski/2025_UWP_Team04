@@ -22,15 +22,15 @@ namespace UI
         [SerializeField] private LayerMask uiMask;
         
         [Header("Tower Prefabs")]
-        [SerializeField] private GameObject shootingTowerPrefab;
-        [SerializeField] private GameObject slowingTowerPrefab;
+        [SerializeField] private RangeTower shootingTowerPrefab;
+        [SerializeField] private SlowingTower slowingTowerPrefab;
 
         [Header("Keys for placing towers")] 
         [SerializeField] private KeyCode selectShootingTowerCode;
         [SerializeField] private KeyCode selectSlowingTowerCode;
 
-        private GameObject _selectedTower;
-        private GameObject _towerToPlace;
+        private BaseTower _selectedTower;
+        private BaseTower _towerToPlace;
         
         [Header("References")]
         [SerializeField] private PlayerActionsView playerActionsView;
@@ -112,31 +112,27 @@ namespace UI
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
             {
-                GameObject hitObject = hit.collider.gameObject.transform.root.gameObject;
+                BaseTower baseTower = hit.collider.GetComponentInParent<BaseTower>();
 
-                if (_selectedTower != hitObject)
+                if (baseTower != null && baseTower != _selectedTower)
                 {
                     ClearSelect();
 
-                    _selectedTower = hitObject;
-                    
+                    _selectedTower = baseTower;
+
                     playerActionsView.ShowTowerRangeIndicator(_selectedTower);
                     _towerManager.SelectTower(_selectedTower);
-                    
-                    BaseTower baseTower = _selectedTower.GetComponent<BaseTower>();
-                    if (baseTower != null)
+
+                    if (_selectedTower is RangeTower)
                     {
-                        if (baseTower is ShootingTower)
-                        {
-                            Debug.Log("Selected Shooting Tower");
-                        }
-                        else if (baseTower is SlowingTower)
-                        {
-                            Debug.Log("Selected Slowing Tower");
-                        }
-                        
-                        towerManagementPanel.OpenPanel(baseTower);
+                        Debug.Log("Selected Shooting Tower");
                     }
+                    else if (_selectedTower is SlowingTower)
+                    {
+                        Debug.Log("Selected Slowing Tower");
+                    }
+
+                    towerManagementPanel.OpenPanel(_selectedTower);
                 }
             }
             else
@@ -158,15 +154,15 @@ namespace UI
             _selectedTower = null;
         }
 
-        public void SelectTowerToPlace(GameObject gameObjectToPlace)
+        public void SelectTowerToPlace(BaseTower towerToPlace)
         {
-            _towerToPlace = gameObjectToPlace;
+            _towerToPlace = towerToPlace;
             CapsuleCollider capsuleCollider = _towerToPlace.GetComponentInChildren<CapsuleCollider>();
 
             if (capsuleCollider == null) return;
             _isTowerSelected = true;
             _towerRadius = capsuleCollider.radius;
-            _towerRange = gameObjectToPlace.GetComponent<BaseTower>().GetBaseRange();
+            _towerRange = towerToPlace.GetComponent<BaseTower>().GetBaseRange();
 
             playerActionsView.SetRadiusWidgetDefaultColor();
             playerActionsView.SetRadiusAndRangeWidgetSize(_towerRadius, _towerRange);

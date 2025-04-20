@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7916874769487793806}
   - component: {fileID: 4807931422156338939}
   - component: {fileID: 9149882107924165430}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: ShootingTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}

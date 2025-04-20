@@ -1,4 +1,5 @@
 ﻿using System;
+using Core;
 using UnityEngine;
 
 namespace Tower
@@ -18,6 +19,11 @@ namespace Tower
                 Slowed?.Invoke(enemy ,slowModifier, slowDuration);
             }
         }
-        
+
+        public string ProductName { get; set; }
+        public void Initialize()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

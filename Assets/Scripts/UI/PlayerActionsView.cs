@@ -88,13 +88,12 @@ namespace UI
             }
         }
         
-        public void ShowTowerRangeIndicator(GameObject selectedTower)
+        public void ShowTowerRangeIndicator(BaseTower selectedTower)
         {
-            rangeIndicator = selectedTower.transform.Find(indicatorName);
+            rangeIndicator = selectedTower.gameObject.transform.Find(indicatorName);
             if (rangeIndicator)
             {
-                BaseTower tower = selectedTower.GetComponent<BaseTower>();
-                rangeIndicator.localScale = new Vector3(tower.GetCurrentRange(), 0.01f, tower.GetCurrentRange());
+                rangeIndicator.localScale = new Vector3(selectedTower.GetCurrentRange(), 0.01f, selectedTower.GetCurrentRange());
                 rangeIndicator.gameObject.SetActive(true);
             }
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core;
 using UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Tower
 {
@@ -21,20 +22,37 @@ namespace Tower
         [SerializeField] private TowerShopView towerShopView;
         [SerializeField] private SelectedTowerMenuView selectedTowerMenuView;
         [SerializeField] private TowerManagementPanel towerManagementPanel;
+        
+        [FormerlySerializedAs("rangeTowerCreator")]
+        [Header("Factories")]
+        [SerializeField] private RangeBaseTowerFactory rangeBaseTowerFactory;
+        [FormerlySerializedAs("slowingTowerCreator")] [SerializeField] private SlowingBaseTowerFactory slowingBaseTowerFactory;
 
-        private GameObject selectedTower;
+        private BaseTower selectedTower;
         private BaseTower selectedTowerComponent;
-        private readonly List<GameObject> placedTowers = new List<GameObject>();
+        private readonly List<BaseTower> placedTowers = new List<BaseTower>();
         
         protected override void Awake()
         {
             SetTowerCosts();
         }
         
-        public void PlaceTower(GameObject tower, Vector3 position)
+        public void PlaceTower(BaseTower tower, Vector3 position)
         {
-            Core.LevelManager.Instance.SpendMoney(tower.GetComponent<BaseTower>().GetCost());
-            Instantiate(tower, position + new Vector3(0, towerSpawnYOffset, 0), Quaternion.identity);
+            Core.LevelManager.Instance.SpendMoney(tower.GetCost());
+            GameObject towerTempObject = new GameObject("TempTowerTransform");
+            towerTempObject.transform.position = position + new Vector3(0, towerSpawnYOffset, 0);
+            towerTempObject.transform.rotation = Quaternion.identity;
+            if (tower is RangeTower)
+            {
+                Debug.Log("Range tower place");
+                rangeBaseTowerFactory.CreateTower(towerTempObject.transform);
+            }
+            else if (tower is SlowingTower)
+            {
+                Debug.Log("Range tower place");
+                slowingBaseTowerFactory.CreateTower(towerTempObject.transform);
+            }
             placedTowers.Add(tower);
             TutorialEventsManager.Instance.TriggerTutorialEvent(TutorialEventsManager.PlaceTowerTutorialName, 2);
         }
@@ -52,25 +70,24 @@ namespace Tower
             TutorialEventsManager.Instance.TriggerTutorialEvent(TutorialEventsManager.SellTowerTutorialName, 2);
         }
 
-        public bool CanPlaceTower(GameObject tower, Vector3 position)
+        public bool CanPlaceTower(BaseTower tower, Vector3 position)
         {
             if (!tower)
                 return false;
-
-            BaseTower towerComponent = tower.GetComponent<BaseTower>();
+            
             CapsuleCollider towerCollider = tower.GetComponentInChildren<CapsuleCollider>();
 
-            if (!towerComponent || !towerCollider)
+            if (!towerCollider)
                 return false;
 
             if (Physics.CheckSphere(position, towerCollider.radius, pathColliderLayer))
                 return false;
 
-            int cost = towerComponent.GetCost();
+            int cost = tower.GetCost();
             return Core.LevelManager.Instance.EnoughMoney(cost);
         }
 
-        public void SelectTower(GameObject selectedTower)
+        public void SelectTower(BaseTower selectedTower)
         {
             if (selectedTower == null)
             {
@@ -132,7 +149,7 @@ namespace Tower
 
         private void SetTowerCosts()
         {
-            ShootingTower.cost = shootingTowerCost;
+            RangeTower.cost = shootingTowerCost;
             SlowingTower.cost = slowingTowerCost;
             towerShopView.UpdateShootingTowerCost(shootingTowerCost);
             towerShopView.UpdateSlowingTowerCost(slowingTowerCost);
@@ -143,7 +160,7 @@ namespace Tower
             selectedTowerMenuView.SetViewActive(false);
             towerManagementPanel.ClosePanel();
             placedTowers.Remove(selectedTower);
-            Destroy(selectedTower);
+            Destroy(selectedTower.gameObject);
             selectedTower = null;
         }
 

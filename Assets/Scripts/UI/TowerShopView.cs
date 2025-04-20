@@ -1,4 +1,5 @@
 ﻿using TMPro;
+using Tower;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,9 +24,9 @@ namespace UI
             slowingTowerCostText.text = cost.ToString() + "$";
         }
 
-        public void SelectTowerToPlace(GameObject gameObjectToPlace)
+        public void SelectTowerToPlace(BaseTower towerToPlace)
         {
-            playerActionsController.SelectTowerToPlace(gameObjectToPlace);
+            playerActionsController.SelectTowerToPlace(towerToPlace);
         }
 
         public void ShootingTowerButtonInteractable(bool interactable)
