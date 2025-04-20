@@ -94,7 +94,7 @@ namespace UI
             if (rangeIndicator)
             {
                 BaseTower tower = selectedTower.GetComponent<BaseTower>();
-                rangeIndicator.localScale = new Vector3(tower.GetRange(), 0.01f, tower.GetRange());
+                rangeIndicator.localScale = new Vector3(tower.GetCurrentRange(), 0.01f, tower.GetCurrentRange());
                 rangeIndicator.gameObject.SetActive(true);
             }
         }

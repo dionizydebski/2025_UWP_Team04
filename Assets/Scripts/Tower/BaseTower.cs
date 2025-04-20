@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Enemy;
 using UnityEngine;
@@ -10,32 +11,51 @@ namespace Tower
     {
         private List<BaseEnemy> _enemies;
         
+        [FormerlySerializedAs("towerStats")]
         [Header("Statistics")] 
-        [SerializeField] private TowerStats towerStats;
+        [SerializeField] private TowerStats baseTowerStats;
         
+        private int _range;
+        private float _attackSpeed;
+        private int _damage;
+        private float _sellModifier;
+        
+        private void Start()
+        {
+            _range = baseTowerStats.range;
+            _attackSpeed = baseTowerStats.attackSpeed;
+            _damage = baseTowerStats.damage;
+            _sellModifier = baseTowerStats.sellModifier;
+        }
+
         public void Attack(BaseEnemy enemy)
         {
             
         }
 
-        public int GetRange()
+        public int GetBaseRange()
         {
-            return towerStats.range;
+            return baseTowerStats.range;
+        }
+
+        public int GetCurrentRange()
+        {
+            return _range;
         }
         
         public int GetCost()
         {
-            return towerStats.cost;
+            return baseTowerStats.cost;
         }
 
         public float GetSellModifier()
         {
-            return towerStats.sellModifier;
+            return _sellModifier;
         }
 
         public string GetTowerName()
         {
-            return towerStats.towerName;
+            return baseTowerStats.towerName;
         }
 
         public virtual void UpgradeDamage()
