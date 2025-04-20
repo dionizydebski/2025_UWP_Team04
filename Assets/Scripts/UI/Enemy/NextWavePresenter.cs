@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 using Wave;
 
 namespace UI.Enemy
@@ -19,7 +20,8 @@ namespace UI.Enemy
 
         public void UpdateView()
         {
-            List<EnemyWaveInfo> nextWave = _waveManager.GetUpcomingWavePreview();
+            List<EnemyWaveInfo> nextWave = WaveManager.Instance.GetUpcomingWavePreview();
+            Debug.Log("Next wave count: " + nextWave.Count);
             _view.ShowWavePreview(nextWave);
         }
     }
