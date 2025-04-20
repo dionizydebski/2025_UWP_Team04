@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Tower
 {
@@ -6,8 +7,17 @@ namespace Tower
     public class SlowingTower : BaseTower
     {
         public static int cost;
-        public static event Action Slowed;
+        [SerializeField] private float slowModifier;
+        [SerializeField] private float slowDuration;
+        public static event Action<GameObject, float, float> Slowed;
 
-       
+        public void Update()
+        {
+            foreach (var enemy in _enemiesInRange)
+            {
+                Slowed?.Invoke(enemy ,slowModifier, slowDuration);
+            }
+        }
+        
     }
 }
