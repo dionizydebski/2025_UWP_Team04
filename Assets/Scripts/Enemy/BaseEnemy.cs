@@ -37,6 +37,11 @@ namespace Enemy
             SlowingTower.Slowed -= OnSlowed;
         }
 
+        public int GetHealth()
+        {
+            return _health;
+        }
+
         public int GetReward()
         {
             return _reward;
@@ -44,12 +49,12 @@ namespace Enemy
 
         public int GetSpeed()
         {
-            return _reward;
+            return _moveSpeed;
         }
 
         public int GetDamage()
         {
-            return _reward;
+            return _damage;
         }
     }
 }
