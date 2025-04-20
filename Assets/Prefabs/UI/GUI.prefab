@@ -1411,6 +1411,7 @@ GameObject:
   - component: {fileID: 1820832123620223176}
   - component: {fileID: 2745259432321367747}
   - component: {fileID: 3986291582145296779}
+  - component: {fileID: 1949531781972644914}
   m_Layer: 5
   m_Name: Tutorial
   m_TagString: Untagged
@@ -1541,6 +1542,18 @@ MonoBehaviour:
       on the tower.
     - After tower is selected press sell button in the right corner of the screen.
     content: {fileID: 790914312023865938}
+--- !u!114 &1949531781972644914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3701183932142520305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d48bfa4e21944f7bb4e3e80be94349a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3938074767664449984
 GameObject:
   m_ObjectHideFlags: 0

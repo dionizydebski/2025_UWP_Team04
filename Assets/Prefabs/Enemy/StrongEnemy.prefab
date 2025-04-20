@@ -327,6 +327,7 @@ GameObject:
   - component: {fileID: 5656485159655703066}
   - component: {fileID: 8217896402474750514}
   - component: {fileID: -7392112879894469424}
+  - component: {fileID: 1877012419011255874}
   m_Layer: 6
   m_Name: StrongEnemy
   m_TagString: Untagged
@@ -461,7 +462,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 8855493473428112431}
-  moveSpeed: 5
 --- !u!114 &-7392112879894469424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,6 +476,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 200
   healthSlider: {fileID: 1941071377653414566}
+--- !u!114 &1877012419011255874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7539984152687373439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840369d0d15842a997506c3eac96e187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 2
+  health: 3
+  speed: 5
+  reward: 10
 --- !u!1 &8795158540124690999
 GameObject:
   m_ObjectHideFlags: 0

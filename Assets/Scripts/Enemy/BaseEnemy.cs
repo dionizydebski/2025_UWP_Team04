@@ -7,13 +7,14 @@ namespace Enemy
 {
     public abstract class BaseEnemy : MyMonoBehaviour
     {
-        private int _damage;
+        [Header("Stats")]
+       [SerializeField] private int damage;
 
-        private int _health;
+        [SerializeField] private int health;
 
-        private int _speed;
+        [SerializeField] private int speed;
 
-        private int _reward;
+        [SerializeField] private int reward;
 
         // Start is called before the first frame update
         void Start()
@@ -29,12 +30,12 @@ namespace Enemy
 
         public int GetReward()
         {
-            return _reward;
+            return reward;
         }
 
         public int GetSpeed()
         {
-            return _speed;
+            return speed;
         }
     }
 }

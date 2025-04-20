@@ -462,7 +462,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 8855493473428112431}
-  moveSpeed: 10
 --- !u!114 &-7392112879894469424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,6 +488,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0b5a1ef0470e1c42a037b8ea960ad11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 1
+  health: 1
+  speed: 10
+  reward: 5
 --- !u!1 &8795158540124690999
 GameObject:
   m_ObjectHideFlags: 0
