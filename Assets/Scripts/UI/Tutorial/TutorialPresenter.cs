@@ -24,7 +24,7 @@ namespace UI.Tutorial
         private void Awake()
         {
             Debug.Log("Awake");
-            WaveManager.OnWaveEnd += OnWaveEnd;
+            TutorialEventsManager.Instance.NextTutorial += ShowNextTutorial;
             TutorialEventsManager.Instance.OnTutorialStep += OnTutorialStepTriggered;
             FindAllTutorials();
             Debug.Log(tutorialEntries.Count);
@@ -39,20 +39,20 @@ namespace UI.Tutorial
 
         private void OnTutorialStepTriggered(string tutorialName, int tutorialStep)
         {
-            Debug.Log("OnTutorialStepTriggered: " + tutorialName + "tutorial step: " + tutorialStep);
-            if (_currentShownTutorial == null || 
-                !_currentShownTutorial.tutorialObject.name.Equals(tutorialName)) return;
+            Debug.Log("OnTutorialStepTriggered: " + tutorialName + " tutorial step: " + tutorialStep);
+            if (_currentShownTutorial == null || !_currentShownTutorial.tutorialObject.name.Equals(tutorialName)) return;
 
             var content = _currentShownTutorial.content;
             if (content != null && _currentShownTutorial.tutorialTextSteps.Count > tutorialStep)
             {
                 content.text = _currentShownTutorial.tutorialTextSteps[tutorialStep];
             }
-            
-            if (tutorialStep == tutorialEntries.Count)
+            Debug.Log(tutorialStep + " " + _currentShownTutorial.tutorialTextSteps.Count);
+            if (tutorialStep == _currentShownTutorial.tutorialTextSteps.Count)
             {
                 tutorialView.HideTutorial(_currentShownTutorial.tutorialObject);
-                WaveManager.Instance.UnpauseWaveSpawning();
+                //WaveManager.Instance.UnpauseWaveSpawning();
+                Time.timeScale = 1;
             }
         }
 
@@ -64,7 +64,8 @@ namespace UI.Tutorial
             if (_isWindowShown[_currentShownTutorial.tutorialObject]) return;
             tutorialView.ShowTutorial(_currentShownTutorial.tutorialObject);
             _isWindowShown[_currentShownTutorial.tutorialObject] = true;
-            WaveManager.Instance.PauseWaveSpawning();
+            //WaveManager.Instance.PauseWaveSpawning();
+            Time.timeScale = 0;
 
             var content = _currentShownTutorial.content;
             if (content != null)
@@ -73,7 +74,7 @@ namespace UI.Tutorial
             }
         }
 
-        private void OnWaveEnd()
+        private void ShowNextTutorial()
         {
             if (_currentTutorialIndex + 1 >= tutorialView.GetTutorialObjects().Count) return;
 

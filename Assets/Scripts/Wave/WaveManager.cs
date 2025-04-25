@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using Enemy;
 using Singleton;
 using UI;
@@ -111,6 +112,7 @@ namespace Wave
             OnWaveChanged?.Invoke(_currentWave);
             OnWaveEnd?.Invoke();
             OnWavePreviewChanged?.Invoke();
+            TutorialEventsManager.Instance.TriggerNextTutorialEvent();
             
             if (_pause)
             {
@@ -184,6 +186,12 @@ namespace Wave
             }
 
             return list;
+        }
+
+        public bool isFirstEnemy()
+        {
+            if(_enemiesAlive == baseEnemies) return true;
+            return false;
         }
     }
 }

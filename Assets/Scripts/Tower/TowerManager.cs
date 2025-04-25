@@ -54,7 +54,7 @@ namespace Tower
                 slowingBaseTowerFactory.CreateTower(towerTempObject.transform);
             }
             placedTowers.Add(tower);
-            TutorialEventsManager.Instance.TriggerTutorialEvent(TutorialEventsManager.PlaceTowerTutorialName, 2);
+            TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.PlaceTowerTutorialName, 2);
         }
 
         public void SellTower()
@@ -67,7 +67,7 @@ namespace Tower
                                                       selectedTowerComponent.GetSellModifier()));
 
             DestroySelectedTower();
-            TutorialEventsManager.Instance.TriggerTutorialEvent(TutorialEventsManager.SellTowerTutorialName, 2);
+            TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.SellTowerTutorialName, 2);
         }
 
         public bool CanPlaceTower(BaseTower tower, Vector3 position)
@@ -114,14 +114,15 @@ namespace Tower
                 Debug.LogError("selectedTowerMenuView is not assigned in the inspector!");
             }
 
-            TutorialEventsManager.Instance.TriggerTutorialEvent(TutorialEventsManager.SellTowerTutorialName, 1);
+            TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.SellTowerTutorialName, 1);
         }
 
         public void UnselectTower()
         {
             this.selectedTower = null;
             selectedTowerMenuView.SetViewActive(false);
-            TutorialEventsManager.Instance.TriggerTutorialEvent(TutorialEventsManager.SellTowerTutorialName, 0);
+            TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.SellTowerTutorialName, 0);
+            TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.EnemyAttackTutorialName, 1);
         }
 
         private void Update()

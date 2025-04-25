@@ -101,7 +101,7 @@ namespace UI
                 playerActionsView.HideRadiusAndRangeWidget();
                 _isTowerSelected = false;
                 _towerToPlace = null;
-                TutorialEventsManager.Instance.TriggerTutorialEvent(TutorialEventsManager.PlaceTowerTutorialName, 0);
+                TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.PlaceTowerTutorialName, 0);
             }
         }
 

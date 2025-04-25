@@ -27,6 +27,13 @@ namespace Enemy
                 if (_pathIndex == WaveManager.waveManager.path.Length)
                 {
                     WaveManager.onEnemyDestroy.Invoke();
+                    
+                    if(LevelManager.Instance.GetHealth() == 100)
+                    {
+                        TutorialEventsManager.Instance.TriggerNextTutorialEvent();
+                        TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.EnemyAttackTutorialName, 0);
+                    }
+                    
                     LevelManager.Instance.TakeDamage(_baseTowerComponent.GetDamage());
                     Destroy(GameObject);
                 }
