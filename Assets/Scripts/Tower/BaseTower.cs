@@ -18,11 +18,25 @@ namespace Tower
         [Header("Statistics")] 
         [SerializeField] private TowerStats baseTowerStats;
         [SerializeField] private SphereCollider rangeCollider;
+
+        protected int _range;
+        protected float _attackSpeed;
+        protected int _damage;
+        protected float _sellModifier;
         
-        private int _range;
-        private float _attackSpeed;
-        private int _damage;
-        private float _sellModifier;
+        [Header("Upgrades")] 
+        protected int _attackLevel = 0;
+        protected int _rangeLevel = 0;
+        
+        private int _maxAttackLevel = 2;
+        private int _maxRangeLevel = 2;
+        
+        protected int currentUpgradeLevel = 0;
+        protected int currentDamageLevel = 0;
+        protected int currentRangeLevel = 0;
+        
+        protected float _slowModifier;
+        protected float _slowDuration;
 
         protected List<GameObject> _enemiesInRange = new List<GameObject>();
         
@@ -65,6 +79,26 @@ namespace Tower
             return baseTowerStats.towerName;
         }
 
+        public int GetAttackLevel()
+        {
+            return _attackLevel;
+        }
+        
+        public int GetRangeLevel()
+        {
+            return _rangeLevel;
+        }
+
+        public bool CanUpgradeAttack()
+        {
+            return _attackLevel < _maxAttackLevel;
+        }
+
+        public bool CanUpgradeRange()
+        {
+            return _rangeLevel < _maxRangeLevel;
+        } 
+
         public virtual void UpgradeDamage()
         {
             
@@ -74,6 +108,9 @@ namespace Tower
         {
             
         }
+        
+        public virtual void IncreaseAttackLevel() => _attackLevel++;
+        public virtual void IncreaseRangeLevel() => _rangeLevel++;
 
         public virtual void SetTargetStrategy(int strategyIndex)
         {

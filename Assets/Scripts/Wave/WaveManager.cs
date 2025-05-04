@@ -128,7 +128,6 @@ namespace Wave
         {
             int randomIndex = UnityEngine.Random.Range(0, enemyPrefabs.Length);
             BaseEnemy prefabToSpawn = enemyPrefabs[randomIndex];
-            Debug.Log(prefabToSpawn.name);
             BaseEnemy enemyInstance;
             if (prefabToSpawn is NormalEnemy)
             {
