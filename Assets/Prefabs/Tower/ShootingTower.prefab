@@ -132,6 +132,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseTowerStats: {fileID: 11400000, guid: b6c6eba16b42c8a44b04aaec95e1faf1, type: 2}
   rangeCollider: {fileID: 9149882107924165430}
+  baseDamage: 10
+  baseRange: 3
+  damagePerLevel: 5
+  rangePerLevel: 1
+  rangeVisual: {fileID: 807596178568651413}
+  damageUpgradeCosts: 6400000096000000
+  rangeUpgradeCosts: 5000000078000000
+  upgradeModels:
+  - {fileID: 6773042733365985414, guid: 928ac3cff7484ad43bbf4175618d7477, type: 3}
+  - {fileID: 8017700394833231040, guid: ec87aac34127fc94b8daa814388c7123, type: 3}
+  - {fileID: 1734992719389248038, guid: efd1eb4ef1a1c9c49a337306719dfad0, type: 3}
+  modelParent: {fileID: 7317209489503315322}
 --- !u!135 &9149882107924165430
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -394,6 +406,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7155eddcaa628041946d2d963f35e08, type: 3}
+--- !u!1 &807596178568651413 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5021503519785287084, guid: c7155eddcaa628041946d2d963f35e08,
+    type: 3}
+  m_PrefabInstance: {fileID: 5664084305490534201}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7356894752457377846 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2918946524321322767, guid: c7155eddcaa628041946d2d963f35e08,

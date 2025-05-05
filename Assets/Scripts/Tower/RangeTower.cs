@@ -20,9 +20,14 @@ namespace Tower
 
         [SerializeField] private GameObject rangeVisual;
         
-        [SerializeField] private int[] damageUpgradeCosts = { 100, 150 };
-        [SerializeField] private int[] rangeUpgradeCosts = { 80, 120 };
+        [SerializeField] private int[] damageUpgradeCosts = { 100 };
+        [SerializeField] private int[] rangeUpgradeCosts = { 80 };
         
+        [SerializeField] private List<GameObject> upgradeModels;
+        [SerializeField] private Transform modelParent;
+        
+        private GameObject currentModelInstance;
+        private int currentUpgradeLevel = 0;
         
         private int currentDamageLevel = 0;
         private int currentRangeLevel = 0;
@@ -33,6 +38,7 @@ namespace Tower
         private void Start()
         {
             UpdateStats();
+            SetModelForCurrentLevel();
         }
 
         public void Initialize()
@@ -69,12 +75,14 @@ namespace Tower
             if (currentDamageLevel >= damageUpgradeCosts.Length) return;
 
             int cost = damageUpgradeCosts[currentDamageLevel];
-            if (!LevelManager.Instance.EnoughMoney(cost)) return;
+            if (!Core.LevelManager.Instance.EnoughMoney(cost)) return;
 
-            LevelManager.Instance.SpendMoney(cost);
+            Core.LevelManager.Instance.SpendMoney(cost);
             currentDamageLevel++;
             UpdateStats();
-            // upgrade modelu
+            currentUpgradeLevel++;
+            SetModelForCurrentLevel();
+            
         }
 
         public override void UpgradeRange()
@@ -82,14 +90,33 @@ namespace Tower
             if (currentRangeLevel >= rangeUpgradeCosts.Length) return;
 
             int cost = rangeUpgradeCosts[currentRangeLevel];
-            if (!LevelManager.Instance.EnoughMoney(cost)) return;
+            if (!Core.LevelManager.Instance.EnoughMoney(cost)) return;
 
-            LevelManager.Instance.SpendMoney(cost);
+            Core.LevelManager.Instance.SpendMoney(cost);
             currentRangeLevel++;
             UpdateStats();
-            // upgrade modelu
+            currentUpgradeLevel++;
+            SetModelForCurrentLevel();
+            
         }
         
+        private void SetModelForCurrentLevel()
+        {
+            if (currentModelInstance != null)
+            {
+                Destroy(currentModelInstance);
+            }
 
+            if (currentUpgradeLevel < upgradeModels.Count)
+            {
+                currentModelInstance = Instantiate(upgradeModels[currentUpgradeLevel], modelParent);
+                currentModelInstance.transform.localPosition = Vector3.zero;
+                currentModelInstance.transform.localRotation = Quaternion.identity;
+            }
+            else
+            {
+                Debug.Log("No model");
+            }
+        }
     }
 }
