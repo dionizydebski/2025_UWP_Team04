@@ -49,9 +49,9 @@ namespace Wave
         private bool _pause = false;
         
         public int GetCurrentWave() => _currentWave;
-        
 
-        private void Awake()
+
+        protected override void Awake()
         {
             waveManager = this;
             onEnemyDestroy.AddListener(EnemyDestroyed);
@@ -128,7 +128,7 @@ namespace Wave
         {
             int randomIndex = UnityEngine.Random.Range(0, enemyPrefabs.Length);
             BaseEnemy prefabToSpawn = enemyPrefabs[randomIndex];
-            Debug.Log(prefabToSpawn.name);
+            //Debug.Log(prefabToSpawn.name);
             BaseEnemy enemyInstance;
             if (prefabToSpawn is NormalEnemy)
             {

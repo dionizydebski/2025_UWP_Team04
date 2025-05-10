@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core;
 using Enemy;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -23,6 +24,7 @@ namespace Tower
         private float _attackSpeed;
         private int _damage;
         private float _sellModifier;
+        private float _attackTimer = 0f;
 
         protected List<GameObject> _enemiesInRange = new List<GameObject>();
         
@@ -34,10 +36,28 @@ namespace Tower
             _sellModifier = baseTowerStats.sellModifier;
             rangeCollider.radius = baseTowerStats.range;
         }
-        
-        public void Attack(BaseEnemy enemy)
+
+        private void Update()
         {
+            _attackTimer += Time.deltaTime;
             
+            if (_enemiesInRange.Count > 0 && _attackTimer >= _attackSpeed)
+            {
+                if(_enemiesInRange.First() != null){
+                    Attack( _enemiesInRange.First());
+                    _attackTimer = 0f;
+                }
+                else 
+                    _enemiesInRange.Remove(_enemiesInRange.First());
+            }
+        }
+
+        public void Attack(GameObject enemy)
+        {
+            Projectile.Projectile projectile = TowerManager.Instance.projectilePool.Get();
+            projectile.transform.position = transform.position;
+            projectile.SetTarget(enemy);
+            projectile.SetTower(gameObject);
         }
 
         public int GetBaseRange()
@@ -53,6 +73,11 @@ namespace Tower
         public int GetCost()
         {
             return baseTowerStats.cost;
+        }
+        
+        public int GetDamage()
+        {
+            return _damage;
         }
 
         public float GetSellModifier()
@@ -82,10 +107,11 @@ namespace Tower
 
         public void OnTriggerEnter(Collider other)
         {
+            //Debug.Log("Tower Hit object: " + other.gameObject.name + ", tag: " + other.gameObject.tag);
             if (other.CompareTag(EnemyTag))
             {
                 _enemiesInRange.Add(other.gameObject);
-                Debug.Log(_enemiesInRange.Count);
+                //Debug.Log(_enemiesInRange.Count);
             }
         }
 
@@ -93,7 +119,7 @@ namespace Tower
         {
             if (other.CompareTag(EnemyTag))
             {
-                Debug.Log("OnTriggerExit");
+                //Debug.Log("OnTriggerExit");
                 _enemiesInRange.Remove(other.gameObject);
             }
         }

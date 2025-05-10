@@ -419,6 +419,18 @@ PrefabInstance:
       objectReference: {fileID: 1646095970}
     - target: {fileID: 663110052913683192, guid: b5d0b11c4a3fd47429fa70f94dcd01a0,
         type: 3}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 3747167283515317488, guid: 13588b071a2cf42439198e168fdef6b4,
+        type: 3}
+    - target: {fileID: 663110052913683192, guid: b5d0b11c4a3fd47429fa70f94dcd01a0,
+        type: 3}
+      propertyPath: _projectilePrefab
+      value: 
+      objectReference: {fileID: 3747167283515317488, guid: 13588b071a2cf42439198e168fdef6b4,
+        type: 3}
+    - target: {fileID: 663110052913683192, guid: b5d0b11c4a3fd47429fa70f94dcd01a0,
+        type: 3}
       propertyPath: rangeTowerCreator
       value: 
       objectReference: {fileID: 1846988081}
