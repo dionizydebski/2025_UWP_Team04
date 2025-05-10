@@ -7,20 +7,31 @@ namespace Enemy
     public class EnemyMovement : MyMonoBehaviour
     {
         [Header("References")] 
-        [SerializeField] private Rigidbody rb;
+        [SerializeField] public Rigidbody rb;
 
-        private Transform _target;
+        public Transform _target;
         private int _pathIndex = 0;
-        private BaseEnemy _baseTowerComponent;
+        public BaseEnemy _baseTowerComponent;
+        
+        private StateMachine _enemyStateMachine;
+        public StateMachine EnemyStateMachine => _enemyStateMachine;
+        
+        private void Awake() {
+            // ...
+            _enemyStateMachine= new StateMachine(this);
+        }
 
         void Start()
         {
             _target = WaveManager.waveManager.path[_pathIndex];
             _baseTowerComponent = GetComponent<BaseEnemy>();
+            
+            _enemyStateMachine.Initialize(_enemyStateMachine.walkState);
         }
     
         private void Update()
         {
+            _enemyStateMachine.Update();
             if (Vector3.Distance(_target.position, Transform.position) <= 0.1f)
             {
                 _pathIndex++;
@@ -33,8 +44,7 @@ namespace Enemy
                         TutorialEventsManager.Instance.TriggerNextTutorialEvent();
                         TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.EnemyAttackTutorialName, 0);
                     }
-                    
-                    LevelManager.Instance.TakeDamage(_baseTowerComponent.GetDamage());
+                    _enemyStateMachine.TransitionTo(_enemyStateMachine.damageState);
                     Destroy(GameObject);
                 }
                 else
@@ -42,12 +52,6 @@ namespace Enemy
                     _target = WaveManager.waveManager.path[_pathIndex];
                 }
             }
-        }
-
-        private void FixedUpdate()
-        {
-            Vector3 direction = (_target.position - Transform.position).normalized;
-            rb.velocity = direction * _baseTowerComponent.GetSpeed();
         }
     }
 }
