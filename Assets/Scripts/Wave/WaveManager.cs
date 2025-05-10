@@ -49,9 +49,9 @@ namespace Wave
         private bool _pause = false;
         
         public int GetCurrentWave() => _currentWave;
-        
 
-        private void Awake()
+
+        protected override void Awake()
         {
             waveManager = this;
             onEnemyDestroy.AddListener(EnemyDestroyed);

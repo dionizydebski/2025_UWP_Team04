@@ -19,6 +19,7 @@ namespace Enemy
 
         public void TakeDamage(int damage)
         {
+            //Debug.Log("Current health " + _currentHealth);
             _currentHealth -= damage;
             healthSlider.value = _currentHealth;
 
@@ -34,5 +35,7 @@ namespace Enemy
             Wave.WaveManager.onEnemyDestroy.Invoke();
             Destroy(gameObject);
         }
+        
+        
     }
 }

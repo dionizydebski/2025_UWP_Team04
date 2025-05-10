@@ -23,15 +23,14 @@ namespace UI.Tutorial
 
         private void Awake()
         {
-            Debug.Log("Awake");
             TutorialEventsManager.Instance.NextTutorial += ShowNextTutorial;
             TutorialEventsManager.Instance.OnTutorialStep += OnTutorialStepTriggered;
             FindAllTutorials();
-            Debug.Log(tutorialEntries.Count);
+            //Debug.Log(tutorialEntries.Count);
             if (tutorialEntries.Count > 0)
             {
                 _currentShownTutorial = tutorialEntries[_currentTutorialIndex];
-                Debug.Log(_currentShownTutorial);
+                //Debug.Log(_currentShownTutorial);
             }
 
             ShowCurrentTutorial();
@@ -39,7 +38,7 @@ namespace UI.Tutorial
 
         private void OnTutorialStepTriggered(string tutorialName, int tutorialStep)
         {
-            Debug.Log("OnTutorialStepTriggered: " + tutorialName + " tutorial step: " + tutorialStep);
+            //Debug.Log("OnTutorialStepTriggered: " + tutorialName + " tutorial step: " + tutorialStep);
             if (_currentShownTutorial == null || !_currentShownTutorial.tutorialObject.name.Equals(tutorialName)) return;
 
             var content = _currentShownTutorial.content;
@@ -47,7 +46,6 @@ namespace UI.Tutorial
             {
                 content.text = _currentShownTutorial.tutorialTextSteps[tutorialStep];
             }
-            Debug.Log(tutorialStep + " " + _currentShownTutorial.tutorialTextSteps.Count);
             if (tutorialStep == _currentShownTutorial.tutorialTextSteps.Count)
             {
                 tutorialView.HideTutorial(_currentShownTutorial.tutorialObject);

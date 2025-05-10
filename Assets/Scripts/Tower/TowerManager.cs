@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core;
 using UI;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.Serialization;
 
 namespace Tower
@@ -27,14 +28,38 @@ namespace Tower
         [Header("Factories")]
         [SerializeField] private RangeBaseTowerFactory rangeBaseTowerFactory;
         [FormerlySerializedAs("slowingTowerCreator")] [SerializeField] private SlowingBaseTowerFactory slowingBaseTowerFactory;
+        
+        [FormerlySerializedAs("_projectilePrefab")]
+        [Header("Projectile")]
+        [SerializeField] private Projectile.Projectile projectilePrefab;
 
         private BaseTower selectedTower;
         private BaseTower selectedTowerComponent;
         private readonly List<BaseTower> placedTowers = new List<BaseTower>();
         
+        public ObjectPool<Projectile.Projectile> projectilePool;
+        
         protected override void Awake()
         {
             SetTowerCosts();
+            
+            projectilePool = new ObjectPool<Projectile.Projectile>(
+                createFunc: () => {
+                    Projectile.Projectile instance = Instantiate(projectilePrefab);
+                    instance.Pool = projectilePool;
+                    instance.gameObject.SetActive(false);
+                    return instance;
+                }, 
+                actionOnGet: projectile => {
+                    projectile.gameObject.SetActive(true);
+                    projectile.ResetState();
+                }, 
+                actionOnRelease: projectile => projectile.gameObject.SetActive(false), 
+                actionOnDestroy: projectile => Destroy(projectile.gameObject), 
+                collectionCheck: true,
+                defaultCapacity: 10, 
+                maxSize: 100
+            );
         }
         
         public void PlaceTower(BaseTower tower, Vector3 position)
