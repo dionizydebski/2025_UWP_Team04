@@ -10,7 +10,7 @@ namespace Tower
         public int range;
         public float attackSpeed;
         public int damage;
-        public float sellModifier;
+        public float sellModifier = 0.7f;
         public int cost;
         
         [Header("References")]

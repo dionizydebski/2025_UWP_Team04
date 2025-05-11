@@ -42,7 +42,7 @@ namespace Tower
 
         protected List<GameObject> _enemiesInRange = new List<GameObject>();
         
-        private void Start()
+        private void Awake()
         {
             _range = baseTowerStats.range;
             _attackSpeed = baseTowerStats.attackSpeed;

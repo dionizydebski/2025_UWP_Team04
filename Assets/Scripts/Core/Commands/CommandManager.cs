@@ -4,6 +4,8 @@ namespace Core.Commands
 {
     public class CommandManager
     {
+        public static CommandManager Instance { get; } = new CommandManager();
+        
         private readonly Stack<ICommand> undoStack = new Stack<ICommand>();
         private readonly Stack<ICommand> redoStack = new Stack<ICommand>();
 
@@ -11,7 +13,7 @@ namespace Core.Commands
         {
             command.Execute();
             undoStack.Push(command);
-            redoStack.Clear(); // Reset redo po nowym działaniu
+            redoStack.Clear();
         }
 
         public void Undo()

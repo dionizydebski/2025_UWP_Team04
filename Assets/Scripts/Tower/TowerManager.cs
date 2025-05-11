@@ -59,12 +59,16 @@ namespace Tower
             );
         }
 
-        public void PlaceTower(BaseTower tower, Vector3 position)
+        public void PlaceTower(BaseTower towerPrefab, Vector3 position)
         {
-            if (!CanPlaceTower(tower, position)) return;
+            if (towerPrefab == null)
+            {
+                Debug.LogError("TowerManager.PlaceTower: towerPrefab is null!");
+                return;
+            }
 
-            var placeCommand = new PlaceTowerCommand(tower, position);
-            commandManager.ExecuteCommand(placeCommand);
+            var command = new PlaceTowerCommand(towerPrefab, position);
+            commandManager.ExecuteCommand(command);
         }
 
         public void SellTower()
@@ -73,6 +77,8 @@ namespace Tower
 
             var sellCommand = new SellTowerCommand(selectedTowerComponent);
             commandManager.ExecuteCommand(sellCommand);
+            
+            towerManagementPanel.ClosePanel();
 
             UnselectTower();
             TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.SellTowerTutorialName, 2);
@@ -137,6 +143,24 @@ namespace Tower
 
         public BaseTower PlaceTowerAndReturn(BaseTower towerPrefab, Vector3 position)
         {
+            if (towerPrefab == null)
+            {
+                Debug.LogError("Tower prefab is null.");
+                return null;
+            }
+
+            if (towerPrefab is RangeTower && rangeBaseTowerFactory == null)
+            {
+                Debug.LogError("RangeBaseTowerFactory is not assigned in TowerManager!");
+                return null;
+            }
+
+            if (towerPrefab is SlowingTower && slowingBaseTowerFactory == null)
+            {
+                Debug.LogError("SlowingBaseTowerFactory is not assigned in TowerManager!");
+                return null;
+            }
+            
             Core.LevelManager.Instance.SpendMoney(towerPrefab.GetCost());
 
             var tempObj = new GameObject("TempTowerTransform");
@@ -159,8 +183,11 @@ namespace Tower
 
         public void RemoveTower(BaseTower tower)
         {
-            placedTowers.Remove(tower);
-            Destroy(tower.gameObject);
+            if (placedTowers.Contains(tower))
+            {
+                placedTowers.Remove(tower);
+                Destroy(tower.gameObject);
+            }
         }
 
         private void SetTowerCosts()
