@@ -144,11 +144,11 @@ namespace Tower
 
         public void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Tower Hit object: " + other.gameObject.name + ", tag: " + other.gameObject.tag);
+            //Debug.Log("Tower Hit object: " + other.gameObject.name + ", tag: " + other.gameObject.tag);
             if (other.CompareTag(EnemyTag))
             {
                 _enemiesInRange.Add(other.gameObject);
-                Debug.Log(_enemiesInRange.Count);
+                //Debug.Log(_enemiesInRange.Count);
             }
         }
 
@@ -156,7 +156,7 @@ namespace Tower
         {
             if (other.CompareTag(EnemyTag))
             {
-                Debug.Log("OnTriggerExit");
+                //Debug.Log("OnTriggerExit");
                 _enemiesInRange.Remove(other.gameObject);
             }
         }

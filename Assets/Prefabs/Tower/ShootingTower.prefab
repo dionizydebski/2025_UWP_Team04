@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseTowerStats: {fileID: 11400000, guid: b6c6eba16b42c8a44b04aaec95e1faf1, type: 2}
   rangeCollider: {fileID: 9149882107924165430}
-  baseDamage: 10
+  baseDamage: 0
   baseRange: 3
   damagePerLevel: 5
   rangePerLevel: 1

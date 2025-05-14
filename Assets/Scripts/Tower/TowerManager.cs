@@ -70,7 +70,7 @@ namespace Tower
             towerTempObject.transform.rotation = Quaternion.identity;
             if (tower is RangeTower)
             {
-                Debug.Log("Range tower place");
+                //Debug.Log("Range tower place");
                 rangeBaseTowerFactory.CreateTower(towerTempObject.transform);
             }
             else if (tower is SlowingTower)

@@ -436,6 +436,11 @@ PrefabInstance:
       objectReference: {fileID: 1846988081}
     - target: {fileID: 663110052913683192, guid: b5d0b11c4a3fd47429fa70f94dcd01a0,
         type: 3}
+      propertyPath: towerSpawnYOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 663110052913683192, guid: b5d0b11c4a3fd47429fa70f94dcd01a0,
+        type: 3}
       propertyPath: slowingTowerCreator
       value: 
       objectReference: {fileID: 1846988080}
