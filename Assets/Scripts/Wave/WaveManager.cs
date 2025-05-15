@@ -53,6 +53,7 @@ namespace Wave
 
         protected override void Awake()
         {
+            base.Awake();
             waveManager = this;
             onEnemyDestroy.AddListener(EnemyDestroyed);
         }

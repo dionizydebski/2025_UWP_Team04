@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Enemy
@@ -22,6 +23,8 @@ namespace Enemy
             //Debug.Log("Current health " + _currentHealth);
             _currentHealth -= damage;
             healthSlider.value = _currentHealth;
+            
+            AudioManager.audioManager.PlaySFX(AudioManager.audioManager.arrowHit);
 
             if (_currentHealth <= 0)
             {

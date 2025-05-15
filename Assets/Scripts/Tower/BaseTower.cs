@@ -68,6 +68,8 @@ namespace Tower
 
         public void Attack(GameObject enemy)
         {
+            AudioManager.audioManager.PlaySFX(AudioManager.audioManager.arrow);
+            
             Projectile.Projectile projectile = TowerManager.Instance.projectilePool.Get();
             projectile.transform.position = transform.position;
             projectile.SetTarget(enemy);
