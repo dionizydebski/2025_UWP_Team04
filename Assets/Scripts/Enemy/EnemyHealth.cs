@@ -24,7 +24,7 @@ namespace Enemy
             _currentHealth -= damage;
             healthSlider.value = _currentHealth;
             
-            AudioManager.audioManager.PlaySFX(AudioManager.audioManager.arrowHit);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.arrowHit);
 
             if (_currentHealth <= 0)
             {

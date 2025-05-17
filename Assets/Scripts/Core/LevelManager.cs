@@ -30,9 +30,9 @@ namespace Core
             Health -= amount;
             OnHealthChanged?.Invoke(Health);
             
-            AudioManager.audioManager.PlaySFX(AudioManager.audioManager.damageToBase);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.damageToBase);
             
-            AudioManager.audioManager.musicSource.pitch += amount/100f;
+            AudioManager.Instance.musicSource.pitch += amount/100f;
         }
 
         public void AddMoney(int amount)
