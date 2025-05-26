@@ -23,7 +23,7 @@ namespace Enemy
 
         void Start()
         {
-            _target = WaveManager.waveManager.path[_pathIndex];
+            _target = WaveManager.Instance.path[_pathIndex];
             _baseTowerComponent = GetComponent<BaseEnemy>();
             
             _enemyStateMachine.Initialize(_enemyStateMachine.walkState);
@@ -35,7 +35,7 @@ namespace Enemy
             if (Vector3.Distance(_target.position, Transform.position) <= 0.1f)
             {
                 _pathIndex++;
-                if (_pathIndex == WaveManager.waveManager.path.Length)
+                if (_pathIndex == WaveManager.Instance.path.Length)
                 {
                     WaveManager.onEnemyDestroy.Invoke();
                     
@@ -49,7 +49,7 @@ namespace Enemy
                 }
                 else
                 {
-                    _target = WaveManager.waveManager.path[_pathIndex];
+                    _target = WaveManager.Instance.path[_pathIndex];
                 }
             }
         }

@@ -42,7 +42,7 @@ namespace Tower
 
         protected List<GameObject> _enemiesInRange = new List<GameObject>();
         
-        private void Awake()
+        protected void Start()
         {
             _range = baseTowerStats.range;
             _attackSpeed = baseTowerStats.attackSpeed;
@@ -51,7 +51,7 @@ namespace Tower
             rangeCollider.radius = baseTowerStats.range;
         }
 
-        private void Update()
+        protected void Update()
         {
             _attackTimer += Time.deltaTime;
             
@@ -68,6 +68,8 @@ namespace Tower
 
         public void Attack(GameObject enemy)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.arrow);
+            
             Projectile.Projectile projectile = TowerManager.Instance.projectilePool.Get();
             projectile.transform.position = transform.position;
             projectile.SetTarget(enemy);

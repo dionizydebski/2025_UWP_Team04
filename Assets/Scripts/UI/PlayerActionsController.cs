@@ -79,7 +79,7 @@ namespace UI
             
             if (!_towerManager.CanPlaceTower(_towerToPlace, hit.point))
             {
-                Debug.Log("Can't place tower");
+                //Debug.Log("Can't place tower");
                 playerActionsView.SetRadiusWidgetUnableToPlaceColor();
             }
             else

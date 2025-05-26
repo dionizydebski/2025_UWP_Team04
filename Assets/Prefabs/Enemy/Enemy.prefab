@@ -462,6 +462,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 8855493473428112431}
+  _target: {fileID: 0}
+  _baseTowerComponent: {fileID: 0}
 --- !u!114 &-7392112879894469424
 MonoBehaviour:
   m_ObjectHideFlags: 0

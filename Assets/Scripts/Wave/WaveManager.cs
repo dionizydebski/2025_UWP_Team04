@@ -14,8 +14,6 @@ namespace Wave
 {
     public class WaveManager : Singleton<WaveManager>
     {
-        public static WaveManager waveManager;
-
         public Transform startPoint;
         public Transform[] path;
         
@@ -53,7 +51,7 @@ namespace Wave
 
         protected override void Awake()
         {
-            waveManager = this;
+            base.Awake();
             onEnemyDestroy.AddListener(EnemyDestroyed);
         }
 

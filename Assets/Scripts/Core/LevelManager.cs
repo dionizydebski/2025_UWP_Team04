@@ -11,7 +11,7 @@ namespace Core
         
         public int GetHealth() => Health;
         public int GetMoney() => Money;
-
+        
         public int Health { get; private set; }
         public int Money { get; private set; }
 
@@ -29,6 +29,10 @@ namespace Core
         {
             Health -= amount;
             OnHealthChanged?.Invoke(Health);
+            
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.damageToBase);
+            
+            AudioManager.Instance.musicSource.pitch += amount/100f;
         }
 
         public void AddMoney(int amount)

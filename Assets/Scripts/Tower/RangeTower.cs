@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Core;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Tower
@@ -31,6 +32,7 @@ namespace Tower
         
         private void Start()
         {
+            base.Start();
             UpdateStats();
             SetModelForCurrentLevel();
         }
