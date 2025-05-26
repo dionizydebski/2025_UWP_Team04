@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core;
 using Enemy;
-using UnityEditor.UI;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 namespace Tower
@@ -41,8 +39,11 @@ namespace Tower
         protected float _slowDuration;
 
         protected List<GameObject> _enemiesInRange = new List<GameObject>();
-        
-        protected void Start()
+
+        // === STRATEGIA CELU ===
+        protected int currentStrategyIndex = 0;
+
+        protected virtual void Start()
         {
             _range = baseTowerStats.range;
             _attackSpeed = baseTowerStats.attackSpeed;
@@ -51,18 +52,43 @@ namespace Tower
             rangeCollider.radius = baseTowerStats.range;
         }
 
-        protected void Update()
+        protected virtual void Update()
         {
             _attackTimer += Time.deltaTime;
             
             if (_enemiesInRange.Count > 0 && _attackTimer >= _attackSpeed)
             {
-                if(_enemiesInRange.First() != null){
-                    Attack( _enemiesInRange.First());
+                GameObject target = SelectTarget();
+
+                if (target != null)
+                {
+                    Attack(target);
                     _attackTimer = 0f;
                 }
-                else 
-                    _enemiesInRange.Remove(_enemiesInRange.First());
+                else
+                {
+                    _enemiesInRange.RemoveAll(e => e == null);
+                }
+            }
+        }
+
+        // === SELEKCJA CELU WG STRATEGII ===
+        protected virtual GameObject SelectTarget()
+        {
+            _enemiesInRange.RemoveAll(e => e == null);
+
+            switch (currentStrategyIndex)
+            {
+                case 0: // Pierwszy wróg (domyślnie)
+                    return _enemiesInRange.FirstOrDefault();
+                case 1: // Ostatni wróg
+                    return _enemiesInRange.LastOrDefault();
+                case 2: // Najbliższy
+                    return _enemiesInRange.OrderBy(e => Vector3.Distance(transform.position, e.transform.position)).FirstOrDefault();
+                case 3: // Najdalszy
+                    return _enemiesInRange.OrderByDescending(e => Vector3.Distance(transform.position, e.transform.position)).FirstOrDefault();
+                default:
+                    return _enemiesInRange.FirstOrDefault();
             }
         }
 
@@ -76,81 +102,42 @@ namespace Tower
             projectile.SetTower(gameObject);
         }
 
-        public int GetBaseRange()
-        {
-            return baseTowerStats.range;
-        }
+        public int GetBaseRange() => baseTowerStats.range;
+        public int GetCurrentRange() => _range;
+        public int GetCost() => baseTowerStats.cost;
+        public int GetDamage() => _damage;
+        public float GetSellModifier() => _sellModifier;
+        public string GetTowerName() => baseTowerStats.towerName;
 
-        public int GetCurrentRange()
-        {
-            return _range;
-        }
-        
-        public int GetCost()
-        {
-            return baseTowerStats.cost;
-        }
-        
-        public int GetDamage()
-        {
-            return _damage;
-        }
+        public int GetAttackLevel() => _attackLevel;
+        public int GetRangeLevel() => _rangeLevel;
 
-        public float GetSellModifier()
-        {
-            return _sellModifier;
-        }
+        public bool CanUpgradeAttack() => _attackLevel < _maxAttackLevel;
+        public bool CanUpgradeRange() => _rangeLevel < _maxRangeLevel;
 
-        public string GetTowerName()
-        {
-            return baseTowerStats.towerName;
-        }
+        public virtual void UpgradeDamage() { /* do nadpisania */ }
+        public virtual void UpgradeRange() { /* do nadpisania */ }
 
-        public int GetAttackLevel()
-        {
-            return _attackLevel;
-        }
-        
-        public int GetRangeLevel()
-        {
-            return _rangeLevel;
-        }
-
-        public bool CanUpgradeAttack()
-        {
-            return _attackLevel < _maxAttackLevel;
-        }
-
-        public bool CanUpgradeRange()
-        {
-            return _rangeLevel < _maxRangeLevel;
-        } 
-
-        public virtual void UpgradeDamage()
-        {
-            
-        }
-
-        public virtual void UpgradeRange()
-        {
-            
-        }
-        
         public virtual void IncreaseAttackLevel() => _attackLevel++;
         public virtual void IncreaseRangeLevel() => _rangeLevel++;
 
+        // === STRATEGIA: set/get ===
         public virtual void SetTargetStrategy(int strategyIndex)
         {
-            
+            currentStrategyIndex = strategyIndex;
         }
 
+        public virtual int GetCurrentStrategyIndex()
+        {
+            return currentStrategyIndex;
+        }
+
+        // === KOLIZJA ZASIĘGU ===
         public void OnTriggerEnter(Collider other)
         {
-            //Debug.Log("Tower Hit object: " + other.gameObject.name + ", tag: " + other.gameObject.tag);
             if (other.CompareTag(EnemyTag))
             {
                 _enemiesInRange.Add(other.gameObject);
-                //Debug.Log(_enemiesInRange.Count);
             }
         }
 
@@ -158,7 +145,6 @@ namespace Tower
         {
             if (other.CompareTag(EnemyTag))
             {
-                //Debug.Log("OnTriggerExit");
                 _enemiesInRange.Remove(other.gameObject);
             }
         }

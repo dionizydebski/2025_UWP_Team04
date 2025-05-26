@@ -4,26 +4,31 @@ namespace Core.Commands
 {
     public class ChangeTowerStrategyCommand : ICommand
     {
-        private BaseTower _tower;
-        private int _strategyIndex;
+        private readonly BaseTower _tower;
+        private readonly int _newStrategyIndex;
+        private int _oldStrategyIndex;
 
-        public ChangeTowerStrategyCommand(BaseTower tower, int strategyIndex)
+        public ChangeTowerStrategyCommand(BaseTower tower, int newStrategyIndex)
         {
             _tower = tower;
-            _strategyIndex = strategyIndex;
+            _newStrategyIndex = newStrategyIndex;
         }
 
         public void Execute()
         {
             if (_tower != null)
             {
-                _tower.SetTargetStrategy(_strategyIndex);
+                _oldStrategyIndex = _tower.GetCurrentStrategyIndex();
+                _tower.SetTargetStrategy(_newStrategyIndex);
             }
         }
 
         public void Undo()
         {
-            throw new System.NotImplementedException();
+            if (_tower != null)
+            {
+                _tower.SetTargetStrategy(_oldStrategyIndex);
+            }
         }
     }
 }
