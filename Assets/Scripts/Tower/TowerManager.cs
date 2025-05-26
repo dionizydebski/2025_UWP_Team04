@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Core;
 using UI;
 using UnityEngine;
@@ -22,16 +23,22 @@ namespace Tower
         [SerializeField] private SelectedTowerMenuView selectedTowerMenuView;
         [SerializeField] private TowerManagementPanel towerManagementPanel;
 
+        [FormerlySerializedAs("rangeTowerCreator")]
         [Header("Factories")]
         [SerializeField] private RangeBaseTowerFactory rangeBaseTowerFactory;
+        [FormerlySerializedAs("slowingTowerCreator")]
         [SerializeField] private SlowingBaseTowerFactory slowingBaseTowerFactory;
 
+        [FormerlySerializedAs("_projectilePrefab")]
         [Header("Projectile")]
         [SerializeField] private Projectile.Projectile projectilePrefab;
 
         private BaseTower selectedTower;
         private BaseTower selectedTowerComponent;
         private readonly List<BaseTower> placedTowers = new List<BaseTower>();
+
+        // Słownik do mapowania instancji wieży na jej prefab
+        private readonly Dictionary<BaseTower, BaseTower> towerInstanceToPrefab = new();
 
         public ObjectPool<Projectile.Projectile> projectilePool;
 
@@ -40,13 +47,15 @@ namespace Tower
             SetTowerCosts();
 
             projectilePool = new ObjectPool<Projectile.Projectile>(
-                createFunc: () => {
+                createFunc: () =>
+                {
                     Projectile.Projectile instance = Instantiate(projectilePrefab);
                     instance.Pool = projectilePool;
                     instance.gameObject.SetActive(false);
                     return instance;
                 },
-                actionOnGet: projectile => {
+                actionOnGet: projectile =>
+                {
                     projectile.gameObject.SetActive(true);
                     projectile.ResetState();
                 },
@@ -58,60 +67,105 @@ namespace Tower
             );
         }
 
+        // Metoda do postawienia wieży (bez zwracania instancji)
         public void PlaceTower(BaseTower towerPrefab, Vector3 position)
         {
-            PlaceTowerAndReturn(towerPrefab, position);
-        }
-
-        public BaseTower PlaceTowerAndReturn(BaseTower towerPrefab, Vector3 position)
-        {
-            if (!CanPlaceTower(towerPrefab, position))
-            {
-                Debug.LogWarning("Cannot place tower at: " + position);
-                return null;
-            }
-
-            LevelManager.Instance.SpendMoney(towerPrefab.GetCost());
-
+            Core.LevelManager.Instance.SpendMoney(towerPrefab.GetCost());
+            
             GameObject towerTempObject = new GameObject("TempTowerTransform");
             towerTempObject.transform.position = position + new Vector3(0, towerSpawnYOffset, 0);
             towerTempObject.transform.rotation = Quaternion.identity;
 
-            BaseTower createdTower = null;
-
+            BaseTower newTowerInstance = null;
             if (towerPrefab is RangeTower)
             {
-                createdTower = rangeBaseTowerFactory.CreateTower(towerTempObject.transform);
+                newTowerInstance = rangeBaseTowerFactory.CreateTower(towerTempObject.transform);
             }
             else if (towerPrefab is SlowingTower)
             {
-                createdTower = slowingBaseTowerFactory.CreateTower(towerTempObject.transform);
+                newTowerInstance = slowingBaseTowerFactory.CreateTower(towerTempObject.transform);
             }
 
-            if (createdTower != null)
+            if (newTowerInstance != null)
             {
-                placedTowers.Add(createdTower);
-            }
+                placedTowers.Add(newTowerInstance);
+                towerInstanceToPrefab[newTowerInstance] = towerPrefab;
 
-            Destroy(towerTempObject);
-            return createdTower;
+                TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.PlaceTowerTutorialName, 2);
+            }
+            else
+            {
+                Debug.LogError("Nie udało się stworzyć wieży.");
+            }
         }
 
+        // Metoda do postawienia wieży, która zwraca instancję (do komend)
+        public BaseTower PlaceTowerAndReturn(BaseTower towerPrefab, Vector3 position)
+        {
+            Core.LevelManager.Instance.SpendMoney(towerPrefab.GetCost());
+            
+            GameObject towerTempObject = new GameObject("TempTowerTransform");
+            towerTempObject.transform.position = position + new Vector3(0, towerSpawnYOffset, 0);
+            towerTempObject.transform.rotation = Quaternion.identity;
+
+            BaseTower newTowerInstance = null;
+            if (towerPrefab is RangeTower)
+            {
+                newTowerInstance = rangeBaseTowerFactory.CreateTower(towerTempObject.transform);
+            }
+            else if (towerPrefab is SlowingTower)
+            {
+                newTowerInstance = slowingBaseTowerFactory.CreateTower(towerTempObject.transform);
+            }
+
+            if (newTowerInstance != null)
+            {
+                placedTowers.Add(newTowerInstance);
+                towerInstanceToPrefab[newTowerInstance] = towerPrefab;
+
+                TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.PlaceTowerTutorialName, 2);
+                return newTowerInstance;
+            }
+
+            Debug.LogError("Nie udało się stworzyć wieży.");
+            return null;
+        }
+
+        // Zwraca prefab dla danej instancji wieży
+        public BaseTower GetPrefabForTower(BaseTower towerInstance)
+        {
+            if (towerInstanceToPrefab.TryGetValue(towerInstance, out BaseTower prefab))
+            {
+                return prefab;
+            }
+            Debug.LogWarning("Nie znaleziono prefab dla podanej wieży.");
+            return null;
+        }
+
+        // Zwraca pieniądze za wieżę i usuwa ją z list/słownika
         public void RefundTower(BaseTower tower)
         {
             if (tower == null) return;
 
-            int refund = Mathf.RoundToInt(tower.GetCost() * tower.GetSellModifier());
-            LevelManager.Instance.AddMoney(refund);
+            int refundAmount = Mathf.RoundToInt(tower.GetCost() * tower.GetSellModifier());
+            Core.LevelManager.Instance.AddMoney(refundAmount);
+
+            if (placedTowers.Contains(tower))
+                placedTowers.Remove(tower);
+
+            if (towerInstanceToPrefab.ContainsKey(tower))
+                towerInstanceToPrefab.Remove(tower);
         }
 
         public void SellTower()
         {
-            if (!selectedTower || selectedTowerComponent == null) return;
+            if (!selectedTower) return;
+            if (selectedTowerComponent == null) return;
 
-            RefundTower(selectedTowerComponent);
+            Core.LevelManager.Instance.AddMoney((int)(selectedTowerComponent.GetCost() *
+                                                      selectedTowerComponent.GetSellModifier()));
+
             DestroySelectedTower();
-
             TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.SellTowerTutorialName, 2);
         }
 
@@ -121,17 +175,15 @@ namespace Tower
                 return false;
 
             CapsuleCollider towerCollider = tower.GetComponentInChildren<CapsuleCollider>();
+
             if (!towerCollider)
                 return false;
 
             if (Physics.CheckSphere(position, towerCollider.radius, pathColliderLayer))
-            {
-                Debug.LogWarning("Blocked by path layer at position: " + position);
                 return false;
-            }
 
             int cost = tower.GetCost();
-            return LevelManager.Instance.EnoughMoney(cost);
+            return Core.LevelManager.Instance.EnoughMoney(cost);
         }
 
         public void SelectTower(BaseTower selectedTower)
@@ -151,66 +203,67 @@ namespace Tower
                 return;
             }
 
-            selectedTowerMenuView?.SetViewActive(true);
-            selectedTowerMenuView?.SetTowerName(selectedTowerComponent.GetTowerName());
-
-            towerManagementPanel?.OpenPanel(selectedTowerComponent);
+            if (selectedTowerMenuView != null)
+            {
+                selectedTowerMenuView.SetViewActive(true);
+                selectedTowerMenuView.SetTowerName(selectedTowerComponent.GetTowerName());
+            }
+            else
+            {
+                Debug.LogError("selectedTowerMenuView is not assigned in the inspector!");
+            }
 
             TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.SellTowerTutorialName, 1);
         }
 
         public void UnselectTower()
         {
-            selectedTower = null;
-            selectedTowerComponent = null;
-
-            selectedTowerMenuView?.SetViewActive(false);
-            towerManagementPanel?.ClosePanel();
-
+            this.selectedTower = null;
+            selectedTowerMenuView.SetViewActive(false);
             TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.SellTowerTutorialName, 0);
             TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.EnemyAttackTutorialName, 1);
         }
 
-        private void DestroySelectedTower()
-        {
-            selectedTowerMenuView?.SetViewActive(false);
-            towerManagementPanel?.ClosePanel();
-
-            if (selectedTower != null)
-            {
-                placedTowers.Remove(selectedTower);
-                Destroy(selectedTower.gameObject);
-                selectedTower = null;
-                selectedTowerComponent = null;
-            }
-        }
-
         private void Update()
         {
-            bool canAffordShooting = LevelManager.Instance.EnoughMoney(shootingTowerCost);
-            bool canAffordSlowing = LevelManager.Instance.EnoughMoney(slowingTowerCost);
+            if (!Core.LevelManager.Instance.EnoughMoney(shootingTowerCost))
+            {
+                towerShopView.ShootingTowerButtonInteractable(false);
+            }
 
-            towerShopView.ShootingTowerButtonInteractable(canAffordShooting);
-            towerShopView.SlowingTowerButtonInteractable(canAffordSlowing);
+            if (!Core.LevelManager.Instance.EnoughMoney(slowingTowerCost))
+            {
+                towerShopView.SlowingTowerButtonInteractable(false);
+            }
+
+            if (Core.LevelManager.Instance.EnoughMoney(shootingTowerCost))
+            {
+                towerShopView.ShootingTowerButtonInteractable(true);
+            }
+
+            if (Core.LevelManager.Instance.EnoughMoney(slowingTowerCost))
+            {
+                towerShopView.SlowingTowerButtonInteractable(true);
+            }
         }
 
         private void SetTowerCosts()
         {
             RangeTower.cost = shootingTowerCost;
             SlowingTower.cost = slowingTowerCost;
-
             towerShopView.UpdateShootingTowerCost(shootingTowerCost);
             towerShopView.UpdateSlowingTowerCost(slowingTowerCost);
         }
-        
-        public BaseTower GetPrefabForTower(BaseTower tower)
-        {
-            if (tower is RangeTower)
-                return towersToSpawn.Find(t => t is RangeTower);
-            if (tower is SlowingTower)
-                return towersToSpawn.Find(t => t is SlowingTower);
-            return null;
-        }
 
+        private void DestroySelectedTower()
+        {
+            selectedTowerMenuView.SetViewActive(false);
+            towerManagementPanel.ClosePanel();
+            placedTowers.Remove(selectedTower);
+            if (towerInstanceToPrefab.ContainsKey(selectedTower))
+                towerInstanceToPrefab.Remove(selectedTower);
+            Destroy(selectedTower.gameObject);
+            selectedTower = null;
+        }
     }
 }
