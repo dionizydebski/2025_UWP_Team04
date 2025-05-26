@@ -51,6 +51,13 @@ namespace Tower
             _sellModifier = baseTowerStats.sellModifier;
             rangeCollider.radius = baseTowerStats.range;
         }
+        
+        public GameObject originalPrefab;
+
+        public GameObject GetOriginalPrefab()
+        {
+            return originalPrefab;
+        }
 
         protected virtual void Update()
         {

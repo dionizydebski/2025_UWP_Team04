@@ -103,7 +103,7 @@ namespace Tower
         public BaseTower PlaceTowerAndReturn(BaseTower towerPrefab, Vector3 position)
         {
             Core.LevelManager.Instance.SpendMoney(towerPrefab.GetCost());
-            
+    
             GameObject towerTempObject = new GameObject("TempTowerTransform");
             towerTempObject.transform.position = position + new Vector3(0, towerSpawnYOffset, 0);
             towerTempObject.transform.rotation = Quaternion.identity;
@@ -120,8 +120,13 @@ namespace Tower
 
             if (newTowerInstance != null)
             {
+                // 🔑 Kluczowe informacje do cofania
+                newTowerInstance.originalPrefab = towerPrefab.gameObject;
+
+                // 💾 Zarejestruj instancję z prefabem
+                RegisterTower(newTowerInstance, towerPrefab);
+
                 placedTowers.Add(newTowerInstance);
-                towerInstanceToPrefab[newTowerInstance] = towerPrefab;
 
                 TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.PlaceTowerTutorialName, 2);
                 return newTowerInstance;
@@ -130,6 +135,8 @@ namespace Tower
             Debug.LogError("Nie udało się stworzyć wieży.");
             return null;
         }
+
+
 
         // Zwraca prefab dla danej instancji wieży
         public BaseTower GetPrefabForTower(BaseTower towerInstance)
@@ -147,7 +154,7 @@ namespace Tower
         {
             if (tower == null) return;
 
-            int refundAmount = Mathf.RoundToInt(tower.GetCost() * tower.GetSellModifier());
+            int refundAmount = Mathf.RoundToInt(tower.GetCost());
             Core.LevelManager.Instance.AddMoney(refundAmount);
 
             if (placedTowers.Contains(tower))
@@ -155,6 +162,11 @@ namespace Tower
 
             if (towerInstanceToPrefab.ContainsKey(tower))
                 towerInstanceToPrefab.Remove(tower);
+        }
+        
+        public void RegisterTower(BaseTower instance, BaseTower prefab)
+        {
+            towerInstanceToPrefab[instance] = prefab;
         }
 
         public void SellTower()

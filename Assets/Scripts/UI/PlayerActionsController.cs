@@ -1,5 +1,6 @@
 ﻿using System;
 using Core;
+using Core.Commands;
 using Tower;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,18 +10,18 @@ namespace UI
     public class PlayerActionsController : MonoBehaviour
     {
         private TowerManager _towerManager;
-        
+
         private Vector3 _mousePosition;
         private float _zAxis = 0.2f;
         private bool _isTowerSelected;
         private float _towerRadius;
         private int _towerRange;
-        
+
         [Header("LayerMasks for raycasting")]
         [SerializeField] private LayerMask boardMask;
         [SerializeField] private LayerMask towerMask;
         [SerializeField] private LayerMask uiMask;
-        
+
         [Header("Tower Prefabs")]
         [SerializeField] private RangeTower shootingTowerPrefab;
         [SerializeField] private SlowingTower slowingTowerPrefab;
@@ -31,15 +32,20 @@ namespace UI
 
         private BaseTower _selectedTower;
         private BaseTower _towerToPlace;
-        
+
         [Header("References")]
         [SerializeField] private PlayerActionsView playerActionsView;
         [SerializeField] private TowerManagementPanel towerManagementPanel;
+        [SerializeField] private UndoButtonController undoButtonController;  // <-- Undo controller reference
 
         private void Awake()
         {
             Cursor.visible = true;
             _towerManager = TowerManager.Instance;
+            if (_towerManager == null)
+            {
+                Debug.LogError("TowerManager.Instance is null!");
+            }
             playerActionsView.CreateRadiusAndRangeWidget(GetMouseWorldPosition(), 1, 1);
         }
 
@@ -71,26 +77,38 @@ namespace UI
 
         private void PlaceTower()
         {
+            if (_towerToPlace == null)
+            {
+                Debug.LogError("_towerToPlace is null!");
+                return;
+            }
+            if (_towerManager == null)
+            {
+                Debug.LogError("_towerManager is null!");
+                return;
+            }
+
             if (!Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit,
                     Mathf.Infinity, boardMask) || !_isTowerSelected) return;
-            
+
             playerActionsView.ShowRadiusAndRangeWidget();
             playerActionsView.MoveCircleToMouse(hit.point);
-            
+
             if (!_towerManager.CanPlaceTower(_towerToPlace, hit.point))
             {
-                //Debug.Log("Can't place tower");
                 playerActionsView.SetRadiusWidgetUnableToPlaceColor();
             }
             else
             {
                 playerActionsView.SetRadiusWidgetDefaultColor();
-                
+
                 if (Input.GetMouseButtonDown(0))
                 {
                     if (EventSystem.current.IsPointerOverGameObject()) return;
-                    
-                    _towerManager.PlaceTower(_towerToPlace, hit.point);
+
+                    PlaceTowerCommand command = new PlaceTowerCommand(_towerToPlace, hit.point);
+                    undoButtonController.ExecuteCommand(command);
+
                     _isTowerSelected = false;
                     _towerToPlace = null;
                 }
@@ -108,9 +126,7 @@ namespace UI
         private void SelectTower()
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, towerMask))
             {
                 BaseTower baseTower = hit.collider.GetComponentInParent<BaseTower>();
 
@@ -123,15 +139,6 @@ namespace UI
                     playerActionsView.ShowTowerRangeIndicator(_selectedTower);
                     _towerManager.SelectTower(_selectedTower);
 
-                    if (_selectedTower is RangeTower)
-                    {
-                        Debug.Log("Selected Shooting Tower");
-                    }
-                    else if (_selectedTower is SlowingTower)
-                    {
-                        Debug.Log("Selected Slowing Tower");
-                    }
-
                     towerManagementPanel.OpenPanel(_selectedTower);
                 }
             }
@@ -142,7 +149,6 @@ namespace UI
             }
         }
 
-
         private void ClearSelect()
         {
             if (_selectedTower)
@@ -150,7 +156,6 @@ namespace UI
                 playerActionsView.HideTowerRangeIndicator();
                 towerManagementPanel.ClosePanel();
             }
-
             _selectedTower = null;
         }
 
@@ -162,7 +167,7 @@ namespace UI
             if (capsuleCollider == null) return;
             _isTowerSelected = true;
             _towerRadius = capsuleCollider.radius;
-            _towerRange = towerToPlace.GetComponent<BaseTower>().GetBaseRange();
+            _towerRange = towerToPlace.GetBaseRange();
 
             playerActionsView.SetRadiusWidgetDefaultColor();
             playerActionsView.SetRadiusAndRangeWidgetSize(_towerRadius, _towerRange);
@@ -173,8 +178,20 @@ namespace UI
         {
             Vector3 mousePosition = Input.mousePosition;
             mousePosition.z = _zAxis;
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePosition);
-            return worldPos;
+            return Camera.main.ScreenToWorldPoint(mousePosition);
+        }
+
+        // Metoda wywoływana z UI — np. przycisk "Sell Tower"
+        public void OnSellTowerButtonClicked()
+        {
+            if (_selectedTower != null)
+            {
+                SellTowerCommand command = new SellTowerCommand(_selectedTower);
+                undoButtonController.ExecuteCommand(command);
+
+                ClearSelect();
+                _towerManager.UnselectTower();
+            }
         }
     }
 }

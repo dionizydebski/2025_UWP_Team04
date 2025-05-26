@@ -1,41 +1,44 @@
-﻿using Tower;
+﻿using Core;
+using Tower;
 using UnityEngine;
 
 namespace Core.Commands
 {
     public class SellTowerCommand : ICommand
     {
-        private readonly BaseTower towerInstance;
-        private readonly Vector3 position;
-        private readonly BaseTower towerPrefab;
+        private GameObject towerPrefab;
+        private Vector3 position;
         private int refundAmount;
-
-        private BaseTower restoredTower;
+        private BaseTower towerInstance;
 
         public SellTowerCommand(BaseTower tower)
         {
-            towerInstance = tower;
+            towerPrefab = tower.GetOriginalPrefab(); // ważne!
             position = tower.transform.position;
-            towerPrefab = TowerManager.Instance.GetPrefabForTower(tower);
+            refundAmount = tower.GetCost();
+            towerInstance = tower;
         }
 
         public void Execute()
         {
-            if (towerInstance != null)
-            {
-                refundAmount = Mathf.RoundToInt(towerInstance.GetCost() * towerInstance.GetSellModifier());
-                TowerManager.Instance.RefundTower(towerInstance);
-                Object.Destroy(towerInstance.gameObject);
-            }
+            LevelManager.Instance.AddMoney(refundAmount);
+            TowerManager.Instance.SellTower();
         }
 
         public void Undo()
         {
             if (towerPrefab != null)
             {
-                restoredTower = TowerManager.Instance.PlaceTowerAndReturn(towerPrefab, position);
-                // Można tu dodać przywracanie stanu, jeśli to potrzebne
+                GameObject newObj = GameObject.Instantiate(towerPrefab, position, Quaternion.identity);
+                BaseTower newTower = newObj.GetComponent<BaseTower>();
+                LevelManager.Instance.SpendMoney(refundAmount);
+                TowerManager.Instance.RegisterTower(newTower, towerPrefab.GetComponent<BaseTower>());
+            }
+            else
+            {
+                Debug.LogError("SellTowerCommand: towerPrefab is null, cannot undo.");
             }
         }
+
     }
 }
