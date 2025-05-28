@@ -58,7 +58,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   enemyPrefabs:
-  - {fileID: 3237961559139863731, guid: 13bdf50d391b47f4e8e561e07ae062d2, type: 3}
+  - {fileID: 6305804837301237048, guid: 13bdf50d391b47f4e8e561e07ae062d2, type: 3}
   - {fileID: 462161224132109915, guid: ff852dbaabc37824e8155c31fe01bde9, type: 3}
   - {fileID: 1877012419011255874, guid: 19f28578b05135c4d99c15392810ce01, type: 3}
   normalEnemyFactory: {fileID: 9111433447875586189}
@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6e0ddac3c9b40e1864e799b5d6935a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 3237961559139863731, guid: 13bdf50d391b47f4e8e561e07ae062d2,
+  _enemyPrefab: {fileID: 6305804837301237048, guid: 13bdf50d391b47f4e8e561e07ae062d2,
     type: 3}
 --- !u!114 &7969184594054593846
 MonoBehaviour:

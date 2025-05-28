@@ -107,6 +107,7 @@ namespace Tower
             projectile.transform.position = transform.position;
             projectile.SetTarget(enemy);
             projectile.SetTower(gameObject);
+            Debug.Log("Attacking");
         }
 
         public int GetBaseRange() => baseTowerStats.range;

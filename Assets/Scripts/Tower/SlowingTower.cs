@@ -33,12 +33,14 @@ namespace Tower
         
         private void Start()
         {
+            base.Start();
             UpdateStats();
             SetModelForCurrentLevel();
         }
 
         public void Update()
         {
+            base.Update();
             foreach (var enemy in _enemiesInRange)
             {
                 Slowed?.Invoke(enemy ,baseSlowModifier, baseSlowDuration);

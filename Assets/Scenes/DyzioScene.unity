@@ -982,12 +982,6 @@ PrefabInstance:
       propertyPath: path.Array.data[7]
       value: 
       objectReference: {fileID: 2098844867}
-    - target: {fileID: 8731310187785965886, guid: 6e0614afb531c344698b1de0666fe837,
-        type: 3}
-      propertyPath: enemyPrefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 3237961559139863731, guid: 13bdf50d391b47f4e8e561e07ae062d2,
-        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

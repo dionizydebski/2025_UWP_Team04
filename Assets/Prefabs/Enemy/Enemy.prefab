@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 5656485159655703066}
   - component: {fileID: 8217896402474750514}
   - component: {fileID: -7392112879894469424}
-  - component: {fileID: 3237961559139863731}
+  - component: {fileID: 6305804837301237048}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -478,7 +478,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 2
   healthSlider: {fileID: 1941071377653414566}
---- !u!114 &3237961559139863731
+--- !u!114 &6305804837301237048
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -487,7 +487,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7539984152687373439}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 646cc23b0ad423044bf6e99d61d41d63, type: 3}
+  m_Script: {fileID: 11500000, guid: a0b5a1ef0470e1c42a037b8ea960ad11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   baseEnemyStats: {fileID: 11400000, guid: cfd4ca4e24eb40f489cc35b654ddfb4a, type: 2}
