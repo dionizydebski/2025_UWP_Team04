@@ -8,7 +8,7 @@ namespace UI
     {
         private CommandInvoker invoker;
 
-        private void Awake() // ← Użyj Awake, nie Start
+        private void Awake()
         {
             invoker = new CommandInvoker();
         }
@@ -24,5 +24,4 @@ namespace UI
             invoker.Undo();
         }
     }
-
 }

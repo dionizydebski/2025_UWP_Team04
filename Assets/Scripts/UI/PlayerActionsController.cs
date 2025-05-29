@@ -10,7 +10,6 @@ namespace UI
     public class PlayerActionsController : MonoBehaviour
     {
         private TowerManager _towerManager;
-
         private Vector3 _mousePosition;
         private float _zAxis = 0.2f;
         private bool _isTowerSelected;
@@ -26,7 +25,7 @@ namespace UI
         [SerializeField] private RangeTower shootingTowerPrefab;
         [SerializeField] private SlowingTower slowingTowerPrefab;
 
-        [Header("Keys for placing towers")] 
+        [Header("Keys for placing towers")]
         [SerializeField] private KeyCode selectShootingTowerCode;
         [SerializeField] private KeyCode selectSlowingTowerCode;
 
@@ -36,7 +35,8 @@ namespace UI
         [Header("References")]
         [SerializeField] private PlayerActionsView playerActionsView;
         [SerializeField] private TowerManagementPanel towerManagementPanel;
-        [SerializeField] private UndoButtonController undoButtonController;  // <-- Undo controller reference
+
+        private CommandInvoker commandInvoker = new CommandInvoker();
 
         private void Awake()
         {
@@ -77,16 +77,7 @@ namespace UI
 
         private void PlaceTower()
         {
-            if (_towerToPlace == null)
-            {
-                Debug.LogError("_towerToPlace is null!");
-                return;
-            }
-            if (_towerManager == null)
-            {
-                Debug.LogError("_towerManager is null!");
-                return;
-            }
+            if (_towerToPlace == null || _towerManager == null) return;
 
             if (!Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit,
                     Mathf.Infinity, boardMask) || !_isTowerSelected) return;
@@ -106,8 +97,8 @@ namespace UI
                 {
                     if (EventSystem.current.IsPointerOverGameObject()) return;
 
-                    PlaceTowerCommand command = new PlaceTowerCommand(_towerToPlace, hit.point);
-                    undoButtonController.ExecuteCommand(command);
+                    var command = new PlaceTowerCommand(_towerToPlace, hit.point);
+                    commandInvoker.ExecuteCommand(command);
 
                     _isTowerSelected = false;
                     _towerToPlace = null;
@@ -133,7 +124,6 @@ namespace UI
                 if (baseTower != null && baseTower != _selectedTower)
                 {
                     ClearSelect();
-
                     _selectedTower = baseTower;
 
                     playerActionsView.ShowTowerRangeIndicator(_selectedTower);
@@ -181,17 +171,21 @@ namespace UI
             return Camera.main.ScreenToWorldPoint(mousePosition);
         }
 
-        // Metoda wywoływana z UI — np. przycisk "Sell Tower"
         public void OnSellTowerButtonClicked()
         {
             if (_selectedTower != null)
             {
-                SellTowerCommand command = new SellTowerCommand(_selectedTower);
-                undoButtonController.ExecuteCommand(command);
+                var command = new SellTowerCommand(_selectedTower);
+                commandInvoker.ExecuteCommand(command); 
 
                 ClearSelect();
                 _towerManager.UnselectTower();
             }
+        }
+        
+        public void OnUndoPressed()
+        {
+            commandInvoker.Undo();
         }
     }
 }

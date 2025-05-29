@@ -27,8 +27,6 @@ namespace Tower
 
         [SerializeField] private List<GameObject> upgradeModels;
         [SerializeField] private Transform modelParent;
-        
-        private GameObject currentModelInstance;
         public static event Action<GameObject, float, float> Slowed;
         
         private void Start()

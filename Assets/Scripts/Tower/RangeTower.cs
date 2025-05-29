@@ -27,9 +27,7 @@ namespace Tower
         
         [SerializeField] private List<GameObject> upgradeModels;
         [SerializeField] private Transform modelParent;
-        
-        private GameObject currentModelInstance;
-        
+
         private void Start()
         {
             base.Start();
@@ -109,5 +107,7 @@ namespace Tower
                 Debug.Log("No model");
             }
         }
+        
+        
     }
 }

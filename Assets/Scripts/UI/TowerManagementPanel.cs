@@ -60,7 +60,7 @@ namespace UI
             if (_currentTower != null)
             {
                 ICommand command = new ChangeTowerStrategyCommand(_currentTower, 0); 
-                CommandManager.Instance.ExecuteCommand(command);
+                //CommandInvoker.ExecuteCommand(command);
             }
         }
     }

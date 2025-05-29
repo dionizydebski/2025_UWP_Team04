@@ -258,6 +258,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7441404949841115452}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1226511130 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8952279676756135767, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+    type: 3}
+  m_PrefabInstance: {fileID: 5657945508169440381}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b92f4be0c5814f08876fb7849ffd6575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1640223635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8911612860291280793, guid: 5f6aaded42335ab4f9d042f95baf87cb,
@@ -788,6 +800,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565674621887281835, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1226511130}
+    - target: {fileID: 6565674621887281835, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSellTowerButtonClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565674621887281835, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UI.PlayerActionsController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7687241975652115788, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
         type: 3}

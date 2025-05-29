@@ -40,6 +40,8 @@ namespace Tower
 
         protected List<GameObject> _enemiesInRange = new List<GameObject>();
 
+        public GameObject currentModelInstance { get; set; }
+
         // === STRATEGIA CELU ===
         protected int currentStrategyIndex = 0;
 
@@ -116,6 +118,8 @@ namespace Tower
         public int GetDamage() => _damage;
         public float GetSellModifier() => _sellModifier;
         public string GetTowerName() => baseTowerStats.towerName;
+
+        public GameObject GetCurrentModel() => currentModelInstance;
 
         public int GetAttackLevel() => _attackLevel;
         public int GetRangeLevel() => _rangeLevel;

@@ -9,10 +9,10 @@ namespace Core
         private Vector3 position;
         private BaseTower placedTower;
 
-        public PlaceTowerCommand(BaseTower towerPrefab, Vector3 position)
+        public PlaceTowerCommand(BaseTower prefab, Vector3 pos)
         {
-            this.towerPrefab = towerPrefab;
-            this.position = position;
+            towerPrefab = prefab;
+            position = pos;
         }
 
         public void Execute()
@@ -25,8 +25,9 @@ namespace Core
             if (placedTower != null)
             {
                 TowerManager.Instance.RefundTower(placedTower);
-                GameObject.Destroy(placedTower.gameObject);
+                TowerManager.Instance.RemoveTower(placedTower);
             }
         }
     }
+
 }
