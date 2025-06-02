@@ -82,6 +82,8 @@ namespace Tower
             currentUpgradeLevel++;
             UpdateStats();
             SetModelForCurrentLevel();
+            
+            TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.UpgradeTowerTutorialName, 2);
         }
 
         public override void UpgradeRange()
@@ -96,6 +98,8 @@ namespace Tower
             currentUpgradeLevel++;
             UpdateStats();
             SetModelForCurrentLevel();
+            
+            TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.UpgradeTowerTutorialName, 2);
         }
 
         private void SetModelForCurrentLevel()

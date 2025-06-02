@@ -134,6 +134,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a3b34fac3943c7acdf37f7eef61a06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &819996962 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3249784497129328063, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+    type: 3}
+  m_PrefabInstance: {fileID: 5657945508169440381}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &929377874
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,18 +270,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7441404949841115452}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1226511130 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8952279676756135767, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
-    type: 3}
-  m_PrefabInstance: {fileID: 5657945508169440381}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b92f4be0c5814f08876fb7849ffd6575, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1640223635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8911612860291280793, guid: 5f6aaded42335ab4f9d042f95baf87cb,
@@ -623,6 +623,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1306188839881393778, guid: fd323ac14d076e54a8cc5220cebd6e26,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1882273353051037413, guid: fd323ac14d076e54a8cc5220cebd6e26,
         type: 3}
       propertyPath: m_Volume
@@ -796,30 +801,90 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 900835100403782348, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: m_text
+      value: Upgrade Damage
+      objectReference: {fileID: 0}
+    - target: {fileID: 900835100403782348, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 900835100403782348, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 2853036531205091936, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
         type: 3}
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 6565674621887281835, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+    - target: {fileID: 3249784497129328063, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1226511130}
-    - target: {fileID: 6565674621887281835, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnSellTowerButtonClicked
+      propertyPath: m_text
+      value: Place a new tower and select it.
       objectReference: {fileID: 0}
-    - target: {fileID: 6565674621887281835, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+    - target: {fileID: 3853849965435281944, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UI.PlayerActionsController, Assembly-CSharp
+      propertyPath: m_Colors.m_NormalColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853849965435281944, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853849965435281944, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3979714245920597653, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986291582145296779, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: tutorialEntries.Array.data[3].content
+      value: 
+      objectReference: {fileID: 819996962}
+    - target: {fileID: 5312498863555038011, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7172073532013753577, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -240
+      objectReference: {fileID: 0}
+    - target: {fileID: 7172073532013753577, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 7687241975652115788, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9083905877789886457, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: m_text
+      value: Upgrade Range
+      objectReference: {fileID: 0}
+    - target: {fileID: 9083905877789886457, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 9083905877789886457, guid: 948f5fd55bda8ba4da9b0d661edb4b08,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

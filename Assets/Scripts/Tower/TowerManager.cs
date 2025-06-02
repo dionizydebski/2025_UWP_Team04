@@ -119,6 +119,10 @@ namespace Tower
 
             placedTowers.Remove(tower);
             towerInstanceToPrefab.Remove(tower);
+            
+            TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.SellTowerTutorialName, 2);
+            TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.UpgradeTowerTutorialName, 0);
+            
         }
 
         public BaseTower GetPrefabForTower(BaseTower towerInstance)
@@ -167,6 +171,8 @@ namespace Tower
             {
                 selectedTowerMenuView.SetViewActive(true);
                 selectedTowerMenuView.SetTowerName(selectedTowerComponent.GetTowerName());
+                
+                TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.UpgradeTowerTutorialName, 1);
             }
             else
             {
