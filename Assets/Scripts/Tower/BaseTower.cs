@@ -18,17 +18,25 @@ namespace Tower
         [Header("Statistics")] 
         [SerializeField] private TowerStats baseTowerStats;
         [SerializeField] private SphereCollider rangeCollider;
-        
-        private int _range;
-        private float _attackSpeed;
-        private int _damage;
-        private float _sellModifier;
+
+        protected int _range;
+        protected float _attackSpeed;
+        protected int _damage;
+        protected float _sellModifier;
         
         [Header("Upgrades")] 
         protected int _attackLevel = 0;
         protected int _rangeLevel = 0;
+        
         private int _maxAttackLevel = 2;
         private int _maxRangeLevel = 2;
+        
+        protected int currentUpgradeLevel = 0;
+        protected int currentDamageLevel = 0;
+        protected int currentRangeLevel = 0;
+        
+        protected float _slowModifier;
+        protected float _slowDuration;
 
         protected List<GameObject> _enemiesInRange = new List<GameObject>();
         

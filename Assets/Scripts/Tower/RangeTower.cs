@@ -12,11 +12,12 @@ namespace Tower
         private List<BaseTower> _towers = new List<BaseTower>();
         public string ProductName { get; set; }
         
-        [SerializeField] private float baseDamage = 10f;
-        [SerializeField] private float baseRange = 3f;
+        [Header("Statistics")]
+        [SerializeField] private int baseDamage = 10;
+        [SerializeField] private int baseRange = 3;
 
-        [SerializeField] private float damagePerLevel = 5f;
-        [SerializeField] private float rangePerLevel = 1f;
+        [SerializeField] private int damagePerLevel = 5;
+        [SerializeField] private int rangePerLevel = 1;
 
         [SerializeField] private GameObject rangeVisual;
         
@@ -27,13 +28,6 @@ namespace Tower
         [SerializeField] private Transform modelParent;
         
         private GameObject currentModelInstance;
-        private int currentUpgradeLevel = 0;
-        
-        private int currentDamageLevel = 0;
-        private int currentRangeLevel = 0;
-
-        private float currentDamage;
-        private float currentRange;
         
         private void Start()
         {
@@ -41,19 +35,14 @@ namespace Tower
             SetModelForCurrentLevel();
         }
 
-        public void Initialize()
-        {
-            throw new NotImplementedException();
-        }
-        
         private void UpdateStats()
         {
-            currentDamage = baseDamage + _attackLevel * damagePerLevel;
-            currentRange = baseRange + _rangeLevel * rangePerLevel;
+            _damage = baseDamage + _attackLevel * damagePerLevel;
+            _range = baseRange + _rangeLevel * rangePerLevel;
 
             if (rangeVisual != null)
             {
-                float scale = currentRange * 2f;
+                float scale = _range * 2f;
                 rangeVisual.transform.localScale = new Vector3(scale, 1f, scale);
             }
         }
