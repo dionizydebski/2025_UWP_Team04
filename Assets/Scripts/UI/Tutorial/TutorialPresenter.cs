@@ -23,7 +23,6 @@ namespace UI.Tutorial
 
         private void Awake()
         {
-            Debug.Log("Awake");
             TutorialEventsManager.Instance.NextTutorial += ShowNextTutorial;
             TutorialEventsManager.Instance.OnTutorialStep += OnTutorialStepTriggered;
             FindAllTutorials();
@@ -47,7 +46,6 @@ namespace UI.Tutorial
             {
                 content.text = _currentShownTutorial.tutorialTextSteps[tutorialStep];
             }
-            Debug.Log(tutorialStep + " " + _currentShownTutorial.tutorialTextSteps.Count);
             if (tutorialStep == _currentShownTutorial.tutorialTextSteps.Count)
             {
                 tutorialView.HideTutorial(_currentShownTutorial.tutorialObject);

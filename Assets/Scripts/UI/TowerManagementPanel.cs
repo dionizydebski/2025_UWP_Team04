@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Core;
+using Core.Commands;
+using UnityEngine;
 using UnityEngine.UI;
 using Tower;
 
@@ -53,19 +55,12 @@ namespace UI
             }
         }
 
-        private void OnStrategyChanged(int index)
-        {
-            if (_currentTower != null)
-            {
-                _currentTower.SetTargetStrategy(index);
-            }
-        }
-        
         private void OnStrategyChanged()
         {
             if (_currentTower != null)
             {
-                _currentTower.SetTargetStrategy(0);
+                ICommand command = new ChangeTowerStrategyCommand(_currentTower, 0); 
+                //CommandInvoker.ExecuteCommand(command);
             }
         }
     }

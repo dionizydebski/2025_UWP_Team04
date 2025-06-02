@@ -40,7 +40,7 @@ namespace Enemy
         private void OnSlowed(GameObject enemy, float slowModifier, float slowDuration)
         {
             if (GameObject != enemy) return;
-            Debug.Log(GameObject.name+" Slowed");
+            //Debug.Log(GameObject.name+" Slowed");
             ApplySlow(slowModifier, slowDuration);
         }
         

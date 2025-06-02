@@ -31,7 +31,7 @@ namespace UI
 
         public void CreateRadiusAndRangeWidget(Vector3 position, float towerRadius, float towerRange)
         {
-            Debug.Log(position);
+            //Debug.Log(position);
             if (_innerRadius != null) Destroy(_innerRadius);
             if (_outerRadius != null) Destroy(_outerRadius);
 

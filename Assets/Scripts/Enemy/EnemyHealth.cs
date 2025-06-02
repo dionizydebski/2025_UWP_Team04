@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Enemy
@@ -19,8 +20,11 @@ namespace Enemy
 
         public void TakeDamage(int damage)
         {
+            //Debug.Log("Current health " + _currentHealth);
             _currentHealth -= damage;
             healthSlider.value = _currentHealth;
+            
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.arrowHit);
 
             if (_currentHealth <= 0)
             {
@@ -34,5 +38,7 @@ namespace Enemy
             Wave.WaveManager.onEnemyDestroy.Invoke();
             Destroy(gameObject);
         }
+        
+        
     }
 }

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Singleton;
-using UI;
 using UI.Enemy;
 using Wave;
 

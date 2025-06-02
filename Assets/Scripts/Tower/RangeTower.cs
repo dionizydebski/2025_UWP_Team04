@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Core;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Tower
@@ -26,11 +27,10 @@ namespace Tower
         
         [SerializeField] private List<GameObject> upgradeModels;
         [SerializeField] private Transform modelParent;
-        
-        private GameObject currentModelInstance;
-        
+
         private void Start()
         {
+            base.Start();
             UpdateStats();
             SetModelForCurrentLevel();
         }
@@ -107,5 +107,7 @@ namespace Tower
                 Debug.Log("No model");
             }
         }
+        
+        
     }
 }
