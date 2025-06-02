@@ -30,6 +30,8 @@ namespace Wave
         [SerializeField] private float enemiesPerSecond = 0.5f;
         [SerializeField] private float timeBetweenWaves = 5f;
         [SerializeField] private float difficultyScalingFactor = 0.75f;
+        
+        [SerializeField] private int totalWaves = 5;
 
         [Header("Events")] 
         public static UnityEvent onEnemyDestroy = new UnityEvent();
@@ -69,7 +71,7 @@ namespace Wave
 
         private void Update()
         {
-            if(!_isSpawning || _isPaused) return;
+            if(!_isSpawning || _isPaused || GameManager.Instance.GameEnded) return;
 
             _timeSinceLastSpawn += Time.deltaTime;
 
@@ -83,6 +85,11 @@ namespace Wave
 
             if (_enemiesAlive == 0 && _enemiesLeftToSpawn == 0)
             {
+                if (_currentWave >= totalWaves)
+                {
+                    GameManager.Instance.TriggerGameWon();
+                    return;
+                }
                 EndWave();
             }
         }

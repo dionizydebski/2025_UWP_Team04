@@ -24,10 +24,19 @@ namespace Core
             Health = initialHealth;
             Money = initialMoney;
         }
-        
+
+        private void Update()
+        {
+            if (Health <= 0 && !GameManager.Instance.GameEnded)
+            {
+                GameManager.Instance.TriggerGameLost();
+            }        
+        }
+
         public void TakeDamage(int amount)
         {
             Health -= amount;
+            Health = Mathf.Max(0, Health);
             OnHealthChanged?.Invoke(Health);
             
             AudioManager.Instance.PlaySFX(AudioManager.Instance.damageToBase);
