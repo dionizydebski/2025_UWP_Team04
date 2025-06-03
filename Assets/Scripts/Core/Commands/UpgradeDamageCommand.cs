@@ -6,21 +6,21 @@ namespace Core.Commands
     {
         public class UpgradeDamageCommand : ICommand
         {
-            private readonly BaseTower tower;
+            private readonly BaseTower _tower;
 
             public UpgradeDamageCommand(BaseTower tower)
             {
-                this.tower = tower;
+                _tower = tower;
             }
 
             public void Execute()
             {
-                tower.UpgradeDamage();
+                _tower.UpgradeDamage();
             }
 
             public void Undo()
             {
-                tower.UndoUpgradeDamage();
+                _tower.UndoUpgradeDamage();
             }
         }
     }

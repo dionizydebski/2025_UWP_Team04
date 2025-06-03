@@ -1,4 +1,4 @@
-﻿namespace Wave
+﻿namespace UI.Wave
 {
     public interface IWaveView
     {

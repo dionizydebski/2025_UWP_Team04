@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,7 +35,7 @@ namespace Enemy
 
         private void Die()
         {
-            Core.LevelManager.Instance.AddMoney(GetComponent<BaseEnemy>().GetReward());
+            LevelManager.Instance.AddMoney(GetComponent<BaseEnemy>().GetReward());
             Wave.WaveManager.onEnemyDestroy.Invoke();
             Destroy(gameObject);
         }

@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Core;
 using Tower;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Enemy
 {
@@ -87,7 +84,6 @@ namespace Enemy
         
         public void SpawnBlood()
         {
-            Debug.Log("Spawning blood");
             _bloodParticleInstance = Instantiate(bloodSystem, GameObject.transform.position, Quaternion.identity);
         }
     }

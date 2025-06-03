@@ -1,7 +1,6 @@
-﻿using UI;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Core.Commands
+namespace UI
 {
     public class UndoButtonController : MonoBehaviour
     {

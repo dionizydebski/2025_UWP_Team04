@@ -1,9 +1,6 @@
 using System.Collections.Generic;
 using Core;
-using TMPro;
-using Tower;
 using UnityEngine;
-using Wave;
 
 namespace UI.Tutorial
 {

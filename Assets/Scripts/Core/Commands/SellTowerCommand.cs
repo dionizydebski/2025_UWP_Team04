@@ -5,26 +5,26 @@ namespace Core.Commands
 {
     public class SellTowerCommand : ICommand
     {
-        private BaseTower towerToSell;
-        private BaseTower towerPrefab;
-        private Vector3 position;
+        private BaseTower _towerToSell;
+        private BaseTower _towerPrefab;
+        private Vector3 _position;
 
         public SellTowerCommand(BaseTower tower)
         {
-            towerToSell = tower;
-            towerPrefab = TowerManager.Instance.GetPrefabForTower(tower);
-            position = tower.transform.position;
+            _towerToSell = tower;
+            _towerPrefab = TowerManager.Instance.GetPrefabForTower(tower);
+            _position = tower.transform.position;
         }
 
         public void Execute()
         {
-            TowerManager.Instance.SellTower(towerToSell);
-            TowerManager.Instance.RemoveTower(towerToSell);
+            TowerManager.Instance.SellTower(_towerToSell);
+            TowerManager.Instance.RemoveTower(_towerToSell);
         }
 
         public void Undo()
         {
-            TowerManager.Instance.PlaceTowerAndReturnWithRefundCost(towerPrefab, position);
+            TowerManager.Instance.PlaceTowerAndReturnWithRefundCost(_towerPrefab, _position);
         }
     }
 

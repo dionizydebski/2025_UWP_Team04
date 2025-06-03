@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Tower
+namespace Tower.Strategy
 {
     public interface ITargetingStrategy
     {

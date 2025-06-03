@@ -1,6 +1,5 @@
 ﻿using Tower;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace UI
 {
@@ -23,11 +22,11 @@ namespace UI
         [Header("References")]
         [SerializeField] private PlayerActionsController playerActionsController;
         
-        private Renderer selectedTowerRenderer;
+        private Renderer _selectedTowerRenderer;
         private Renderer _innerRadiusRenderer;
         private Renderer _outerRadiusRenderer;
         
-        private Transform rangeIndicator;
+        private Transform _rangeIndicator;
 
         public void CreateRadiusAndRangeWidget(Vector3 position, float towerRadius, float towerRange)
         {
@@ -90,17 +89,17 @@ namespace UI
         
         public void ShowTowerRangeIndicator(BaseTower selectedTower)
         {
-            rangeIndicator = selectedTower.gameObject.transform.Find(indicatorName);
-            if (rangeIndicator)
+            _rangeIndicator = selectedTower.gameObject.transform.Find(indicatorName);
+            if (_rangeIndicator)
             {
-                rangeIndicator.localScale = new Vector3(selectedTower.GetCurrentRange(), 0.01f, selectedTower.GetCurrentRange());
-                rangeIndicator.gameObject.SetActive(true);
+                _rangeIndicator.localScale = new Vector3(selectedTower.GetCurrentRange(), 0.01f, selectedTower.GetCurrentRange());
+                _rangeIndicator.gameObject.SetActive(true);
             }
         }
 
         public void HideTowerRangeIndicator()
         {
-            rangeIndicator.gameObject.SetActive(false);
+            _rangeIndicator.gameObject.SetActive(false);
         }
     }
 }

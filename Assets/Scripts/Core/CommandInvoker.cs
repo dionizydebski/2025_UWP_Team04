@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Core.Commands;
 using Singleton;
 using UnityEngine;
 
@@ -6,25 +7,20 @@ namespace Core
 {
     public class CommandInvoker : Singleton<CommandInvoker>
     {
-        private readonly Stack<ICommand> commandHistory = new Stack<ICommand>();
+        private readonly Stack<ICommand> _commandHistory = new Stack<ICommand>();
 
         public void ExecuteCommand(ICommand command)
         {
             command.Execute();
-            commandHistory.Push(command);
+            _commandHistory.Push(command);
         }
 
         public void Undo()
         {
-            if (commandHistory.Count > 0)
+            if (_commandHistory.Count > 0)
             {
-                ICommand lastCommand = commandHistory.Pop();
-                Debug.Log("Undoing command: " + lastCommand.GetType().Name);
+                ICommand lastCommand = _commandHistory.Pop();
                 lastCommand.Undo();
-            }
-            else
-            {
-                Debug.Log("No commands to undo");
             }
         }
     }

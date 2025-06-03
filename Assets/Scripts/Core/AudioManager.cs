@@ -1,28 +1,29 @@
-using System;
 using Singleton;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class AudioManager : Singleton<AudioManager>
+namespace Core
 {
-    [Header("Audio Source")] 
-    [SerializeField] public AudioSource musicSource;
-    [SerializeField] AudioSource SFXSource;
-
-    [Header("Audio Clip")] 
-    public AudioClip background;
-    public AudioClip arrow;
-    public AudioClip arrowHit;
-    public AudioClip damageToBase;
-
-    private void Start()
+    public class AudioManager : Singleton<AudioManager>
     {
-        musicSource.clip = background;
-        musicSource.Play();
-    }
+        [Header("Audio Source")] 
+        [SerializeField] public AudioSource musicSource;
+        [SerializeField] AudioSource SFXSource;
+
+        [Header("Audio Clip")] 
+        public AudioClip background;
+        public AudioClip arrow;
+        public AudioClip arrowHit;
+        public AudioClip damageToBase;
+
+        private void Start()
+        {
+            musicSource.clip = background;
+            musicSource.Play();
+        }
     
-    public void PlaySFX(AudioClip clip)
-    {
-        SFXSource.PlayOneShot(clip);
+        public void PlaySFX(AudioClip clip)
+        {
+            SFXSource.PlayOneShot(clip);
+        }
     }
 }

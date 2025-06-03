@@ -1,6 +1,6 @@
 ﻿using TMPro;
+using UI.Wave;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Wave
 {

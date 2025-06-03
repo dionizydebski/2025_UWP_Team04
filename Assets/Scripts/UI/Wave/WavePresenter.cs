@@ -1,4 +1,6 @@
-﻿namespace Wave
+﻿using Wave;
+
+namespace UI.Wave
 {
     public class WavePresenter
     {

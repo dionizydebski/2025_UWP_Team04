@@ -5,27 +5,27 @@ namespace Core.Commands
 {
     public class PlaceTowerCommand : ICommand
     {
-        private BaseTower towerPrefab;
-        private Vector3 position;
-        private BaseTower placedTower;
+        private BaseTower _towerPrefab;
+        private Vector3 _position;
+        private BaseTower _placedTower;
 
         public PlaceTowerCommand(BaseTower prefab, Vector3 pos)
         {
-            towerPrefab = prefab;
-            position = pos;
+            _towerPrefab = prefab;
+            _position = pos;
         }
 
         public void Execute()
         {
-            placedTower = TowerManager.Instance.PlaceTowerAndReturn(towerPrefab, position);
+            _placedTower = TowerManager.Instance.PlaceTowerAndReturn(_towerPrefab, _position);
         }
 
         public void Undo()
         {
-            if (placedTower != null)
+            if (_placedTower != null)
             {
-                TowerManager.Instance.RefundTower(placedTower);
-                TowerManager.Instance.RemoveTower(placedTower);
+                TowerManager.Instance.RefundTower(_placedTower);
+                TowerManager.Instance.RemoveTower(_placedTower);
             }
         }
     }

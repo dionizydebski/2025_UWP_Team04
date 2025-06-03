@@ -1,34 +1,34 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Enemy;
-using UnityEngine;
 
-public class StateMachine
+namespace State
 {
-    public IState CurrentState { get; private set; }
-    public WalkState walkState;
-    public DamageState damageState;
-    public event Action<IState> StateChanged;
-    public StateMachine(EnemyMovement enemy) {
-        this.walkState = new WalkState(enemy);
-        this.damageState = new DamageState(enemy);
-    }
-    public void Initialize(IState state) {
-        CurrentState = state;
-        state.Enter();
-        StateChanged?.Invoke(state);
-    }
+    public class StateMachine
+    {
+        public IState CurrentState { get; private set; }
+        public WalkState walkState;
+        public DamageState damageState;
+        public event Action<IState> StateChanged;
+        public StateMachine(EnemyMovement enemy) {
+            this.walkState = new WalkState(enemy);
+            this.damageState = new DamageState(enemy);
+        }
+        public void Initialize(IState state) {
+            CurrentState = state;
+            state.Enter();
+            StateChanged?.Invoke(state);
+        }
 
-    public void TransitionTo(IState nextState) {
-        CurrentState.Exit();
-        CurrentState = nextState;
-        nextState.Enter();
-        StateChanged?.Invoke(nextState);
-    }
-    public void Update() {
-        if (CurrentState != null) {
-            CurrentState.Update();
+        public void TransitionTo(IState nextState) {
+            CurrentState.Exit();
+            CurrentState = nextState;
+            nextState.Enter();
+            StateChanged?.Invoke(nextState);
+        }
+        public void Update() {
+            if (CurrentState != null) {
+                CurrentState.Update();
+            }
         }
     }
 }

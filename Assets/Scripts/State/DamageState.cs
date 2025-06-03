@@ -1,20 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using Core;
 using Enemy;
-using UnityEngine;
 
-public class DamageState : IState
+namespace State
 {
-    private EnemyMovement enemy;
-    public DamageState(EnemyMovement enemy) {
-        this.enemy = enemy;
-    }
-
-    public void Enter()
+    public class DamageState : IState
     {
-        LevelManager.Instance.TakeDamage(enemy._baseTowerComponent.GetDamage());
+        private EnemyMovement enemy;
+        public DamageState(EnemyMovement enemy) {
+            this.enemy = enemy;
+        }
+
+        public void Enter()
+        {
+            LevelManager.Instance.TakeDamage(enemy._baseTowerComponent.GetDamage());
+        }
+        public void Update() { }
+        public void Exit() { }
     }
-    public void Update() { }
-    public void Exit() { }
 }

@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using Core;
 using Enemy;
 using Singleton;
-using UI;
 using UI.Enemy;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace Wave
 {

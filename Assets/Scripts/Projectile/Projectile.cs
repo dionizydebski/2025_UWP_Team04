@@ -39,14 +39,13 @@ namespace Projectile
             
             if (target != null) {
                 Vector3 direction = (target.transform.position - transform.position).normalized;
-                transform.position += direction * speed * Time.deltaTime;
+                transform.position += direction * (speed * Time.deltaTime);
                 transform.forward = direction;
             }
         }
 
         public void OnTriggerEnter(Collider other)
         {
-            // Here add collision logic
             if (!other.CompareTag(EnemyTag)) return;
             target.GetComponent<EnemyHealth>().TakeDamage(tower.GetComponent<BaseTower>().GetDamage());
             ReturnToPool();

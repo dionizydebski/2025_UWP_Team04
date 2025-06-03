@@ -28,15 +28,15 @@ namespace Tower
         [SerializeField] private List<GameObject> upgradeModels;
         [SerializeField] private Transform modelParent;
         public static event Action<GameObject, float, float> Slowed;
-        
-        private void Start()
+
+        protected override void Start()
         {
             base.Start();
             UpdateStats();
             SetModelForCurrentLevel();
         }
 
-        public void Update()
+        protected override void Update()
         {
             base.Update();
             foreach (var enemy in _enemiesInRange)
