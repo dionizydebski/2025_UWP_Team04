@@ -57,6 +57,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   enemyPrefabs:
   - {fileID: 6305804837301237048, guid: 13bdf50d391b47f4e8e561e07ae062d2, type: 3}
   - {fileID: 462161224132109915, guid: ff852dbaabc37824e8155c31fe01bde9, type: 3}

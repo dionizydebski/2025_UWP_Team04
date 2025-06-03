@@ -49,7 +49,7 @@ namespace Tower
             "Weakest Target"
         };
 
-        private bool _didTutorial = false;
+        private static bool _didTutorial = false;
 
 
         protected virtual void Start()
