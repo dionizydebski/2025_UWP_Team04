@@ -1,6 +1,8 @@
 ﻿using Core;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
 
 namespace UI.LevelStats
 {
@@ -11,7 +13,10 @@ namespace UI.LevelStats
 
         private LevelStatsPresenter _presenter;
 
-        void Start()
+        private Coroutine healthCoroutine;
+        private Coroutine moneyCoroutine;
+
+        private void Start()
         {
             _presenter = new LevelStatsPresenter(LevelManager.Instance, this);
         }
@@ -19,11 +24,32 @@ namespace UI.LevelStats
         public void UpdateHealth(int health)
         {
             healthText.text = $"HP: {health}";
+
+            if (healthCoroutine != null)
+                StopCoroutine(healthCoroutine);
+            healthCoroutine = StartCoroutine(AnimateText(healthText, c => healthCoroutine = null));
         }
 
         public void UpdateMoney(int money)
         {
             moneyText.text = $"$ {money}";
+
+            if (moneyCoroutine != null)
+                StopCoroutine(moneyCoroutine);
+            moneyCoroutine = StartCoroutine(AnimateText(moneyText, c => moneyCoroutine = null));
+        }
+
+        private IEnumerator AnimateText(TextMeshProUGUI textElement, System.Action<Coroutine> onFinish)
+        {
+            Vector3 originalScale = textElement.rectTransform.localScale;
+
+            textElement.rectTransform.localScale = originalScale * 1.2f;
+
+            yield return new WaitForSeconds(0.1f);
+
+            textElement.rectTransform.localScale = originalScale;
+
+            onFinish?.Invoke(null);
         }
     }
 }

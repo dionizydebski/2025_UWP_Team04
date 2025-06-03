@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Core;
 using Core.Commands;
 using Tower;
@@ -167,19 +169,63 @@ namespace UI
 
         public void OnSellTowerButtonClicked()
         {
+            Debug.Log("Clicked Sell");
+
+            AnimateButton(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform);
+
             if (_selectedTower != null)
             {
+                Debug.Log("Selling tower: " + _selectedTower.name);
                 var command = new SellTowerCommand(_selectedTower);
                 CommandInvoker.Instance.ExecuteCommand(command);
 
                 ClearSelect();
                 _towerManager.UnselectTower();
             }
+            else
+            {
+                Debug.LogWarning("No tower selected to sell.");
+            }
         }
 
         public void OnUndoPressed()
         {
+            AnimateButton(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.transform);
+            
             CommandInvoker.Instance.Undo();
         }
+        
+        private void AnimateButton(Transform buttonTransform)
+        {
+            StartCoroutine(PunchScale(buttonTransform));
+        }
+
+        private IEnumerator PunchScale(Transform t)
+        {
+            Vector3 original = t.localScale;
+            Vector3 target = original * 1.1f;
+            float duration = 0.1f;
+            float time = 0f;
+
+            while (time < duration)
+            {
+                t.localScale = Vector3.Lerp(original, target, time / duration);
+                time += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
+            t.localScale = target;
+            time = 0f;
+
+            while (time < duration)
+            {
+                t.localScale = Vector3.Lerp(target, original, time / duration);
+                time += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
+            t.localScale = original;
+        }
+
     }
 }
