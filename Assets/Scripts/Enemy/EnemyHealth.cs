@@ -21,6 +21,7 @@ namespace Enemy
         public void TakeDamage(int damage)
         {
             //Debug.Log("Current health " + _currentHealth);
+            GetComponent<BaseEnemy>().SpawnBlood();
             _currentHealth -= damage;
             healthSlider.value = _currentHealth;
             

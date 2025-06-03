@@ -462,6 +462,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 8855493473428112431}
+  _target: {fileID: 0}
+  _baseTowerComponent: {fileID: 0}
 --- !u!114 &-7392112879894469424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,6 +491,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseEnemyStats: {fileID: 11400000, guid: 4ae15d52a0c341844a10c6893e96c6f7, type: 2}
+  bloodSystem: {fileID: 1663441789780088942, guid: a4c3423b0249bf9ffb72d1411d3b494a,
+    type: 3}
 --- !u!1 &8795158540124690999
 GameObject:
   m_ObjectHideFlags: 0

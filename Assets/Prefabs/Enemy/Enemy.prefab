@@ -491,6 +491,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseEnemyStats: {fileID: 11400000, guid: cfd4ca4e24eb40f489cc35b654ddfb4a, type: 2}
+  bloodSystem: {fileID: 1663441789780088942, guid: a4c3423b0249bf9ffb72d1411d3b494a,
+    type: 3}
 --- !u!1 &8795158540124690999
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,27 +9,31 @@ namespace Projectile
     {
         private const string EnemyTag = "Enemy";
         private const float MaxLifeTime = 3f;
+        
         public IObjectPool<Projectile> Pool { get; set; }
-        private Rigidbody rb;
-        private float lifeTimer = MaxLifeTime;
+        
+        private Rigidbody _rb;
+        private float _lifeTimer = MaxLifeTime;
+        
         public GameObject tower;
         public GameObject target;
         public float speed = 10f;
-        void Awake() {
-            rb = GetComponent<Rigidbody>();
+
+        private void Awake() {
+            _rb = GetComponent<Rigidbody>();
         }
         public void ResetState() {
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
+            _rb.velocity = Vector3.zero;
+            _rb.angularVelocity = Vector3.zero;
             transform.rotation = Quaternion.identity;
-            lifeTimer = MaxLifeTime;
+            _lifeTimer = MaxLifeTime;
             target = null;
             tower = null;
         }
 
-        void Update() {
-            lifeTimer -= Time.deltaTime;
-            if (lifeTimer <= 0f || target == null) {
+        private void Update() {
+            _lifeTimer -= Time.deltaTime;
+            if (_lifeTimer <= 0f || target == null) {
                 ReturnToPool();
             }
             
@@ -39,14 +43,13 @@ namespace Projectile
                 transform.forward = direction;
             }
         }
-        void OnTriggerEnter(Collider other) {
+
+        public void OnTriggerEnter(Collider other)
+        {
             // Here add collision logic
-            if (other.CompareTag(EnemyTag))
-            {
-                //Debug.Log("Zadaje obrazenia");
-                target.GetComponent<EnemyHealth>().TakeDamage(tower.GetComponent<BaseTower>().GetDamage());
-                ReturnToPool();
-            }
+            if (!other.CompareTag(EnemyTag)) return;
+            target.GetComponent<EnemyHealth>().TakeDamage(tower.GetComponent<BaseTower>().GetDamage());
+            ReturnToPool();
         }
         private void ReturnToPool() {
             if (Pool!= null) {

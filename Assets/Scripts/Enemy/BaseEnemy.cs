@@ -13,6 +13,8 @@ namespace Enemy
         private const string EnemyTag = "Enemy";
         [Header("Stats")] 
         [SerializeField] private EnemyStats baseEnemyStats;
+        [SerializeField] private ParticleSystem bloodSystem;
+        private ParticleSystem _bloodParticleInstance;
         
         //Current stats
         private int _health;
@@ -31,12 +33,7 @@ namespace Enemy
             SlowingTower.Slowed += OnSlowed;
             GameObject.tag = EnemyTag;
         }
-
-        private void Update()
-        {
-            
-        }
-
+        
         private void OnSlowed(GameObject enemy, float slowModifier, float slowDuration)
         {
             if (GameObject != enemy) return;
@@ -86,6 +83,12 @@ namespace Enemy
         public int GetDamage()
         {
             return _damage;
+        }
+        
+        public void SpawnBlood()
+        {
+            Debug.Log("Spawning blood");
+            _bloodParticleInstance = Instantiate(bloodSystem, GameObject.transform.position, Quaternion.identity);
         }
     }
 }
