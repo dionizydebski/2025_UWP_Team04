@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core;
 using Enemy;
+using Tower.Strategy;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -11,10 +11,9 @@ namespace Tower
     public abstract class BaseTower : MonoBehaviour
     {
         private const string EnemyTag = "Enemy";
-        private List<BaseEnemy> _enemies;
-        
+
         [FormerlySerializedAs("towerStats")]
-        [Header("Statistics")] 
+        [Header("Statistics")]
         [SerializeField] private TowerStats baseTowerStats;
         [SerializeField] private SphereCollider rangeCollider;
 
@@ -23,27 +22,33 @@ namespace Tower
         protected int _damage;
         protected float _sellModifier;
         private float _attackTimer = 0f;
-        
-        [Header("Upgrades")] 
+
+        [Header("Upgrades")]
         protected int _attackLevel = 0;
         protected int _rangeLevel = 0;
-        
         private int _maxAttackLevel = 2;
         private int _maxRangeLevel = 2;
-        
+
         protected int currentUpgradeLevel = 0;
         protected int currentDamageLevel = 0;
         protected int currentRangeLevel = 0;
-        
+
         protected float _slowModifier;
         protected float _slowDuration;
 
         protected List<GameObject> _enemiesInRange = new List<GameObject>();
 
         public GameObject currentModelInstance { get; set; }
+        public GameObject originalPrefab;
 
-        // === STRATEGIA CELU ===
+        protected ITargetingStrategy targetingStrategy;
         protected int currentStrategyIndex = 0;
+        public static readonly string[] TargetingStrategyNames =
+        {
+            "Closest Target",
+            "Weakest Target"
+        };
+
 
         protected virtual void Start()
         {
@@ -52,19 +57,14 @@ namespace Tower
             _damage = baseTowerStats.damage;
             _sellModifier = baseTowerStats.sellModifier;
             rangeCollider.radius = baseTowerStats.range;
-        }
-        
-        public GameObject originalPrefab;
 
-        public GameObject GetOriginalPrefab()
-        {
-            return originalPrefab;
+            SetTargetStrategy(currentStrategyIndex);
         }
 
         protected virtual void Update()
         {
             _attackTimer += Time.deltaTime;
-            
+
             if (_enemiesInRange.Count > 0 && _attackTimer >= _attackSpeed)
             {
                 GameObject target = SelectTarget();
@@ -81,35 +81,20 @@ namespace Tower
             }
         }
 
-        // === SELEKCJA CELU WG STRATEGII ===
         protected virtual GameObject SelectTarget()
         {
             _enemiesInRange.RemoveAll(e => e == null);
-
-            switch (currentStrategyIndex)
-            {
-                case 0: // Pierwszy wróg (domyślnie)
-                    return _enemiesInRange.FirstOrDefault();
-                case 1: // Ostatni wróg
-                    return _enemiesInRange.LastOrDefault();
-                case 2: // Najbliższy
-                    return _enemiesInRange.OrderBy(e => Vector3.Distance(transform.position, e.transform.position)).FirstOrDefault();
-                case 3: // Najdalszy
-                    return _enemiesInRange.OrderByDescending(e => Vector3.Distance(transform.position, e.transform.position)).FirstOrDefault();
-                default:
-                    return _enemiesInRange.FirstOrDefault();
-            }
+            return targetingStrategy?.SelectTarget(_enemiesInRange, transform);
         }
 
         public void Attack(GameObject enemy)
         {
             AudioManager.Instance.PlaySFX(AudioManager.Instance.arrow);
-            
-            Projectile.Projectile projectile = TowerManager.Instance.projectilePool.Get();
+
+            var projectile = TowerManager.Instance.projectilePool.Get();
             projectile.transform.position = transform.position;
             projectile.SetTarget(enemy);
             projectile.SetTower(gameObject);
-            Debug.Log("Attacking");
         }
 
         public int GetBaseRange() => baseTowerStats.range;
@@ -127,27 +112,36 @@ namespace Tower
         public bool CanUpgradeAttack() => _attackLevel < _maxAttackLevel;
         public bool CanUpgradeRange() => _rangeLevel < _maxRangeLevel;
 
-        public virtual void UpgradeDamage() { /* do nadpisania */ }
-        public virtual void UpgradeRange() { /* do nadpisania */ }
-        
-        public virtual void UndoUpgradeDamage() { /* do nadpisania */ }
-        public virtual void UndoUpgradeRange() { /* do nadpisania */ }
+        public virtual void UpgradeDamage() { }
+        public virtual void UpgradeRange() { }
+        public virtual void UndoUpgradeDamage() { }
+        public virtual void UndoUpgradeRange() { }
 
         public virtual void IncreaseAttackLevel() => _attackLevel++;
         public virtual void IncreaseRangeLevel() => _rangeLevel++;
 
-        // === STRATEGIA: set/get ===
         public virtual void SetTargetStrategy(int strategyIndex)
         {
             currentStrategyIndex = strategyIndex;
+
+            switch (strategyIndex)
+            {
+                case 0:
+                    targetingStrategy = new ClosestTargetStrategy();
+                    break;
+                case 1:
+                    targetingStrategy = new WeakestTargetStrategy();
+                    break;
+                default:
+                    targetingStrategy = new ClosestTargetStrategy();
+                    break;
+            }
         }
 
-        public virtual int GetCurrentStrategyIndex()
-        {
-            return currentStrategyIndex;
-        }
+        public virtual int GetCurrentStrategyIndex() => currentStrategyIndex;
 
-        // === KOLIZJA ZASIĘGU ===
+        public GameObject GetOriginalPrefab() => originalPrefab;
+
         public void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag(EnemyTag))

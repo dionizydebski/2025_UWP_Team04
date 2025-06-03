@@ -16,7 +16,7 @@ namespace UI
         private float _towerRadius;
         private int _towerRange;
 
-        [Header("LayerMasks for raycasting")]
+        [Header("LayerMasks")]
         [SerializeField] private LayerMask boardMask;
         [SerializeField] private LayerMask towerMask;
         [SerializeField] private LayerMask uiMask;
@@ -25,7 +25,7 @@ namespace UI
         [SerializeField] private RangeTower shootingTowerPrefab;
         [SerializeField] private SlowingTower slowingTowerPrefab;
 
-        [Header("Keys for placing towers")]
+        [Header("Tower Keys")]
         [SerializeField] private KeyCode selectShootingTowerCode;
         [SerializeField] private KeyCode selectSlowingTowerCode;
 
@@ -36,21 +36,14 @@ namespace UI
         [SerializeField] private PlayerActionsView playerActionsView;
         [SerializeField] private TowerManagementPanel towerManagementPanel;
 
-        private CommandInvoker _commandInvoker;
-
         private void Awake()
         {
             Cursor.visible = true;
             _towerManager = TowerManager.Instance;
+
             if (_towerManager == null)
-            {
                 Debug.LogError("TowerManager.Instance is null!");
-            }
-            _commandInvoker = FindObjectOfType<CommandInvoker>();
-            if (_commandInvoker == null)
-            {
-                Debug.LogError("CommandInvoker not found in scene.");
-            }
+
             playerActionsView.CreateRadiusAndRangeWidget(GetMouseWorldPosition(), 1, 1);
         }
 
@@ -70,22 +63,20 @@ namespace UI
             }
             else if (Input.GetMouseButtonDown(0))
             {
-                if (EventSystem.current.IsPointerOverGameObject()) return;
-                SelectTower();
+                if (!EventSystem.current.IsPointerOverGameObject())
+                    SelectTower();
             }
 
             if (!_isTowerSelected)
-            {
                 playerActionsView.HideRadiusAndRangeWidget();
-            }
         }
 
         private void PlaceTower()
         {
             if (_towerToPlace == null || _towerManager == null) return;
 
-            if (!Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit,
-                    Mathf.Infinity, boardMask) || !_isTowerSelected) return;
+            if (!Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hit, Mathf.Infinity, boardMask) || !_isTowerSelected)
+                return;
 
             playerActionsView.ShowRadiusAndRangeWidget();
             playerActionsView.MoveCircleToMouse(hit.point);
@@ -98,12 +89,10 @@ namespace UI
             {
                 playerActionsView.SetRadiusWidgetDefaultColor();
 
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
                 {
-                    if (EventSystem.current.IsPointerOverGameObject()) return;
-
                     var command = new PlaceTowerCommand(_towerToPlace, hit.point);
-                    _commandInvoker.ExecuteCommand(command);
+                    CommandInvoker.Instance.ExecuteCommand(command);
 
                     _isTowerSelected = false;
                     _towerToPlace = null;
@@ -115,6 +104,7 @@ namespace UI
                 playerActionsView.HideRadiusAndRangeWidget();
                 _isTowerSelected = false;
                 _towerToPlace = null;
+
                 TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.PlaceTowerTutorialName, 0);
             }
         }
@@ -122,10 +112,9 @@ namespace UI
         private void SelectTower()
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, towerMask))
+            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, towerMask))
             {
                 BaseTower baseTower = hit.collider.GetComponentInParent<BaseTower>();
-
                 if (baseTower != null && baseTower != _selectedTower)
                 {
                     ClearSelect();
@@ -157,11 +146,11 @@ namespace UI
         public void SelectTowerToPlace(BaseTower towerToPlace)
         {
             _towerToPlace = towerToPlace;
-            CapsuleCollider capsuleCollider = _towerToPlace.GetComponentInChildren<CapsuleCollider>();
+            var capsule = _towerToPlace.GetComponentInChildren<CapsuleCollider>();
+            if (capsule == null) return;
 
-            if (capsuleCollider == null) return;
             _isTowerSelected = true;
-            _towerRadius = capsuleCollider.radius;
+            _towerRadius = capsule.radius;
             _towerRange = towerToPlace.GetBaseRange();
 
             playerActionsView.SetRadiusWidgetDefaultColor();
@@ -171,9 +160,9 @@ namespace UI
 
         private Vector3 GetMouseWorldPosition()
         {
-            Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = _zAxis;
-            return Camera.main.ScreenToWorldPoint(mousePosition);
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = _zAxis;
+            return Camera.main.ScreenToWorldPoint(mousePos);
         }
 
         public void OnSellTowerButtonClicked()
@@ -181,16 +170,16 @@ namespace UI
             if (_selectedTower != null)
             {
                 var command = new SellTowerCommand(_selectedTower);
-                _commandInvoker.ExecuteCommand(command); 
+                CommandInvoker.Instance.ExecuteCommand(command);
 
                 ClearSelect();
                 _towerManager.UnselectTower();
             }
         }
-        
+
         public void OnUndoPressed()
         {
-            _commandInvoker.Undo();
+            CommandInvoker.Instance.Undo();
         }
     }
 }

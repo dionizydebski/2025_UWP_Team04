@@ -7,6 +7,7 @@ namespace Core.Commands
         private readonly BaseTower _tower;
         private readonly int _newStrategyIndex;
         private int _oldStrategyIndex;
+        private bool _hasExecuted = false;
 
         public ChangeTowerStrategyCommand(BaseTower tower, int newStrategyIndex)
         {
@@ -16,16 +17,18 @@ namespace Core.Commands
 
         public void Execute()
         {
-            if (_tower != null)
+            if (_tower != null && !_hasExecuted)
             {
                 _oldStrategyIndex = _tower.GetCurrentStrategyIndex();
-                _tower.SetTargetStrategy(_newStrategyIndex);
+                _hasExecuted = true;
             }
+
+            _tower?.SetTargetStrategy(_newStrategyIndex);
         }
 
         public void Undo()
         {
-            if (_tower != null)
+            if (_tower != null && _hasExecuted)
             {
                 _tower.SetTargetStrategy(_oldStrategyIndex);
             }
