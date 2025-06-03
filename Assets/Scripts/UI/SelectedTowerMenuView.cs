@@ -1,3 +1,4 @@
+using Core;
 using TMPro;
 using Tower;
 using UnityEngine;
@@ -9,7 +10,16 @@ namespace UI
     {
         [SerializeField] private TMP_Text towerName;
         
-        private CommandInvoker commandInvoker;
+        private CommandInvoker _commandInvoker;
+        
+        private void Awake()
+        {
+            _commandInvoker = FindObjectOfType<CommandInvoker>();
+            if (_commandInvoker == null)
+            {
+                Debug.LogError("CommandInvoker not found in scene.");
+            }
+        }
 
         public void SetViewActive(bool show)
         {
@@ -31,7 +41,7 @@ namespace UI
             }
 
             var sellCommand = new SellTowerCommand(selectedTower);
-            commandInvoker.ExecuteCommand(sellCommand);
+            _commandInvoker.ExecuteCommand(sellCommand);
         }
     }
 }

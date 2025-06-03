@@ -96,6 +96,41 @@ namespace Tower
             Debug.LogError("Nie udało się stworzyć wieży.");
             return null;
         }
+        
+        public BaseTower PlaceTowerAndReturnWithRefundCost(BaseTower towerPrefab, Vector3 position)
+        {
+            Core.LevelManager.Instance.SpendMoney((int)(towerPrefab.GetCost()*0.7));
+
+            GameObject towerTempObject = new GameObject("TempTowerTransform");
+            towerTempObject.transform.position = position + new Vector3(0, towerSpawnYOffset, 0);
+            towerTempObject.transform.rotation = Quaternion.identity;
+
+            BaseTower newTowerInstance = null;
+            if (towerPrefab is RangeTower)
+            {
+                newTowerInstance = rangeBaseTowerFactory.CreateTower(towerTempObject.transform);
+            }
+            else if (towerPrefab is SlowingTower)
+            {
+                newTowerInstance = slowingBaseTowerFactory.CreateTower(towerTempObject.transform);
+            }
+
+            if (newTowerInstance != null)
+            {
+                newTowerInstance.originalPrefab = towerPrefab.gameObject;
+                RegisterTower(newTowerInstance, towerPrefab);
+                placedTowers.Add(newTowerInstance);
+
+                TutorialEventsManager.Instance.TriggerTutorialStepEvent(
+                    TutorialEventsManager.PlaceTowerTutorialName, 2
+                );
+
+                return newTowerInstance;
+            }
+
+            Debug.LogError("Nie udało się stworzyć wieży.");
+            return null;
+        }
 
         public void RemoveTower(BaseTower tower)
         {
@@ -114,7 +149,7 @@ namespace Tower
         {
             if (tower == null) return;
 
-            int refundAmount = Mathf.RoundToInt(tower.GetCost());
+            int refundAmount = tower.GetCost();
             Core.LevelManager.Instance.AddMoney(refundAmount);
 
             placedTowers.Remove(tower);
@@ -122,7 +157,20 @@ namespace Tower
             
             TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.SellTowerTutorialName, 2);
             TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.UpgradeTowerTutorialName, 0);
+        }
+        
+        public void SellTower(BaseTower tower)
+        {
+            if (tower == null) return;
+
+            int refundAmount = (int)(tower.GetCost() * 0.7);
+            Core.LevelManager.Instance.AddMoney(refundAmount);
+
+            placedTowers.Remove(tower);
+            towerInstanceToPrefab.Remove(tower);
             
+            TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.SellTowerTutorialName, 2);
+            TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.UpgradeTowerTutorialName, 0);
         }
 
         public BaseTower GetPrefabForTower(BaseTower towerInstance)

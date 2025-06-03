@@ -36,7 +36,7 @@ namespace UI
         [SerializeField] private PlayerActionsView playerActionsView;
         [SerializeField] private TowerManagementPanel towerManagementPanel;
 
-        private CommandInvoker commandInvoker = new CommandInvoker();
+        private CommandInvoker _commandInvoker;
 
         private void Awake()
         {
@@ -45,6 +45,11 @@ namespace UI
             if (_towerManager == null)
             {
                 Debug.LogError("TowerManager.Instance is null!");
+            }
+            _commandInvoker = FindObjectOfType<CommandInvoker>();
+            if (_commandInvoker == null)
+            {
+                Debug.LogError("CommandInvoker not found in scene.");
             }
             playerActionsView.CreateRadiusAndRangeWidget(GetMouseWorldPosition(), 1, 1);
         }
@@ -98,7 +103,7 @@ namespace UI
                     if (EventSystem.current.IsPointerOverGameObject()) return;
 
                     var command = new PlaceTowerCommand(_towerToPlace, hit.point);
-                    commandInvoker.ExecuteCommand(command);
+                    _commandInvoker.ExecuteCommand(command);
 
                     _isTowerSelected = false;
                     _towerToPlace = null;
@@ -176,7 +181,7 @@ namespace UI
             if (_selectedTower != null)
             {
                 var command = new SellTowerCommand(_selectedTower);
-                commandInvoker.ExecuteCommand(command); 
+                _commandInvoker.ExecuteCommand(command); 
 
                 ClearSelect();
                 _towerManager.UnselectTower();
@@ -185,7 +190,7 @@ namespace UI
         
         public void OnUndoPressed()
         {
-            commandInvoker.Undo();
+            _commandInvoker.Undo();
         }
     }
 }

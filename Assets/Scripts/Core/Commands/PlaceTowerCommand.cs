@@ -1,7 +1,7 @@
 ﻿using Tower;
 using UnityEngine;
 
-namespace Core
+namespace Core.Commands
 {
     public class PlaceTowerCommand : ICommand
     {

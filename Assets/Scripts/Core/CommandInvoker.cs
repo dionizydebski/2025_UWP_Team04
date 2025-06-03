@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Singleton;
 using UnityEngine;
 
-namespace Core.Commands
+namespace Core
 {
-    public class CommandInvoker
+    public class CommandInvoker : Singleton<CommandInvoker>
     {
         private readonly Stack<ICommand> commandHistory = new Stack<ICommand>();
 

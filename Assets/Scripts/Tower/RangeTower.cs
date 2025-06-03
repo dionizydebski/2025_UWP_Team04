@@ -112,6 +112,27 @@ namespace Tower
             }
         }
         
-        
+        public override void UndoUpgradeDamage()
+        {
+            if (currentDamageLevel <= 0) return;
+
+            currentDamageLevel--;
+            currentUpgradeLevel--;
+            UpdateStats();
+            SetModelForCurrentLevel();
+            Core.LevelManager.Instance.AddMoney(damageUpgradeCosts[currentDamageLevel]);
+        }
+
+        public override void UndoUpgradeRange()
+        {
+            if (currentRangeLevel <= 0) return;
+
+            currentRangeLevel--;
+            currentUpgradeLevel--;
+            UpdateStats();
+            SetModelForCurrentLevel();
+            Core.LevelManager.Instance.AddMoney(rangeUpgradeCosts[currentRangeLevel]);
+        }
+
     }
 }

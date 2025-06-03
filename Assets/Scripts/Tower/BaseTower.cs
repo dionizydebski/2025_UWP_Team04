@@ -129,6 +129,9 @@ namespace Tower
 
         public virtual void UpgradeDamage() { /* do nadpisania */ }
         public virtual void UpgradeRange() { /* do nadpisania */ }
+        
+        public virtual void UndoUpgradeDamage() { /* do nadpisania */ }
+        public virtual void UndoUpgradeRange() { /* do nadpisania */ }
 
         public virtual void IncreaseAttackLevel() => _attackLevel++;
         public virtual void IncreaseRangeLevel() => _rangeLevel++;

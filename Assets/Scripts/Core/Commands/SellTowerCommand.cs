@@ -18,13 +18,13 @@ namespace Core.Commands
 
         public void Execute()
         {
-            TowerManager.Instance.RefundTower(towerToSell);
+            TowerManager.Instance.SellTower(towerToSell);
             TowerManager.Instance.RemoveTower(towerToSell);
         }
 
         public void Undo()
         {
-            TowerManager.Instance.PlaceTowerAndReturn(towerPrefab, position);
+            TowerManager.Instance.PlaceTowerAndReturnWithRefundCost(towerPrefab, position);
         }
     }
 
