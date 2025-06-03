@@ -68,6 +68,7 @@ MonoBehaviour:
   enemiesPerSecond: 1.5
   timeBetweenWaves: 2
   difficultyScalingFactor: 0.75
+  totalWaves: 5
 --- !u!114 &9111433447875586189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,7 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6e0ddac3c9b40e1864e799b5d6935a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 6305804837301237048, guid: 13bdf50d391b47f4e8e561e07ae062d2,
+  enemyPrefab: {fileID: 6305804837301237048, guid: 13bdf50d391b47f4e8e561e07ae062d2,
     type: 3}
 --- !u!114 &7969184594054593846
 MonoBehaviour:
@@ -94,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b97cde76568407db434b43ba6b6ede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 462161224132109915, guid: ff852dbaabc37824e8155c31fe01bde9,
+  enemyPrefab: {fileID: 462161224132109915, guid: ff852dbaabc37824e8155c31fe01bde9,
     type: 3}
 --- !u!114 &161708749061630282
 MonoBehaviour:
@@ -108,5 +109,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05687d86de05486aaf47ac479ec73011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 1877012419011255874, guid: 19f28578b05135c4d99c15392810ce01,
+  enemyPrefab: {fileID: 1877012419011255874, guid: 19f28578b05135c4d99c15392810ce01,
     type: 3}

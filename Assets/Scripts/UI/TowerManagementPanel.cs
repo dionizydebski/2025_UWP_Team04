@@ -77,6 +77,8 @@ namespace UI
                 CommandInvoker.Instance.ExecuteCommand(command);
 
                 UpdateStrategyButtonText();
+                
+                TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.SetStrategyTutorialName, 1);
             }
         }
 

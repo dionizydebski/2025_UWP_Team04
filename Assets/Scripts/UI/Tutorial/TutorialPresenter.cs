@@ -23,7 +23,7 @@ namespace UI.Tutorial
             TutorialEventsManager.Instance.NextTutorial += ShowNextTutorial;
             TutorialEventsManager.Instance.OnTutorialStep += OnTutorialStepTriggered;
             FindAllTutorials();
-            Debug.Log(tutorialEntries.Count);
+            //Debug.Log(tutorialEntries.Count);
             if (tutorialEntries.Count > 0)
             {
                 _currentShownTutorial = tutorialEntries[_currentTutorialIndex];
@@ -46,7 +46,6 @@ namespace UI.Tutorial
             if (tutorialStep == _currentShownTutorial.tutorialTextSteps.Count)
             {
                 tutorialView.HideTutorial(_currentShownTutorial.tutorialObject);
-                //WaveManager.Instance.UnpauseWaveSpawning();
                 Time.timeScale = 1;
             }
         }
@@ -59,7 +58,6 @@ namespace UI.Tutorial
             if (_isWindowShown[_currentShownTutorial.tutorialObject]) return;
             tutorialView.ShowTutorial(_currentShownTutorial.tutorialObject);
             _isWindowShown[_currentShownTutorial.tutorialObject] = true;
-            //WaveManager.Instance.PauseWaveSpawning();
             Time.timeScale = 0;
 
             var content = _currentShownTutorial.content;

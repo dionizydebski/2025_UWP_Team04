@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Core;
 using Tower.Strategy;
+using UI.Tutorial;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -46,6 +48,8 @@ namespace Tower
             "Closest Target",
             "Weakest Target"
         };
+
+        private bool _didTutorial = false;
 
 
         protected virtual void Start()
@@ -93,6 +97,14 @@ namespace Tower
             projectile.transform.position = transform.position;
             projectile.SetTarget(enemy);
             projectile.SetTower(gameObject);
+
+
+            if (!_didTutorial)
+            {
+                TutorialEventsManager.Instance.TriggerNextTutorialEvent();
+                TutorialEventsManager.Instance.TriggerTutorialStepEvent(TutorialEventsManager.SetStrategyTutorialName, 0);
+                _didTutorial = true;
+            }
         }
 
         public int GetBaseRange() => baseTowerStats.range;

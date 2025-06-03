@@ -2168,6 +2168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 177ee9a9041f47b0983fe75461624001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerActionsController: {fileID: 8952279676756135767}
 --- !u!1 &3938074767664449984
 GameObject:
   m_ObjectHideFlags: 0
@@ -2327,7 +2328,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 281.3, y: -100}
+  m_AnchoredPosition: {x: 281.3, y: -83}
   m_SizeDelta: {x: -562.6, y: -240}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3151040176630544820
@@ -2384,6 +2385,7 @@ MonoBehaviour:
   upgradeDamageButton: {fileID: 3853849965435281944}
   upgradeRangeButton: {fileID: 1962991051264487084}
   changeStrategyButton: {fileID: 6320480141875009272}
+  strategyButtonText: {fileID: 3613431398888556221}
 --- !u!1 &4004875222397906809
 GameObject:
   m_ObjectHideFlags: 0
@@ -3490,8 +3492,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 16
+  m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4527,8 +4529,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
